@@ -1,7 +1,10 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입계약 아이템 인터페이스 뷰'
 define view entity YI_ASIM0020N
-  as select from zasimt0020n
+  as select from    zasimt0020n
+    left outer join YI_ASIM0030N_CREATED_FINAL as _created_req on  zasimt0020n.reqno = _created_req.Reqno
+                                                               and zasimt0020n.reqyr = _created_req.Reqyr
+                                                               and zasimt0020n.itmno = _created_req.Itmno
   association        to parent YI_ASIM0010N            as _Head                    on  _Head.Uuid = $projection.ParentUUID
   association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
                                                                                    and _productText.Language = '3'
@@ -22,64 +25,64 @@ define view entity YI_ASIM0020N
                                                                                    and _Zdc2.ConditionType = 'ZDC2'
 {
 
-  key      uuid                                         as Uuid,
+  key      zasimt0020n.uuid                             as Uuid,
 
-  key      parentuuid                                   as ParentUUID,
+  key      zasimt0020n.parentuuid                       as ParentUUID,
 
            @EndUserText.label: '계약연도'
-           reqyr                                        as Reqyr,
+           zasimt0020n.reqyr                            as Reqyr,
            @EndUserText.label: '계약내부번호'
 
-           reqno                                        as Reqno,
+           zasimt0020n.reqno                            as Reqno,
            @EndUserText.label: '계약품목'
-           itmno                                        as Itmno,
+           zasimt0020n.itmno                            as Itmno,
            @EndUserText.label: '삭제지시자'
-           loekz                                        as Loekz,
+           zasimt0020n.loekz                            as Loekz,
            @EndUserText.label: '구매문서번호'
-           ebeln                                        as Ebeln,
+           zasimt0020n.ebeln                            as Ebeln,
            @EndUserText.label: '구매문서품목번호'
-           ebelp                                        as Ebelp,
+           zasimt0020n.ebelp                            as Ebelp,
            @EndUserText.label: '플랜트'
-           werks                                        as Werks,
+           zasimt0020n.werks                            as Werks,
            @EndUserText.label: '플랜트명'
            _plant.PlantName                             as Werkst,
            @EndUserText.label: '자재번호'
-           matnr                                        as Matnr,
+           zasimt0020n.matnr                            as Matnr,
            @EndUserText.label: '자재명'
            _productText.ProductName                     as Maktx,
            @EndUserText.label: '저장위치'
-           lgort                                        as Lgort,
+           zasimt0020n.lgort                            as Lgort,
            @EndUserText.label: '저장위치명'
            _storageLocation.StorageLocationName         as Lgortt,
            @EndUserText.label: '계약수량'
            @Semantics.quantity.unitOfMeasure: 'Reqms'
-           reqmg                                        as Reqmg,
+           zasimt0020n.reqmg                            as Reqmg,
            @EndUserText.label: '계약단위'
-           reqms                                        as Reqms,
+           zasimt0020n.reqms                            as Reqms,
            @EndUserText.label: '계약단가'
            @Semantics.amount.currencyCode: 'Waers'
-           reqnr                                        as Reqnr,
+           zasimt0020n.reqnr                            as Reqnr,
            @EndUserText.label: '계약금액'
            @Semantics.amount.currencyCode: 'Waers'
-           reqwr                                        as Reqwr,
+           zasimt0020n.reqwr                            as Reqwr,
            @EndUserText.label: '통화 단위'
            @Consumption.valueHelpDefinition: [{ entity : { element: 'Currency', name: 'I_CurrencyStdVH' } } ]
-           waers                                        as Waers,
+           zasimt0020n.waers                            as Waers,
            @EndUserText.label: '가격단위'
-           peinh                                        as Peinh,
+           zasimt0020n.peinh                            as Peinh,
            @EndUserText.label: '대체단위수량'
            @Semantics.quantity.unitOfMeasure: 'Reqms1'
-           reqmg1                                       as Reqmg1,
+           zasimt0020n.reqmg1                           as Reqmg1,
            @EndUserText.label: '대체단위'
-           reqms1                                       as Reqms1,
+           zasimt0020n.reqms1                           as Reqms1,
            @EndUserText.label: '판매관리문서번호'
-           vbeln                                        as Vbeln,
+           zasimt0020n.vbeln                            as Vbeln,
            @EndUserText.label: '임시오더번호'
-           zebeln                                       as Zebeln,
+           zasimt0020n.zebeln                           as Zebeln,
            @EndUserText.label: '임시오더품목'
-           zebelp                                       as Zebelp,
+           zasimt0020n.zebelp                           as Zebelp,
            @EndUserText.label: 'Remark'
-           remak                                        as Remak,
+           zasimt0020n.remak                            as Remak,
 
            @EndUserText.label: '계정지정범주'
            _PurchaseOrderItem.AccountAssignmentCategory as Knttp,
@@ -99,18 +102,27 @@ define view entity YI_ASIM0020N
            @EndUserText.label: '부대비율'
            _Zdc2.ConditionRateValue                     as Zdc2_p,
 
-           crtnm                                        as Crtnm,
-           crtbu                                        as Crtbu,
-           crtdt                                        as Crtdt,
-           crttm                                        as Crttm,
-           chgnm                                        as Chgnm,
-           chgbu                                        as Chgbu,
-           chgdt                                        as Chgdt,
-           chgtm                                        as Chgtm,
+           zasimt0020n.crtnm                            as Crtnm,
+           zasimt0020n.crtbu                            as Crtbu,
+           zasimt0020n.crtdt                            as Crtdt,
+           zasimt0020n.crttm                            as Crttm,
+           zasimt0020n.chgnm                            as Chgnm,
+           zasimt0020n.chgbu                            as Chgbu,
+           zasimt0020n.chgdt                            as Chgdt,
+           zasimt0020n.chgtm                            as Chgtm,
            @Semantics.systemDateTime.localInstanceLastChangedAt: true
-           local_last_changed_at                        as LocalLastChangedAt,
+           zasimt0020n.local_last_changed_at            as LocalLastChangedAt,
            @Semantics.systemDateTime.lastChangedAt: true
-           last_changed_at                              as LastChangedAt,
+           zasimt0020n.last_changed_at                  as LastChangedAt,
+
+           /*수입계약 기생성여부 확인 chk = 'X'이면 생성완료 B/L생성 시 제외처리 */
+           _created_req.chk                             as Chk,
+
+           /*수입계약 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
+           @Semantics.quantity.unitOfMeasure: 'Reqms'
+           @EndUserText.label: '수입계약잔량'
+           cast(_created_req.Modmg as abap.quan(13,3))  as Modmg,
+           _created_req.Blmns                           as Blmns,
 
            /* association */
            _Head,

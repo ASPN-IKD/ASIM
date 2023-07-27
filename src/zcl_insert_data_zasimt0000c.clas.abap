@@ -14,11 +14,25 @@ ENDCLASS.
 CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
 
     METHOD if_oo_adt_classrun~main.
+
     DATA: ls_data TYPE zasimt0000c.
     DATA: lv_uuid TYPE sysuuid_x16.
 
     DATA: system_uuid TYPE REF TO if_system_uuid,
           uuid        TYPE sysuuid_c32.
+
+    DO 1 TIMES.
+    system_uuid = cl_uuid_factory=>create_system_uuid( ).
+    ENDDO.
+
+    TRY.
+        DELETE FROM zasimt0000c.
+    ENDTRY.
+
+    TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
@@ -30,6 +44,7 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'B'.
       ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldu = 'Lifnr|Inco1|Netwr'.
       ls_data-cdsvid = ''.
@@ -37,6 +52,11 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       TRY.
           INSERT zasimt0000c FROM @ls_data.
       ENDTRY.
+
+    TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
@@ -48,6 +68,7 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'B'.
       ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldu = 'Inco1|Netwr'.
       ls_data-cdsvid = ''.
@@ -55,6 +76,11 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       TRY.
           INSERT zasimt0000c FROM @ls_data.
       ENDTRY.
+
+      TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
@@ -66,6 +92,7 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'B'.
       ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldu = 'Inco1|Netwr'.
       ls_data-cdsvid = ''.
@@ -73,6 +100,12 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       TRY.
           INSERT zasimt0000c FROM @ls_data.
       ENDTRY.
+
+
+      TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
@@ -84,6 +117,7 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'B'.
       ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldu = 'Inco1|Netwr'.
       ls_data-cdsvid = ''.
@@ -91,6 +125,11 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       TRY.
           INSERT zasimt0000c FROM @ls_data.
       ENDTRY.
+
+      TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
@@ -102,6 +141,7 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'G'.
       ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldu = 'Inco1|Netwr'.
       ls_data-cdsvid = ''.
@@ -109,6 +149,11 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       TRY.
           INSERT zasimt0000c FROM @ls_data.
       ENDTRY.
+
+      TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
@@ -120,6 +165,7 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'B'.
       ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
       ls_data-fieldu = 'Inco1|Netwr'.
       ls_data-cdsvid = ''.
@@ -127,6 +173,58 @@ CLASS zcl_insert_data_zasimt0000c IMPLEMENTATION.
       TRY.
           INSERT zasimt0000c FROM @ls_data.
       ENDTRY.
+
+
+*
+
+    TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
+
+      ls_data-client = '080'.
+      ls_data-uuid = lv_uuid.
+      ls_data-progid = 'IM02'.
+      ls_data-viewid = 'POIF'.
+      ls_data-prognm = '수입계약(신규1)'.
+      ls_data-viewnm = '발주정보'.
+      ls_data-viewob = '1'.
+      ls_data-viewat = ''.
+      ls_data-viewtp = 'B'.
+      ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
+      ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
+      ls_data-fieldu = 'Inco1|Netwr'.
+      ls_data-cdsvid = ''.
+
+      TRY.
+          INSERT zasimt0000c FROM @ls_data.
+      ENDTRY.
+
+    TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
+
+      ls_data-client = '080'.
+      ls_data-uuid = lv_uuid.
+      ls_data-progid = 'IM02'.
+      ls_data-viewid = 'IMIF'.
+      ls_data-prognm = '수입계약(신규1)'.
+      ls_data-viewnm = '수입정보'.
+      ls_data-viewob = '2'.
+      ls_data-viewat = ''.
+      ls_data-viewtp = 'B'.
+      ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
+      ls_data-fieldc = 'Bukrs|Ekorg|Ekgrp|Lifnr|Ekgrp|Zterm|Inco1|Netwr'.
+      ls_data-fieldu = 'Inco1|Netwr'.
+      ls_data-cdsvid = ''.
+
+      TRY.
+          INSERT zasimt0000c FROM @ls_data.
+      ENDTRY.
+
 
     ENDMETHOD.
 

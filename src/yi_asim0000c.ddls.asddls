@@ -19,6 +19,8 @@ define root view entity YI_ASIM0000C as select from zasimt0000c
     viewtp as Viewtp,
     @EndUserText.label: '사용여부'
     usediv as Usediv,
+    @EndUserText.label: '전체필드'
+    fielda as Fielda,
     @EndUserText.label: '생성필드'
     fieldc as Fieldc,
     @EndUserText.label: '수정필드'

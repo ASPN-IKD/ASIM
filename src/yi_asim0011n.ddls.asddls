@@ -172,5 +172,12 @@ define view entity YI_ASIM0011N
       //@EndUserText.label: '부대비액'
       //_Zdc2.ConditionAmount                                    as Zdc2_n,
 
-      _created_po.chk                                          as chk
+      /*수입PO 기생성여부 확인 chk = 'X'이면 생성완료 수입계약PO참조 생성 시 제외처리 */
+      _created_po.chk                                          as chk,
+
+      /*수입po 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
+      @Semantics.quantity.unitOfMeasure: 'Reqms'
+      @EndUserText.label: '오더잔량'
+      cast(_created_po.Modmg as abap.quan(13,3))               as Modmg,
+      _created_po.Reqms                                        as Reqms
 }
