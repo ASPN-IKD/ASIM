@@ -1,0 +1,7 @@
+@EndUserText.label: '수입계약 서비스 정의'
+define service YSD_ASIM0010N {
+  expose YI_ASIM0010N;
+  expose YI_ASIM0020N;
+  expose I_CurrencyStdVH;
+  expose I_Currency;
+}

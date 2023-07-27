@@ -1,0 +1,32 @@
+managed implementation in class zbp_i_asim0000c unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0000C //alias <alias_name>
+persistent table zasimt0000c
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field (numbering : managed, readonly)
+  UUid;
+
+  mapping for zasimt0000c
+  {
+      Uuid   = uuid;
+      Progid = progid;
+      Viewid = viewid;
+      Prognm = prognm;
+      Viewnm = viewnm;
+      Viewob = viewob;
+      Viewat = viewat;
+      Viewtp = viewtp;
+      Usediv = usediv;
+      Fieldc = fieldc;
+      Fieldu = fieldu;
+      Cdsvid = cdsvid;
+  }
+}

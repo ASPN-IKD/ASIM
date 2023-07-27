@@ -1,0 +1,142 @@
+managed implementation in class zbp_i_asim0010n unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0010N //alias <alias_name>
+persistent table zasimt0010n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+
+
+
+{
+  create;
+  update;
+  delete;
+  association _Item { create; }
+
+  field (numbering : managed, readonly)
+  UUid;
+
+   mapping for zasimt0010n
+  {
+   Uuid               = uuid;
+      Acdat = acdat;
+      Bbamt = bbamt;
+      Bbdat = bbdat;
+      Bbgb = bbgb;
+      Bblif = bblif;
+      Bbno = bbno;
+      Bbrate = bbrate;
+      Bbrsf = bbrsf;
+      Bbwrs = bbwrs;
+      Bokno = bokno;
+      Bukrs = bukrs;
+      Chgbu = chgbu;
+      Chgdt = chgdt;
+      Chgtm = chgnm;
+      Colif = colif;
+      Conrt = conrt;
+      Cont1 = cont1;
+      Cont2 = cont2;
+      Crtbu = crtbu;
+      Crtdt = crtdt;
+      Crtnm = crtnm;
+      Crttm = crttm;
+      Edate = edate;
+      Ekgrp = ekgrp;
+      Ekorg = ekorg;
+      Filif = filif;
+      Inco1 = inco1;
+      Inco2 = inco2;
+      Isdat = isdat;
+      LastChangedAt = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+      Loekz = loekz;
+      Lifre = lifre;
+      Lifnr = lifnr;
+      Netwr = netwr;
+      Oedat = oedat;
+      Opamt = opamt;
+      Opbnk = opbnk;
+      Opdat = opdat;
+      Oplif = oplif;
+      Opnum = opnum;
+      Opwrs = opwrs;
+      Pdate = pdate;
+      Pedat = pedat;
+      Pterm = pterm;
+      Reqdt = reqdt;
+      Reqmu = reqmu;
+      Reqno = reqno;
+      Reqyr = reqyr;
+      Rqche = rqche;
+      Rqrsf = rqrsf;
+      Rqweek = rqweek;
+      Sdate = sdate;
+      Trbln = trbln;
+      Trdat = trdat;
+      Waers = waers;
+      Zbd1t = zbd1t;
+      Zcdno1 = zcdno1;
+      Zcdno2 = zcdno2;
+      Zcdno3 = zcdno3;
+      Zcdno4 = zcdno4;
+      Zterm = zterm;
+  }
+}
+
+define behavior for YI_ASIM0020N //alias <alias_name>
+persistent table zasimt0020n
+lock dependent by _Head
+authorization dependent by _Head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field (numbering : managed)
+  UUid;
+  field ( readonly ) ParentUUID, UUID;
+  association _Head;
+
+   mapping for zasimt0020n
+    {
+      Chgbu = chgbu;
+      Chgdt = chgdt;
+      Chgtm = chgnm;
+
+      Crtbu = crtbu;
+      Crtdt = crtdt;
+      Crtnm = crtnm;
+      Crttm = crttm;
+      Ebeln = ebeln;
+      Ebelp = ebelp;
+      Itmno = itmno;
+      Lgort = lgort;
+      Loekz = loekz;
+      Maktx = maktx;
+      Matnr = matnr;
+      ParentUUID = parentuuid;
+      Peinh = peinh;
+      Remak = remak;
+      Reqmg = reqmg;
+      Reqmg1 = reqmg1;
+      Reqms = reqms;
+      Reqms1 = reqms1;
+      Reqno = reqno;
+      Reqnr = reqnr;
+      Reqwr = reqwr;
+      Reqyr = reqyr;
+      Uuid = uuid;
+      Vbeln = vbeln;
+      Waers = waers;
+      Werks = werks;
+      Zebeln = zebeln;
+      Zebelp = zebelp;
+
+
+      LastChangedAt = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+
+    }
+}
