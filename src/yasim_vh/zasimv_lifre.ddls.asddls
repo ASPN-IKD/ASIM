@@ -1,15 +1,18 @@
 @AbapCatalog.viewEnhancementCategory: [#NONE]
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-@EndUserText.label: '파이낸스 도움말 뷰'
+@EndUserText.label: '공급처 도움말 뷰'
 @Metadata.ignorePropagatedAnnotations: true
-
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
+@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_LIFRE 
-  as select from zasimt0001n
+  as select from zasimt0001n_c
 {
- @ObjectModel.text.element: ['Text']
- @EndUserText.label: '공급처'
-  key zcdno as Cdno,  
- @EndUserText.label: '공급처명'  
+    
+  key zcdno as Cdno,    
       ztext as Text
 }
 where

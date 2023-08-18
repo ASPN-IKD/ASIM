@@ -25,6 +25,8 @@ define root view entity YI_ASIM0000C as select from zasimt0000c
     fieldc as Fieldc,
     @EndUserText.label: '수정필드'
     fieldu as Fieldu,
+    @EndUserText.label: '필수필드'
+    fieldm as Fieldm,
     @EndUserText.label: 'CDSVIEW'
     cdsvid as Cdsvid
 }

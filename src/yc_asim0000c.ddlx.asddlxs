@@ -1,0 +1,74 @@
+@Metadata.layer: #CUSTOMER
+annotate view YC_ASIM0000C
+    with 
+{
+    @UI.facet: [ {
+    id: 'idIdentification',
+    type: #IDENTIFICATION_REFERENCE,
+    label: 'Screen',
+    position: 10
+  } ]
+  @UI: {
+      lineItem:       [ { position: 10, importance: #HIGH } ],
+      identification: [ { position: 10 } ],
+      selectionField: [ { position: 10 } ]
+  }
+  Progid;
+  @UI: {
+      lineItem:       [ { position: 20, importance: #HIGH } ],
+      identification: [ { position: 20 } ],
+      selectionField: [ { position: 20 } ]
+  }
+  Viewid;
+  @UI: {
+      lineItem:       [ { position: 30, importance: #HIGH } ],
+      identification: [ { position: 30 } ],
+      selectionField: [ { position: 30 } ]
+  }
+  Prognm;
+  @UI: {
+    lineItem:       [ { position: 40, importance: #HIGH } ],
+    identification: [ { position: 40 } ],
+    selectionField: [ { position: 40 } ]
+  }
+  Viewnm;
+  @UI: {
+    lineItem:       [ { position: 50, importance: #HIGH } ],
+    identification: [ { position: 50 } ],
+    selectionField: [ { position: 50 } ]
+  }
+  Viewob;
+  @UI: {
+    lineItem:       [ { position: 60, importance: #HIGH } ],
+    identification: [ { position: 60 } ],
+    selectionField: [ { position: 60 } ]
+  }
+  Viewat;
+  @UI: {
+    lineItem:       [ { position: 70, importance: #HIGH } ],
+    identification: [ { position: 70 } ],
+    selectionField: [ { position: 70 } ]
+  }
+  Viewtp;
+  @UI: {
+    lineItem:       [ { position: 80, importance: #HIGH } ],
+    identification: [ { position: 80 } ],
+    selectionField: [ { position: 80 } ]
+  }
+  Usediv;
+  @UI.identification: [{ position: 90 }]
+  Fielda;
+  @UI.identification: [{ position: 100 }]
+  Fieldc;
+  @UI.identification: [{ position: 110 }]
+  Fieldu;
+  @UI: {
+    lineItem:       [ { position: 90, importance: #HIGH } ],
+    identification: [ { position: 120 } ],
+    selectionField: [ { position: 90 } ]
+  }
+  Cdsvid;
+  @UI.hidden: true
+  Uuid;
+    
+}

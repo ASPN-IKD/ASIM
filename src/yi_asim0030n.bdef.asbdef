@@ -1,0 +1,114 @@
+managed implementation in class zbp_i_asim0030n unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0030N //alias <alias_name>
+persistent table zasimt0030n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  association _Item { create; }
+
+  field ( numbering : managed, readonly )
+  UUid;
+  mapping for zasimt0030n
+    {
+      Uuid               = uuid;
+      Bliyr              = Bliyr;
+      Blino              = Blino;
+      Reqyr              = Reqyr;
+      Reqno              = Reqno;
+      Reqmu              = Reqmu;
+      Ebeln              = Ebeln;
+      Bukrs              = Bukrs;
+      Ekorg              = Ekorg;
+      Ekgrp              = Ekgrp;
+      Lifnr              = Lifnr;
+      Loekz              = Loekz;
+      Bleno              = Bleno;
+      Bldat              = Bldat;
+      Bleta              = Bleta;
+      Bletd              = Bletd;
+      Rqetd              = Rqetd;
+      Rqeta              = Rqeta;
+      Bld1t              = Bld1t;
+      Bledt              = Bledt;
+      Bldat2             = Bldat2;
+      Blgrd              = Blgrd;
+      Brgew              = Brgew;
+      Negew              = Negew;
+      Gewei              = Gewei;
+      Lgnum              = Lgnum;
+      Cntno              = Cntno;
+      Mosno              = Mosno;
+      Blamt              = Blamt;
+      Waers              = Waers;
+      Blitx              = Blitx;
+      Blche              = Blche;
+      Eccgb              = Eccgb;
+      Crtnm              = Crtnm;
+      Crtbu              = Crtbu;
+      Crtdt              = Crtdt;
+      Crttm              = Crttm;
+      Chgnm              = Chgnm;
+      Chgbu              = Chgbu;
+      Chgdt              = Chgdt;
+      Chgtm              = Chgtm;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+
+
+
+}
+
+define behavior for YI_ASIM0040N //alias <alias_name>
+persistent table zasimt0040n
+lock dependent by _Head
+authorization dependent by _Head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( numbering : managed )
+  UUid;
+  field ( readonly ) ParentUUID;
+  association _Head;
+  mapping for zasimt0040n
+    {
+      Uuid               = uuid;
+      //      Zdc1P              = zdc1_p;
+      //      Zdc1N              = zdc1_n;
+      //      Zdc2P              = zdc2_p;
+      //      Zdc2N              = zdc2_n;
+      parentuuid         = Parentuuid;
+      bliyr              = Bliyr;
+      blino              = Blino;
+      blinp              = Blinp;
+      loekz              = Loekz;
+      reqyr              = Reqyr;
+      reqno              = Reqno;
+      itmno              = Itmno;
+      ebeln              = Ebeln;
+      ebelp              = Ebelp;
+      matnr              = Matnr;
+      werks              = Werks;
+      lgort              = Lgort;
+      blmng              = Blmng;
+      blmns              = Blmns;
+      blmpr              = Blmpr;
+      blmwr              = Blmwr;
+      blpnh              = Blpnh;
+      waers              = Waers;
+      blmng1             = Blmng1;
+      blmns1             = Blmns1;
+      eindt              = Eindt;
+      hsdat              = Hsdat;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+
+
+}

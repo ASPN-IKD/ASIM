@@ -1,0 +1,122 @@
+managed implementation in class zbp_i_asim0090n unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0090N //alias <alias_name>
+persistent table zasimt0090n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field ( numbering : managed, readonly )
+  Uuid;
+
+  association _Item { create; }
+
+  mapping for zasimt0090n {
+    BelnrGr = belnr_gr;
+    Bktxt = bktxt;
+    Blino = blino;
+    Bliyr = bliyr;
+    BudatGr = budat_gr;
+    Bukrs = bukrs;
+    Cclno = cclno;
+    Cclyr = cclyr;
+    Chgbu = chgbu;
+    Chgdt = chgdt;
+    Chgnm = chgnm;
+    Chgtm = chgtm;
+    Crtbu = crtbu;
+    Crtdt = crtdt;
+    Crtnm = crtnm;
+    Crttm = crttm;
+    Eccno = eccno;
+    Eccyr = eccyr;
+    Ekorg = ekorg;
+    GjahrGr = gjahr_gr;
+    Grche = grche;
+    LastChangedAt = last_changed_at;
+    Lifnr = lifnr;
+    LocalLastChangedAt = local_last_changed_at;
+    Loekz = loekz;
+    Mblnr = mblnr;
+    Mjahr = mjahr;
+    Reqmu = reqmu;
+    Reqno = reqno;
+    Reqyr = reqyr;
+    SjahrGr = sjahr_gr;
+    SmblnGr = smbln_gr;
+    Uuid = uuid;
+
+  }
+}
+
+define behavior for YI_ASIM0100N //alias <alias_name>
+persistent table zasimt0100n
+lock dependent by _Head
+authorization dependent by _Head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) Parentuuid;
+
+  field ( numbering : managed, readonly )
+  Uuid;
+
+  association _Head;
+
+    mapping for zasimt0100n {
+    Amtv2 = amtv2;
+    Belnr1 = belnr1;
+    Blino = blino;
+    Blinp = blinp;
+    Bliyr = bliyr;
+    Cbelnr = cbelnr;
+    Cclno  = cclno;
+    Cclnp = cclnp;
+    Cclyr = cclyr;
+    Cgjahr = cgjahr;
+    Charg = charg;
+    Chgbu = chgbu;
+    Chgdt = chgdt;
+    Chgnm = chgnm;
+    Chgtm = chgtm;
+    Crtbu = crtbu;
+    Crtdt = crtdt;
+    Crtnm = crtnm;
+    Crttm = crttm;
+    Ebeln = ebeln;
+    Ebelp = ebelp;
+    Eccno = eccno;
+    Eccnp = eccnp;
+    Eccyr = eccyr;
+    Gjahr1 = gjahr1;
+    Grmng = grmng;
+    Grmng1 = grmng1;
+    Grmns = grmns;
+    Grmns1 = grmns1;
+    Hsdat = hsdat;
+    Itmno = itmno;
+    LastChangedAt = last_changed_at;
+    Lgort = lgort;
+    LocalLastChangedAt = local_last_changed_at;
+    Loekz = loekz;
+    Matnr = matnr;
+    Maxlz = maxlz;
+    Mblnr = mblnr;
+    Mjahr = mjahr;
+    Parentuuid = parentuuid;
+    Reqno = reqno;
+    Reqyr = reqyr;
+    Uuid = uuid;
+    V2wae = v2wae;
+    Vfdat = vfdat;
+    Werks = werks;
+    Zeile = zeile;
+
+    }
+}

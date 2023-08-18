@@ -1,0 +1,5 @@
+@EndUserText.label: '통관예정 서비스 정의'
+define service YSD_ASIM0190N {
+  expose YI_ASIM0190N;
+  expose YI_ASIM0200N;
+}

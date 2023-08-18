@@ -9,9 +9,9 @@
 }
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_OPBNK 
-  as select from zasimt0001n
+  as select from zasimt0001n_c
 {
-  @ObjectModel.text.element: ['Text']    
+      
   key zcdno as Cdno,    
       ztext as Text
 }

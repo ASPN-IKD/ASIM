@@ -20,57 +20,37 @@ CLASS ZCL_INSERT_DATA_ZASIMT0001N IMPLEMENTATION.
 
     DATA: system_uuid TYPE REF TO if_system_uuid,
           uuid        TYPE sysuuid_c32.
+  DO 1 TIMES.
 
-
-
-      ls_data-client = '100'.
-      ls_data-zcode = 'A04.ZTERM'.
-      ls_data-zcdno = 'U900'.
-      ls_data-zvalu1 = ''.
-      ls_data-zvalu2 = ''.
-      ls_data-zvalu3 = ''.
-      ls_data-zvalu4 = ''.
-      ls_data-zvalu5 = ''.
-      ls_data-zvalu6 = ''.
-      ls_data-zvalu7 = ''.
-      ls_data-ztext = '유산스-만기일지정'.
+      system_uuid = cl_uuid_factory=>create_system_uuid( ).
 
       TRY.
-          INSERT zasimt0001n FROM @ls_data.
+          lv_uuid = system_uuid->create_uuid_x16( ).
+        CATCH cx_uuid_error.
+
       ENDTRY.
 
-      ls_data-client = '100'.
-      ls_data-zcode = 'A17.OPBNK'.
-      ls_data-zcdno = 'B01'.
-      ls_data-zvalu1 = ''.
-      ls_data-zvalu2 = ''.
-      ls_data-zvalu3 = ''.
-      ls_data-zvalu4 = ''.
-      ls_data-zvalu5 = ''.
-      ls_data-zvalu6 = ''.
-      ls_data-zvalu7 = ''.
-      ls_data-ztext = '우리은행'.
-
-      TRY.
-          INSERT zasimt0001n FROM @ls_data.
-      ENDTRY.
 
       ls_data-client = '100'.
-      ls_data-zcode = 'A10.CONRT'.
-      ls_data-zcdno = 'A'.
-      ls_data-zvalu1 = ''.
-      ls_data-zvalu2 = ''.
-      ls_data-zvalu3 = ''.
-      ls_data-zvalu4 = ''.
-      ls_data-zvalu5 = ''.
+      ls_data-parentuuid = '3EB149C0E3D11EEE8CD3DDD473D74497'.
+      ls_data-uuid = lv_uuid.
+      ls_data-zcode = '0.POSTNO'.
+      ls_data-zcdno = '01'.
+      ls_data-zvalu1 = '11100600'.
+      ls_data-zvalu2 = 'A'.
+      ls_data-zvalu3 = 'H'.
+      ls_data-zvalu4 = 'H'.
+      ls_data-zvalu5 = 'KR'.
       ls_data-zvalu6 = ''.
       ls_data-zvalu7 = ''.
-      ls_data-ztext = '정기계약'.
+      ls_data-ztext = '선급금'.
 
       TRY.
           INSERT zasimt0001n FROM @ls_data.
       ENDTRY.
 
 
+
+  ENDDO.
   ENDMETHOD.
 ENDCLASS.

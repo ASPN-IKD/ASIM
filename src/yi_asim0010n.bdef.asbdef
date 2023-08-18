@@ -114,7 +114,7 @@ authorization dependent by _Head
       Itmno = itmno;
       Lgort = lgort;
       Loekz = loekz;
-      Maktx = maktx;
+//      Maktx = maktx;
       Matnr = matnr;
       ParentUUID = parentuuid;
       Peinh = peinh;

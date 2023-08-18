@@ -7,13 +7,12 @@
     sizeCategory: #S,
     dataClass: #MIXED
 }
-
+@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_ZCDNO4 
-  as select from zasimt0001n
+  as select from zasimt0001n_c
 {
-      @EndUserText.label: '운송형태'
+      
   key zcdno as Cdno,    
-  @EndUserText.label: '운송형태명'
       ztext as Text
 }
 where

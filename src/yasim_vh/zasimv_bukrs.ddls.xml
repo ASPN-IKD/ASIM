@@ -5,7 +5,7 @@
    <DDLS>
     <DDLNAME>ZASIMV_BUKRS</DDLNAME>
     <DDLANGUAGE>3</DDLANGUAGE>
-    <DDTEXT>회사코드 도움말 뷰</DDTEXT>
+    <DDTEXT>회사 도움말 뷰</DDTEXT>
     <SOURCE_TYPE>W</SOURCE_TYPE>
    </DDLS>
   </asx:values>

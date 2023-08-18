@@ -9,7 +9,7 @@
 }
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_COLIF
-  as select from zasimt0001n
+  as select from zasimt0001n_c
 {
      
   key zcdno as Cdno,

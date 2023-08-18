@@ -33,13 +33,13 @@ CLASS ZCL_INSERT_DATA_ZASIMT0020N IMPLEMENTATION.
     ENDTRY.
       ls_data-client = '100'.
       ls_data-uuid = lv_uuid.
-      ls_data-ParentUUID = '03673DD225411EDE89C0962893491F3A'.
+      ls_data-ParentUUID = '4E9E67C22F5B1EDE8C9A8B119783F854'.
       ls_data-reqyr = '2023'.
-      ls_data-reqno = '1000000003'.
+      ls_data-reqno = '1000000004'.
       ls_data-itmno = 20.
       ls_data-werks = '2100'.
       ls_data-lgort = '2100'.
-      ls_data-matnr = '000000000000000002'.
+      ls_data-matnr = '0000000004'.
       ls_data-reqmg = 10.
       ls_data-reqms = 'EA'.
       ls_data-reqnr = 1000.

@@ -1,0 +1,4 @@
+@EndUserText.label: '수입마감 서비스 정의'
+define service YSD_ASIM0150N {
+  expose YC_ASIM0150N;
+}

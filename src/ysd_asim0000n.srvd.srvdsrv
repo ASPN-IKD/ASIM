@@ -1,0 +1,5 @@
+@EndUserText.label: '코드관리 서비스 정의'
+define service YSD_ASIM0000N {
+  expose YI_ASIM0000N;
+  expose YI_ASIM0001N;
+}

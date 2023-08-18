@@ -1,0 +1,68 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: '수입마감 리스트 생성',
+    typeNamePlural: '수입마감 리스트2',
+    title: {
+      type: #STANDARD,
+      label: '',
+      value: 'Ebeln'
+    }
+  }
+}
+
+annotate view YC_ASIM0150N with
+{
+
+  @UI.facet:
+  [
+    {
+      id      : 'Collection01',
+      type    : #COLLECTION,
+      label   : '수입마감 리스트1',
+      position: 10
+    },
+    {
+      id      : 'idHeaderInfo',
+      purpose : #STANDARD,
+      type    : #IDENTIFICATION_REFERENCE,
+      parentId: 'Collection01' ,
+      label   : 'Information',
+      position: 10
+    }
+  ]
+
+  // 데이터 참조하여 생성하는 Custom 버튼 생성
+//  @UI.lineItem: [{ type:#FOR_ACTION, dataAction: 'referCreate', label:'참조' }]
+
+  @UI: { lineItem:       [{ position: 10 }],
+         identification: [{ position: 10 }]}
+  Uuid;
+
+  @UI: { lineItem:       [{ position: 20 }],
+         identification: [{ position: 20 }]}
+  Ebeln;
+
+  @UI: { lineItem:       [{ position: 30 }],
+         identification: [{ position: 30 }]}
+  Ebelp;
+
+  @UI: { lineItem:       [{ position: 40 }],
+         identification: [{ position: 40 }]}
+  Budat;
+
+  @UI: { lineItem:       [{ position: 50 }],
+         identification: [{ position: 50 }]}
+  Imche;
+//
+//  @UI: { lineItem:       [{ position: 60 }],
+//         identification: [{ position: 60 }]}
+  @UI:{ lineItem: [{position: 60 },
+         {type: #FOR_ACTION, dataAction: 'referCreate', label: '참조' } ] }    
+  Belnr;
+
+  @UI: { lineItem:       [{ position: 70 }],
+         identification: [{ position: 70 }]}
+  Gjahr;
+
+}

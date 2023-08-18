@@ -8,7 +8,7 @@
     dataClass: #MIXED
 }
 define view entity ZASIMV_MWSKZ 
-  as select from zasimt0001n
+  as select from zasimt0001n_c
 {
       @ObjectModel.text.element: ['Text']
   key zcdno as Cdno,    

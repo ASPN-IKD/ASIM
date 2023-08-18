@@ -1,0 +1,29 @@
+managed implementation in class zbp_i_asim0150n unique;
+//strict ( 2 );
+
+define behavior for YI_ASIM0150N alias Head
+persistent table zasimt0150n
+lock master
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  action referCreate;
+  determination setInit on save { create; }
+
+  field (readonly, numbering : managed) Uuid;
+  field (readonly) Imche;
+
+  mapping for zasimt0150n
+  {
+    Belnr = belnr;
+    Budat = budat;
+    Ebeln = ebeln;
+    Ebelp = ebelp;
+    Gjahr = gjahr;
+    Imche = imche;
+    Uuid  = uuid;
+  }
+}

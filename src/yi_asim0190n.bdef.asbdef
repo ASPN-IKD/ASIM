@@ -1,0 +1,58 @@
+managed implementation in class zbp_i_asim0190n unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0190N //alias <alias_name>
+persistent table zasimt0190n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  association _Item { create; }
+
+  field (numbering : managed, readonly)
+  UUid;
+  mapping for zasimt0190n
+    {
+      Uuid               = uuid;
+      Eccdt              = eccdt;
+      Egrdt              = egrdt;
+      Ccldt              = ccldt;
+      Cclgort            = cclgort;
+      Cclog              = cclog;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+define behavior for YI_ASIM0200N //alias <alias_name>
+persistent table zasimt0200n
+lock dependent by _Head
+authorization dependent by _Head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( numbering : managed )
+  UUid;
+  field ( readonly ) Parentuuid;
+  association _Head;
+  mapping for zasimt0200n
+    {
+      Uuid          = uuid;
+      Parentuuid    = parentuuid;
+      Quars         = quars;
+      Quacd         = quacd;
+      Quadt         = quadt;
+      Failmng       = failmng;
+      Failmng1      = failmng1;
+      Eccmng        = eccmng;
+      Sampmng       = sampmng;
+      Sampmng1      = sampmng1;
+      Eccmns        = eccmns;
+      eccmns1       = eccmns1;
+      LastChangedAt = last_changed_at;
+    }
+}

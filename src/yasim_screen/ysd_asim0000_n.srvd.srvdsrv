@@ -1,0 +1,4 @@
+@EndUserText.label: '서비스 정의'
+define service YSD_ASIM0000_N {
+  expose YC_ASIM0000N as screen;
+}

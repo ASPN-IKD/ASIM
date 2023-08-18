@@ -1,4 +1,6 @@
 CLASS zbp_i_asim0010n DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF yi_asim0010n.
+protected section.
+private section.
 ENDCLASS.
 
 

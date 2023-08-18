@@ -9,12 +9,10 @@
 }
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_CCLIF
-  as select from zasimt0001n
+  as select from zasimt0001n_c
 {
       @ObjectModel.text.element: ['Text']
-      @EndUserText.label: '세관'
   key zcdno as Cdno,    
-      @EndUserText.label: '세관명'
       ztext as Text
 }
 where

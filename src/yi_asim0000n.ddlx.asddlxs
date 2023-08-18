@@ -1,0 +1,47 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: '코드관리',
+    typeNamePlural: '',
+    title: {
+      type: #STANDARD,
+      label: '',
+      value: 'Uuid'
+    }
+  }
+  }
+annotate view YI_ASIM0000N
+    with 
+{
+    @UI: { lineItem: [{ position: 1, importance: #HIGH }],
+           identification: [{  type: #STANDARD, position: 10, importance: #HIGH }] }
+    Uuid;
+    @UI: { lineItem: [{ position: 2, importance: #HIGH }],
+           identification: [{ position: 20, importance: #HIGH }] }
+    Zcode;
+    @UI: { lineItem: [{ position: 3, importance: #HIGH }],
+           identification: [{ position: 30, importance: #HIGH }] }
+    Ztext;
+    @UI: { lineItem: [{ position: 4, importance: #HIGH }],
+           identification: [{ position: 40, importance: #HIGH }] }
+    Zvalu1t;
+    @UI: { lineItem: [{ position: 5, importance: #HIGH }],
+           identification: [{ position: 50, importance: #HIGH }] }
+    Zvalu2t;
+    @UI: { lineItem: [{ position: 6, importance: #HIGH }],
+           identification: [{ position: 60, importance: #HIGH }] }
+    Zvalu3t;
+    @UI: { lineItem: [{ position: 7, importance: #HIGH }],
+           identification: [{ position: 70, importance: #HIGH }] }
+    Zvalu4t;
+    @UI: { lineItem: [{ position: 8, importance: #HIGH }],
+           identification: [{ position: 80, importance: #HIGH }] }
+    Zvalu5t;
+    @UI: { lineItem: [{ position: 9, importance: #HIGH }],
+           identification: [{ position: 90, importance: #HIGH }] }
+    Zvalu6t;
+    @UI: { lineItem: [{ position: 10, importance: #HIGH }],
+           identification: [{ position: 100, importance: #HIGH }] }
+    Zvalu7t;
+
+}

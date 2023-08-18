@@ -4,6 +4,8 @@
   <asx:values>
    <DDLS>
     <DDLNAME>YI_ASIM0001N</DDLNAME>
+    <DDLANGUAGE>3</DDLANGUAGE>
+    <DDTEXT>코드 관리 - 소분류 뷰</DDTEXT>
     <SOURCE_TYPE>W</SOURCE_TYPE>
    </DDLS>
   </asx:values>

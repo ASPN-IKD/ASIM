@@ -3,8 +3,8 @@
 define view entity YI_ASIM0030N_CREATED_FINAL
   as select from YI_ASIM0030N_CREATED as _item
 
-  association [0..1] to YI_ASIM0001N as _limit on  _limit.Zcode like '%LIMIT'
-                                               and _limit.Zcdno =    'A'
+//  association [0..1] to YI_ASIM0001N as _limit on  _limit.Zcode like '%LIMIT'
+//                                               and _limit.Zcdno =    'A'
 
 {
   key _item.Reqno as Reqno,
@@ -13,33 +13,33 @@ define view entity YI_ASIM0030N_CREATED_FINAL
 
       @Semantics.quantity.unitOfMeasure: 'Blmns'
       _item.Blmng as Blmng,
-      _item.Blmns as Blmns,
+      _item.Blmns as Blmns
 
       //제외여부필드
-      case
-      when _limit.Zvalu1 is null
-        then case
-             when cast(_item.Reqmg as abap.dec(20,3)) <= cast(_item.Blmng as abap.dec(20,3)) then 'X'
-             else ''
-             end
-      else
-             case
-             when cast(_item.Reqmg as abap.dec(20,3)) * (cast(_limit.Zvalu1 as abap.dec(20,3)) / 100) <= cast(_item.Blmng as abap.dec(20,3)) then 'X'
-             else ''
-             end
-      end         as chk,
-
-      //잔량필드
-      case
-      when _limit.Zvalu1 is null
-        then case
-             when cast(_item.Reqmg as abap.dec(20,3)) <= cast(_item.Blmng as abap.dec(20,3)) then 0
-             else cast(_item.Reqmg as abap.dec(20,3)) - cast(_item.Blmng as abap.dec(20,3))
-             end
-      else
-            case
-            when cast(_item.Reqmg as abap.dec(20,3)) * (cast(_limit.Zvalu1 as abap.dec(20,3)) / 100) <= cast(_item.Blmng as abap.dec(20,3)) then 0
-            else cast(_item.Reqmg as abap.dec(20,3)) - cast(_item.Blmng as abap.dec(20,3))
-            end
-      end         as Modmg
+//      case
+//      when _limit.Zvalu1 is null
+//        then case
+//             when cast(_item.Reqmg as abap.dec(20,3)) <= cast(_item.Blmng as abap.dec(20,3)) then 'X'
+//             else ''
+//             end
+//      else
+//             case
+//             when cast(_item.Reqmg as abap.dec(20,3)) * (cast(_limit.Zvalu1 as abap.dec(20,3)) / 100) <= cast(_item.Blmng as abap.dec(20,3)) then 'X'
+//             else ''
+//             end
+//      end         as chk,
+//
+//      //잔량필드
+//      case
+//      when _limit.Zvalu1 is null
+//        then case
+//             when cast(_item.Reqmg as abap.dec(20,3)) <= cast(_item.Blmng as abap.dec(20,3)) then 0
+//             else cast(_item.Reqmg as abap.dec(20,3)) - cast(_item.Blmng as abap.dec(20,3))
+//             end
+//      else
+//            case
+//            when cast(_item.Reqmg as abap.dec(20,3)) * (cast(_limit.Zvalu1 as abap.dec(20,3)) / 100) <= cast(_item.Blmng as abap.dec(20,3)) then 0
+//            else cast(_item.Reqmg as abap.dec(20,3)) - cast(_item.Blmng as abap.dec(20,3))
+//            end
+//      end         as Modmg
 }

@@ -1,42 +1,37 @@
-@EndUserText.label: '자재 도움말 뷰'
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-@ObjectModel.resultSet.sizeCategory: #XS
-define view entity ZASIMV_MATNR
-  as select from I_Product
-  association [1..1] to I_ProductDescription as _maktx on  $projection.Matnr = _maktx.Product
-                                                       and _maktx.Language   = '3'
-  association [1..1] to I_ProductTypeText    as _mtart on  $projection.Mtart = _mtart.ProductType
-                                                       and _mtart.Language   = '3'
-  association [1..1] to I_ProductGroupText_2 as _matkl on  $projection.Matkl = _matkl.ProductGroup
-                                                       and _matkl.Language   = '3'
-
+@EndUserText.label: '공급처 도움말 뷰'
+define view entity zasimv_matnr
+  as select from zasimt_if_matnr
 {
-      @EndUserText.label: '자재번호'
-  key Product                   as Matnr,
 
-      @EndUserText.label: '자재명'
-      _maktx.ProductDescription as Maktx,
-
-      @ObjectModel.text.element: ['Mtartt']
-      @Consumption.valueHelpDefinition: [
-      {entity: {name: 'ZASIMV_MTART', element: 'Mtart' }}
-      ]
-      @EndUserText.label: '자재유형'
-      ProductType               as Mtart,
-
-      @EndUserText.label: '자재유형명'
-      _mtart.MaterialTypeName   as Mtartt,
-      
-      @ObjectModel.text.element: ['Matklt']
-      @Consumption.valueHelpDefinition: [
-      {entity: {name: 'ZASIMV_MATKL', element: 'Matkl' }}
-      ]
-      @EndUserText.label: '자재그룹'
-      ProductGroup              as Matkl,
-
-      @EndUserText.label: '자재그룹명'
-      _matkl.ProductGroupName   as Matklt,
-
-      @EndUserText.label: '기본단위'
-      BaseUnit                  as Meins
+      @EndUserText.label        : '자재 번호'
+  key product                as Product,
+      @EndUserText.label: '자재 내역'
+      maktg                  as Maktg,
+      @EndUserText.label: '언어 키'
+      spras                  as Spras,
+      @EndUserText.label: '단위'
+      alternativeunit        as Alternativeunit,
+      @Semantics.quantity.unitOfMeasure: 'BaseUnit'
+      @UI.hidden: true
+      quantitynumerator      as Quantitynumerator,
+      @Semantics.quantity.unitOfMeasure: 'AlternativeUnit'
+      @UI.hidden: true
+      quantitydenominator    as Quantitydenominator,
+      @UI.hidden: true
+      baseunit               as Baseunit,
+      @EndUserText.label: '대체단위'
+//      cast( replace( coalesce( subalternativeunit, '' ), 'BOT', 'BT') as meins) as Subalternativeunit,
+      cast( coalesce( subalternativeunit, '' ) as meins) as subalternativeunit,
+      @Semantics.quantity.unitOfMeasure: 'SubBaseUnit'
+      @UI.hidden: true
+      cast( coalesce( subquantitynumerator, 0.0 ) as abap.dec(5,0)) as Subquantitynumerator,
+//      subquantitynumerator   as Subquantitynumerator,
+      @Semantics.quantity.unitOfMeasure: 'SubBaseUnit'
+      @UI.hidden: true
+      cast( coalesce( subquantitydenominator, 0.0 ) as abap.dec(5,0)) as Subquantitydenominator,
+//      subquantitydenominator as Subquantitydenominator,
+      @UI.hidden: true
+      cast( coalesce( subbaseunit, '' ) as meins) as Subbaseunit
+//      subbaseunit            as Subbaseunit
 }

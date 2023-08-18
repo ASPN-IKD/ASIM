@@ -1,0 +1,18 @@
+managed implementation in class zbp_r_asim0000c unique;
+strict ( 1 );
+
+define behavior for YR_ASIM0000C //alias <alias_name>
+persistent table zasimt0000c
+lock master
+early numbering
+authorization master ( instance )
+//etag master <field_name>
+{
+
+  field ( readonly )
+  Uuid;
+
+  create;
+  update;
+  delete;
+}
