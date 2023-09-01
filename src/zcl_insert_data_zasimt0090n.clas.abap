@@ -1,17 +1,17 @@
-CLASS zcl_insert_data_zasimt0090n DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
+class ZCL_INSERT_DATA_ZASIMT0090N definition
+  public
+  create private .
 
-  PUBLIC SECTION.
-    INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+public section.
+protected section.
+private section.
 ENDCLASS.
 
 
 
-CLASS zcl_insert_data_zasimt0090n IMPLEMENTATION.
+CLASS ZCL_INSERT_DATA_ZASIMT0090N IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
     DATA : ls_data TYPE zasimt0090n,
            lv_uuid TYPE sysuuid_x16.
@@ -39,11 +39,4 @@ CLASS zcl_insert_data_zasimt0090n IMPLEMENTATION.
 
     ENDDO.
   ENDMETHOD.
-
-
-
-
-
-
-
 ENDCLASS.

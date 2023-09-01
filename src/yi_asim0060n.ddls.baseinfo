@@ -3,6 +3,8 @@
 {
 "FROM":
 [
+"I_PLANT",
+"I_PRODUCTTEXT",
 "ZASIMT0060N"
 ],
 "ASSOCIATED":

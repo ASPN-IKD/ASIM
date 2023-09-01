@@ -3,9 +3,9 @@
 define view entity YI_ASIM0011N
   as select from    I_PurchaseOrderItemAPI01      as _item
     join            I_PurchaseOrderAPI01          as _header     on _item.PurchaseOrder = _header.PurchaseOrder
-  //    join            YI_ASIM0001N                  as _payment    on  _header.PaymentTerms =    _payment.Zcdno
-  //                                                                 and _payment.Zvalu1      =    'X'
-  //                                                                 and _payment.Zcode       like '%ZTERM'
+      join            YI_ASIM0001N                  as _payment    on  _header.PaymentTerms =    _payment.Zcdno
+                                                                   and _payment.Zvalu1      =    'X'
+                                                                   and _payment.Zcode       like '%ZTERM'
     left outer join YI_ASIM0010N_CREATED_PO_FINAL as _created_po on  _item.PurchaseOrder     = _created_po.Ebeln
                                                                  and _item.PurchaseOrderItem = _created_po.Ebelp
   association [1..1] to I_SupplierPurchasingOrg        as _supplier                    on  _header.Supplier               = _supplier.Supplier
@@ -19,9 +19,9 @@ define view entity YI_ASIM0011N
   association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc1                        on  $projection.Ebeln   = _Zdc1.PurchaseOrder
                                                                                        and $projection.Ebelp   = _Zdc1.PurchaseOrderItem
                                                                                        and _Zdc1.ConditionType = 'DRN1' //'ZDC1'
-  //  association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                        on  $projection.Ebeln   = _Zdc2.PurchaseOrder
-  //                                                                                       and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
-  //                                                                                       and _Zdc2.ConditionType = 'ZDC2'
+    association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                        on  $projection.Ebeln   = _Zdc2.PurchaseOrder
+                                                                                         and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
+                                                                                         and _Zdc2.ConditionType = 'ZDC2'
   association [1..1] to I_CompanyCode                  as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
   association [1..1] to I_PurchasingOrganization       as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
   association [1..1] to I_PurchasingGroup              as _PurchasingGroup             on  $projection.Ekgrp = _PurchasingGroup.PurchasingGroup
@@ -94,15 +94,15 @@ define view entity YI_ASIM0011N
       @EndUserText.label: '인도처'
       _header.IncotermsLocation1                               as Inco2,
 
-      //      @ObjectModel.text.element: ['Ztermt']
+            @ObjectModel.text.element: ['Ztermt']
       @Consumption.valueHelpDefinition: [
       {entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}
       ]
       @EndUserText.label: '지급조건'
       _header.PaymentTerms                                     as Zterm,
 
-      //      @EndUserText.label: '지급조건명'
-      //      _payment.Ztext                                                                                         as Ztermt,
+            @EndUserText.label: '지급조건명'
+            _payment.Ztext                                                                                         as Ztermt,
 
       @EndUserText.label: '계정지정범주'
       _item.AccountAssignmentCategory                          as Knttp,
@@ -158,8 +158,8 @@ define view entity YI_ASIM0011N
       @EndUserText.label: '관세율'
       _Zdc1.ConditionRateValue                                 as Zdc1_p,
 
-      //      @EndUserText.label: '부대비율'
-      //      _Zdc2.ConditionRateValue                                                                               as Zdc2_p,
+      @EndUserText.label: '부대비율'
+      _Zdc2.ConditionRateValue                                                                               as Zdc2_p,
 
       @EndUserText.label: '납품일'
       _sch.ScheduleLineDeliveryDate                            as Eindt,
@@ -168,9 +168,9 @@ define view entity YI_ASIM0011N
       @EndUserText.label: '관세액'
       _Zdc1.ConditionAmount                                    as Zdc1_n,
 
-      //@Semantics.amount.currencyCode : 'Waers'
-      //@EndUserText.label: '부대비액'
-      //_Zdc2.ConditionAmount                                    as Zdc2_n,
+      @Semantics.amount.currencyCode : 'Waers'
+      @EndUserText.label: '부대비액'
+      _Zdc2.ConditionAmount                                    as Zdc2_n,
 
       /*수입PO 기생성여부 확인 chk = 'X'이면 생성완료 수입계약PO참조 생성 시 제외처리 */
       _created_po.chk                                          as chk,

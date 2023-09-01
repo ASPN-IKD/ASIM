@@ -6,9 +6,9 @@ define root view entity YI_ASIM0030N
   association [1..1] to YI_ASIM0010N as _asim0010n on  $projection.Reqno = _asim0010n.Reqno
                                                    and $projection.Reqyr = _asim0010n.Reqyr
                                                    and $projection.Reqmu = _asim0010n.Reqmu
-//  association [0..1] to YI_ASIM0001N as _mosno     on  $projection.Mosno =    _mosno.Zcdno
-//                                                   and _mosno.Zcode      like '%MOSNO'
-//                                                   and _mosno.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N as _mosno     on  $projection.Mosno =    _mosno.Zcdno
+                                                   and _mosno.Zcode      like '%MOSNO'
+                                                   and _mosno.Zcdno      <>   '00'
 {
       @ObjectModel.filter.enabled: false
   key uuid                  as Uuid,
@@ -35,41 +35,41 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: '구매문서번호'
       ebeln                 as Ebeln,
 
-//      @ObjectModel.text.element: ['Bukrst']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs' }}
-//      ]
+      @ObjectModel.text.element: ['Bukrst']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs' }}
+      ]
       @EndUserText.label: '회사코드'
       bukrs                 as Bukrs,
 
-//      @EndUserText.label: '회사코드명'
-//      _asim0010n.Bukrst     as Bukrst,
+      @EndUserText.label: '회사코드명'
+      _asim0010n.Bukrst     as Bukrst,
 
       @EndUserText.label: '구매조직'
       ekorg                 as Ekorg,
 
-//      @EndUserText.label: '구매조직명'
-//      _asim0010n.Ekorgt     as Ekorgt,
+      @EndUserText.label: '구매조직명'
+      _asim0010n.Ekorgt     as Ekorgt,
 
-//      @ObjectModel.text.element: ['Ekgrpt']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_EKGRP', element: 'Ekgrp' }}
-//      ]
+      @ObjectModel.text.element: ['Ekgrpt']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_EKGRP', element: 'Ekgrp' }}
+      ]
       @EndUserText.label: '구매그룹'
       ekgrp                 as Ekgrp,
 
-//      @EndUserText.label: '구매그룹명'
-//      _asim0010n.Ekgrpt     as Ekgrpt,
+      @EndUserText.label: '구매그룹명'
+      _asim0010n.Ekgrpt     as Ekgrpt,
 
-//      @ObjectModel.text.element: ['Lifnrt']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}
-//      ]
+      @ObjectModel.text.element: ['Lifnrt']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}
+      ]
       @EndUserText.label: '공급업체'
       lifnr                 as Lifnr,
 
-//      @EndUserText.label: '공급업체명'
-//      _asim0010n.Lifnrt     as Lifnrt,
+      @EndUserText.label: '공급업체명'
+      _asim0010n.Lifnrt     as Lifnrt,
 
       @EndUserText.label: '삭제지시자'
       loekz                 as Loekz,
@@ -117,15 +117,15 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: '컨테이너번호'
       cntno                 as Cntno,
 
-//      @ObjectModel.text.element: ['Mosno']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_MOSNO', element: 'Cdno' }}
-//      ]
+      @ObjectModel.text.element: ['Mosnot']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_MOSNO', element: 'Cdno' }}
+      ]
       @EndUserText.label: '모선번호'
       mosno                 as Mosno,
 
-//      @EndUserText.label: '모선번호명'
-//      _mosno.Ztext          as Mosnot,
+      @EndUserText.label: '모선번호명'
+      _mosno.Ztext          as Mosnot,
 
       @EndUserText.label: 'B/L총금액'
       @Semantics.amount.currencyCode : 'Waers'
@@ -143,67 +143,67 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: '검역여부'
       eccgb                 as Eccgb,
 
-//      @ObjectModel.text.element: ['Lifret']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_LIFRE', element: 'Cdno' }}
-//      ]
+      @ObjectModel.text.element: ['Lifret']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_LIFRE', element: 'Cdno' }}
+      ]
       @EndUserText.label: '공급처'
       _asim0010n.Lifre      as Lifre,
 
-//      @EndUserText.label: '공급처명'
-//      _asim0010n.Lifret     as Lifret,
+      @EndUserText.label: '공급처명'
+      _asim0010n.Lifret     as Lifret,
 
-//      @ObjectModel.text.element: ['Inco1t']
+      @ObjectModel.text.element: ['Inco1t']
       @EndUserText.label: '인도조건'
       _asim0010n.Inco1      as Inco1,
 
-//      @EndUserText.label: '인도조건명'
-//      _asim0010n.Inco1t     as Inco1t,
+      @EndUserText.label: '인도조건명'
+      _asim0010n.Inco1t     as Inco1t,
 
       @EndUserText.label: '인도처'
       _asim0010n.Inco2      as Inco2,
 
-//      @ObjectModel.text.element: ['Ztermt']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}
-//      ]
+      @ObjectModel.text.element: ['Ztermt']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}
+      ]
       @EndUserText.label: '지급조건'
       _asim0010n.Zterm      as Zterm,
 
-//      @EndUserText.label: '지급조건명'
-//      _asim0010n.Ztermt     as Ztermt,
+      @EndUserText.label: '지급조건명'
+      _asim0010n.Ztermt     as Ztermt,
 
-//      @ObjectModel.text.element: ['Zcdno1t']
+      @ObjectModel.text.element: ['Zcdno1t']
       @EndUserText.label: '도착지'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO1', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO1', element: 'Cdno' }}]
       _asim0010n.Zcdno1     as Zcdno1,
 
-//      @EndUserText.label: '도착지명'
-//      _asim0010n.Zcdno1t    as Zcdno1t,
+      @EndUserText.label: '도착지명'
+      _asim0010n.Zcdno1t    as Zcdno1t,
 
-//      @ObjectModel.text.element: ['Zcdno2t']
+      @ObjectModel.text.element: ['Zcdno2t']
       @EndUserText.label: '운송수단'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO2', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO2', element: 'Cdno' }}]
       _asim0010n.Zcdno2     as Zcdno2,
 
-//      @EndUserText.label: '운송수단명'
-//      _asim0010n.Zcdno2t    as Zcdno2t,
+      @EndUserText.label: '운송수단명'
+      _asim0010n.Zcdno2t    as Zcdno2t,
 
-//      @ObjectModel.text.element: ['Zcdno3t']
+      @ObjectModel.text.element: ['Zcdno3t']
       @EndUserText.label: '선적지'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO3', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO3', element: 'Cdno' }}]
       _asim0010n.Zcdno3     as Zcdno3,
 
-//      @EndUserText.label: '선적지명'
-//      _asim0010n.Zcdno3t    as Zcdno3t,
+      @EndUserText.label: '선적지명'
+      _asim0010n.Zcdno3t    as Zcdno3t,
 
-//      @ObjectModel.text.element: ['Zcdno4t']
+      @ObjectModel.text.element: ['Zcdno4t']
       @EndUserText.label: '운송형태'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO4', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO4', element: 'Cdno' }}]
       _asim0010n.Zcdno4     as Zcdno4,
 
-//      @EndUserText.label: '운송형태명'
-//      _asim0010n.Zcdno4t    as Zcdno4t,
+      @EndUserText.label: '운송형태명'
+      _asim0010n.Zcdno4t    as Zcdno4t,
 
       @EndUserText.label: '총금액'
       @Semantics.amount.currencyCode : 'Waers'
@@ -212,13 +212,13 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: 'L/C오픈일'
       _asim0010n.Opdat      as Opdat,
 
-//      @ObjectModel.text.element: ['Opbnkt']
+      @ObjectModel.text.element: ['Opbnkt']
       @EndUserText.label: '개설은행'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPBNK', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPBNK', element: 'Cdno' }}]
       _asim0010n.Opbnk      as Opbnk,
 
-//      @EndUserText.label: '개설은행명'
-//      _asim0010n.Opbnkt     as Opbnkt,
+      @EndUserText.label: '개설은행명'
+      _asim0010n.Opbnkt     as Opbnkt,
 
       @EndUserText.label: 'L/C번호'
       _asim0010n.Opnum      as Opnum,
@@ -228,15 +228,15 @@ define root view entity YI_ASIM0030N
       _asim0010n.Opamt      as Opamt,
 
       @EndUserText.label: '통화 키'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       _asim0010n.Opwrs      as Opwrs,
 
-//      @ObjectModel.text.element: ['Ptermt']
+      @ObjectModel.text.element: ['Ptermt']
       @EndUserText.label: '결제조건'
       _asim0010n.Pterm      as Pterm,
 
-//      @EndUserText.label: '결제조건명'
-//      _asim0010n.Ptermt     as Ptermt,
+      @EndUserText.label: '결제조건명'
+      _asim0010n.Ptermt     as Ptermt,
 
       @EndUserText.label: '결제조건일수'
       _asim0010n.Zbd1t      as Zbd1t,
@@ -250,13 +250,13 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: '오픈예정일'
       _asim0010n.Oedat      as Oedat,
 
-//      @ObjectModel.text.element: ['Oplift']
+      @ObjectModel.text.element: ['Oplift']
       @EndUserText.label: '오픈처'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPLIF', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPLIF', element: 'Cdno' }}]
       _asim0010n.Oplif      as Oplif,
 
-//      @EndUserText.label: '오픈처명'
-//      _asim0010n.Oplift     as Oplift,
+      @EndUserText.label: '오픈처명'
+      _asim0010n.Oplift     as Oplift,
 
       @EndUserText.label: 'Sdate'
       _asim0010n.Sdate      as Sdate,
@@ -264,23 +264,23 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: 'Edate'
       _asim0010n.Edate      as Edate,
 
-//      @ObjectModel.text.element: ['Colift']
+      @ObjectModel.text.element: ['Colift']
       @EndUserText.label: '실계약처'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_COLIF', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_COLIF', element: 'Cdno' }}]
       _asim0010n.Colif      as Colif,
 
-//      @EndUserText.label: '실계약처명'
-//      _asim0010n.Colift     as Colift,
+      @EndUserText.label: '실계약처명'
+      _asim0010n.Colift     as Colift,
 
-//      @ObjectModel.text.element: ['Filift']
+      @ObjectModel.text.element: ['Filift']
       @EndUserText.label: '파이낸스'
       _asim0010n.Filif      as Filif,
 
-//      @EndUserText.label: '파이낸스명'
-//      _asim0010n.Filift     as Filift,
+      @EndUserText.label: '파이낸스명'
+      _asim0010n.Filift     as Filift,
 
       @EndUserText.label: '계약번호1'
-      //@Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONT1', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONT1', element: 'Cdno' }}]
       _asim0010n.Cont1      as Cont1,
 
       @EndUserText.label: '계약번호2'
@@ -292,13 +292,13 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: 'BOOKING No.'
       _asim0010n.Bokno      as Bokno,
 
-//      @ObjectModel.text.element: ['Conrtt']
+      @ObjectModel.text.element: ['Conrtt']
       @EndUserText.label: '계약유형'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONRT', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONRT', element: 'Cdno' }}]
       _asim0010n.Conrt      as Conrt,
 
-//      @EndUserText.label: '계약유형명'
-//      _asim0010n.Conrt      as Conrtt,
+      @EndUserText.label: '계약유형명'
+      _asim0010n.Conrt      as Conrtt,
 
       @EndUserText.label: '양도일(수입대행)'
       _asim0010n.Trdat      as Trdat,
@@ -318,19 +318,19 @@ define root view entity YI_ASIM0030N
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '통화 키'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       _asim0010n.Bbwrs      as Bbwrs,
 
       @EndUserText.label: '부보일'
       _asim0010n.Bbdat      as Bbdat,
 
-//      @ObjectModel.text.element: ['Bbgbt']
+      @ObjectModel.text.element: ['Bbgbt']
       @EndUserText.label: '보험조건'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBGB', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBGB', element: 'Cdno' }}]
       _asim0010n.Bbgb       as Bbgb,
 
-//      @EndUserText.label: '보험조건명'
-//      _asim0010n.Bbgbt      as Bbgbt,
+      @EndUserText.label: '보험조건명'
+      _asim0010n.Bbgbt      as Bbgbt,
 
       @EndUserText.label: '계약완료'
       _asim0010n.Rqche      as Rqche,
@@ -344,13 +344,13 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: '보험증권번호'
       _asim0010n.Bbno       as Bbno,
 
-//      @ObjectModel.text.element: ['Bblift']
+      @ObjectModel.text.element: ['Bblift']
       @EndUserText.label: '보험회사'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBLIF', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBLIF', element: 'Cdno' }}]
       _asim0010n.Bblif      as Bblif,
 
-//      @EndUserText.label: '보험회사명'
-//      _asim0010n.Bblift     as Bblift,
+      @EndUserText.label: '보험회사명'
+      _asim0010n.Bblift     as Bblift,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '부보 Basic Rate'

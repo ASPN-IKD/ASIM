@@ -1,7 +1,7 @@
 @EndUserText.label: '계약문서1 (Cont1) 도움말 뷰'
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 define view entity  ZASIMV_CONT1
-    as select from zasimt0010n_c
+    as select from zasimt0010n
     
   association [0..1] to ZASIMV_ZTERM          as _Term     on  $projection.Zterm = _Term.Cdno
   association [0..1] to ZASIMV_LIFRE          as _Lifre    on  $projection.Lifre = _Lifre.Cdno
@@ -18,9 +18,9 @@ define view entity  ZASIMV_CONT1
   association [0..1] to ZASIMV_BBLIF          as _Bblif    on  $projection.Bblif = _Bblif.Cdno
 
   //Interface Association
-  association [1..1] to zce_asim_vh_supplier3 as _Supplier on  $projection.Lifnr = _Supplier.Supplier
-                                                           and $projection.Ekorg = _Supplier.PurchasingOrganization
-  association [1..1] to ZCE_ASIM_VH_COMPANY   as _Company  on  $projection.Bukrs = _Company.CompanyCode
+  association [1..1] to ZASIMV_LIFNR as _Supplier on  $projection.Lifnr = _Supplier.Lifnr
+                                                           
+  association [1..1] to ZASIMV_BUKRS   as _Company  on  $projection.Bukrs = _Company.Bukrs
     
 {
       @UI.hidden: true
@@ -165,3 +165,4 @@ define view entity  ZASIMV_CONT1
       _Supplier,
       _Company
 }
+

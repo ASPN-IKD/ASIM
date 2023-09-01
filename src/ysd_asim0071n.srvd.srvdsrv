@@ -1,0 +1,4 @@
+@EndUserText.label: '수입통관 생성 서비스 정의'
+define service YSD_ASIM0071N {
+  expose YI_ASIM0071N;
+}

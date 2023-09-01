@@ -2,55 +2,55 @@
 @EndUserText.label: '수입계약 헤더 인터페이스 뷰'
 define root view entity YI_ASIM0010N
   as select from zasimt0010n
-  composition [1..*] of YI_ASIM0020N                  as _Item
-//  association [1..1] to I_CompanyCode                 as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
-//  association [1..1] to I_PurchasingOrganization      as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
-//  association [0..1] to I_PurchasingGroup             as _PurchasingGroup             on  $projection.Ekgrp = _PurchasingGroup.PurchasingGroup
-//  association [1..1] to I_BusinessPartner             as _BusinessPartner             on  $projection.Lifnr = _BusinessPartner.BusinessPartner
-//  association [0..1] to I_IncotermsClassificationText as _IncotermsClassificationText on  $projection.Inco1                     = _IncotermsClassificationText.IncotermsClassification
-//                                                                                      and _IncotermsClassificationText.Language = '3'
-//  association [0..1] to YI_ASIM0001N                  as _zterm                       on  $projection.Zterm =    _zterm.Zcdno
-//                                                                                      and _zterm.Zcode      like '%ZTERM'
-//                                                                                      and _zterm.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _lifre                       on  $projection.Lifre =    _lifre.Zcdno
-//                                                                                      and _lifre.Zcode      like '%LIFRE'
-//                                                                                      and _lifre.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _zcdno1                      on  $projection.Zcdno1 =    _zcdno1.Zcdno
-//                                                                                      and _zcdno1.Zcode      like '%ZCDNO1'
-//                                                                                      and _zcdno1.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _zcdno2                      on  $projection.Zcdno2 =    _zcdno2.Zcdno
-//                                                                                      and _zcdno2.Zcode      like '%ZCDNO2'
-//                                                                                      and _zcdno2.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _zcdno3                      on  $projection.Zcdno3 =    _zcdno3.Zcdno
-//                                                                                      and _zcdno3.Zcode      like '%ZCDNO3'
-//                                                                                      and _zcdno3.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _zcdno4                      on  $projection.Zcdno4 =    _zcdno4.Zcdno
-//                                                                                      and _zcdno4.Zcode      like '%ZCDNO4'
-//                                                                                      and _zcdno4.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _opbnk                       on  $projection.Opbnk =    _opbnk.Zcdno
-//                                                                                      and _opbnk.Zcode      like '%OPBNK'
-//                                                                                      and _opbnk.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _Pterm                       on  $projection.Pterm =    _Pterm.Zcdno
-//                                                                                      and _Pterm.Zcode      like '%PTERM'
-//                                                                                      and _Pterm.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _oplif                       on  $projection.Oplif =    _oplif.Zcdno
-//                                                                                      and _oplif.Zcode      like '%OPLIF'
-//                                                                                      and _oplif.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _colif                       on  $projection.Colif =    _colif.Zcdno
-//                                                                                      and _colif.Zcode      like '%COLIF'
-//                                                                                      and _colif.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _filif                       on  $projection.Filif =    _filif.Zcdno
-//                                                                                      and _filif.Zcode      like '%FILIF'
-//                                                                                      and _filif.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _conrt                       on  $projection.Conrt =    _conrt.Zcdno
-//                                                                                      and _conrt.Zcode      like '%CONRT'
-//                                                                                      and _conrt.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _bbgb                        on  $projection.Bbgb =    _bbgb.Zcdno
-//                                                                                      and _bbgb.Zcode      like '%BBGB'
-//                                                                                      and _bbgb.Zcdno      <>   '00'
-//  association [0..1] to YI_ASIM0001N                  as _bblif                       on  $projection.Bblif =    _bblif.Zcdno
-//                                                                                      and _bblif.Zcode      like '%BBLIF'
-//                                                                                      and _bblif.Zcdno      <>   '00'
+//  composition [1..*] of YI_ASIM0020N                  as _Item
+  association [1..1] to I_CompanyCode                 as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
+  association [1..1] to I_PurchasingOrganization      as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
+  association [0..1] to I_PurchasingGroup             as _PurchasingGroup             on  $projection.Ekgrp = _PurchasingGroup.PurchasingGroup
+  association [1..1] to I_BusinessPartner             as _BusinessPartner             on  $projection.Lifnr = _BusinessPartner.BusinessPartner
+  association [0..1] to I_IncotermsClassificationText as _IncotermsClassificationText on  $projection.Inco1                     = _IncotermsClassificationText.IncotermsClassification
+                                                                                      and _IncotermsClassificationText.Language = '3'
+  association [0..1] to YI_ASIM0001N                  as _zterm                       on  $projection.Zterm =    _zterm.Zcdno
+                                                                                      and _zterm.Zcode      like '%ZTERM'
+                                                                                      and _zterm.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _lifre                       on  $projection.Lifre =    _lifre.Zcdno
+                                                                                      and _lifre.Zcode      like '%LIFRE'
+                                                                                      and _lifre.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _zcdno1                      on  $projection.Zcdno1 =    _zcdno1.Zcdno
+                                                                                      and _zcdno1.Zcode      like '%ZCDNO1'
+                                                                                      and _zcdno1.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _zcdno2                      on  $projection.Zcdno2 =    _zcdno2.Zcdno
+                                                                                      and _zcdno2.Zcode      like '%ZCDNO2'
+                                                                                      and _zcdno2.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _zcdno3                      on  $projection.Zcdno3 =    _zcdno3.Zcdno
+                                                                                      and _zcdno3.Zcode      like '%ZCDNO3'
+                                                                                      and _zcdno3.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _zcdno4                      on  $projection.Zcdno4 =    _zcdno4.Zcdno
+                                                                                      and _zcdno4.Zcode      like '%ZCDNO4'
+                                                                                      and _zcdno4.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _opbnk                       on  $projection.Opbnk =    _opbnk.Zcdno
+                                                                                      and _opbnk.Zcode      like '%OPBNK'
+                                                                                      and _opbnk.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _Pterm                       on  $projection.Pterm =    _Pterm.Zcdno
+                                                                                      and _Pterm.Zcode      like '%PTERM'
+                                                                                      and _Pterm.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _oplif                       on  $projection.Oplif =    _oplif.Zcdno
+                                                                                      and _oplif.Zcode      like '%OPLIF'
+                                                                                      and _oplif.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _colif                       on  $projection.Colif =    _colif.Zcdno
+                                                                                      and _colif.Zcode      like '%COLIF'
+                                                                                      and _colif.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _filif                       on  $projection.Filif =    _filif.Zcdno
+                                                                                      and _filif.Zcode      like '%FILIF'
+                                                                                      and _filif.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _conrt                       on  $projection.Conrt =    _conrt.Zcdno
+                                                                                      and _conrt.Zcode      like '%CONRT'
+                                                                                      and _conrt.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _bbgb                        on  $projection.Bbgb =    _bbgb.Zcdno
+                                                                                      and _bbgb.Zcode      like '%BBGB'
+                                                                                      and _bbgb.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N                  as _bblif                       on  $projection.Bblif =    _bblif.Zcdno
+                                                                                      and _bblif.Zcode      like '%BBLIF'
+                                                                                      and _bblif.Zcdno      <>   '00'
                                                                                                                                                                        
 
 {
@@ -64,118 +64,118 @@ define root view entity YI_ASIM0010N
                                                        as Reqyr,
       @UI:{lineItem: [{ position: 20 }],
       selectionField: [{position: 20}] }
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQNO', element: 'reqno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQNO', element: 'reqno' }}]
       @EndUserText.label: '계약내부번호'
       reqno                                                    as Reqno,
     
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQMU', element: 'reqmu' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQMU', element: 'reqmu' }}]
       @EndUserText.label: '관리번호'
       reqmu                                                    as Reqmu,
 
       @EndUserText.label: '요청일'
       reqdt                                                    as Reqdt,
       
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs'} }]
-//      @ObjectModel.text.element: ['Bukrst']
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs'} }]
+      @ObjectModel.text.element: ['Bukrst']
       @EndUserText.label: '회사코드'
       bukrs                                                    as Bukrs,
 
-//      @EndUserText.label: '회사코드명'
-//      _CompanyCode.CompanyCodeName                             as Bukrst,
+      @EndUserText.label: '회사코드명'
+      _CompanyCode.CompanyCodeName                             as Bukrst,
      
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKORG', element: 'Ekorg'} }]
-//      @ObjectModel.text.element: ['Ekorgt']
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKORG', element: 'Ekorg'} }]
+      @ObjectModel.text.element: ['Ekorgt']
       @EndUserText.label: '구매조직'
       ekorg                                                    as Ekorg,
 
-//      @EndUserText.label: '구매조직명'
-//      _PurchasingOrganization.PurchasingOrganizationName       as Ekorgt,
+      @EndUserText.label: '구매조직명'
+      _PurchasingOrganization.PurchasingOrganizationName       as Ekorgt,
       
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKGRP', element: 'Ekgrp'} }]
-//      @ObjectModel.text.element: ['Ekgrpt']
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKGRP', element: 'Ekgrp'} }]
+      @ObjectModel.text.element: ['Ekgrpt']
       @EndUserText.label: '구매그룹'
       ekgrp                                                    as Ekgrp,
 
-//      @EndUserText.label: '구매그룹명'
-//      _PurchasingGroup.PurchasingGroupName                     as Ekgrpt,
+      @EndUserText.label: '구매그룹명'
+      _PurchasingGroup.PurchasingGroupName                     as Ekgrpt,
 
-//      @ObjectModel.text.element: ['Lifnrt']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}
-//      ]
+      @ObjectModel.text.element: ['Lifnrt']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}
+      ]
       @EndUserText.label: '공급업체'
       lifnr                                                    as Lifnr,
 
-//      @EndUserText.label: '공급업체명'
-//      _BusinessPartner.BusinessPartnerName                     as Lifnrt,
+      @EndUserText.label: '공급업체명'
+      _BusinessPartner.BusinessPartnerName                     as Lifnrt,
 
       @EndUserText.label: '삭제지시자'
       loekz                                                    as Loekz,
 
-//      @ObjectModel.text.element: ['Lifret']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_LIFRE', element: 'Cdno' }}
-//      ]
+      @ObjectModel.text.element: ['Lifret']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_LIFRE', element: 'Cdno' }}
+      ]
       @EndUserText.label: '공급처'
       lifre                                                    as Lifre,
 
-//      @EndUserText.label: '공급처명'
-//      _lifre.Ztext                                             as Lifret,
+      @EndUserText.label: '공급처명'
+      _lifre.Ztext                                             as Lifret,
 
-//      @ObjectModel.text.element: ['Inco1t']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_INCO1', element: 'inco1' }}
-//      ] 
+      @ObjectModel.text.element: ['Inco1t']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_INCO1', element: 'inco1' }}
+      ] 
       @EndUserText.label: '인도조건'
       inco1                                                    as Inco1,
 
-//      @EndUserText.label: '인도조건명'
-//      _IncotermsClassificationText.IncotermsClassificationName as Inco1t,
+      @EndUserText.label: '인도조건명'
+      _IncotermsClassificationText.IncotermsClassificationName as Inco1t,
 
       @EndUserText.label: '인도처'
       inco2                                                    as Inco2,
 
-//      @ObjectModel.text.element: ['Ztermt']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}
-//      ]
+      @ObjectModel.text.element: ['Ztermt']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}
+      ]
       @EndUserText.label: '지급조건'
       zterm                                                    as Zterm,
 
-//      @EndUserText.label: '지급조건명'
-//      _zterm.Ztext                                             as Ztermt,
+      @EndUserText.label: '지급조건명'
+      _zterm.Ztext                                             as Ztermt,
 
-//      @ObjectModel.text.element: ['Zcdno1t']
+      @ObjectModel.text.element: ['Zcdno1t']
       @EndUserText.label: '도착지'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO1', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO1', element: 'Cdno' }}]
       zcdno1                                                   as Zcdno1,
 
-//      @EndUserText.label: '도착지명'
-//      _zcdno1.Ztext                                            as Zcdno1t,
+      @EndUserText.label: '도착지명'
+      _zcdno1.Ztext                                            as Zcdno1t,
 
-//      @ObjectModel.text.element: ['Zcdno2t']
+      @ObjectModel.text.element: ['Zcdno2t']
       @EndUserText.label: '운송수단'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO2', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO2', element: 'Cdno' }}]
       zcdno2                                                   as Zcdno2,
 
-//      @EndUserText.label: '운송수단명'
-//      _zcdno2.Ztext                                            as Zcdno2t,
+      @EndUserText.label: '운송수단명'
+      _zcdno2.Ztext                                            as Zcdno2t,
 
-//      @ObjectModel.text.element: ['Zcdno3t']
+      @ObjectModel.text.element: ['Zcdno3t']
       @EndUserText.label: '선적지'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO3', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO3', element: 'Cdno' }}]
       zcdno3                                                   as Zcdno3,
 
-//      @EndUserText.label: '선적지명'
-//      _zcdno3.Ztext                                            as Zcdno3t,
+      @EndUserText.label: '선적지명'
+      _zcdno3.Ztext                                            as Zcdno3t,
 
-//      @ObjectModel.text.element: ['Zcdno4t']
+      @ObjectModel.text.element: ['Zcdno4t']
       @EndUserText.label: '운송형태'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO4', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO4', element: 'Cdno' }}]
       zcdno4                                                   as Zcdno4,
 
-//      @EndUserText.label: '운송형태명'
-//      _zcdno4.Ztext                                            as Zcdno4t,
+      @EndUserText.label: '운송형태명'
+      _zcdno4.Ztext                                            as Zcdno4t,
 
       @EndUserText.label: '총금액'
       @Semantics.amount.currencyCode : 'Waers'
@@ -194,13 +194,13 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: 'L/C오픈일'
       opdat                                                    as Opdat,
 
-//      @ObjectModel.text.element: ['Opbnkt']
+      @ObjectModel.text.element: ['Opbnkt']
       @EndUserText.label: '개설은행'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPBNK', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPBNK', element: 'Cdno' }}]
       opbnk                                                    as Opbnk,
 
-//      @EndUserText.label: '개설은행명'
-//      _opbnk.Ztext                                             as Opbnkt,
+      @EndUserText.label: '개설은행명'
+      _opbnk.Ztext                                             as Opbnkt,
 
       @EndUserText.label: 'L/C번호'
       opnum                                                    as Opnum,
@@ -213,12 +213,12 @@ define root view entity YI_ASIM0010N
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       opwrs                                                    as Opwrs,
 
-//      @ObjectModel.text.element: ['Ptermt']
+      @ObjectModel.text.element: ['Ptermt']
       @EndUserText.label: '결제조건'
       pterm                                                    as Pterm,
 
-//      @EndUserText.label: '결제조건명'
-//      _Pterm.Ztext                                             as Ptermt,
+      @EndUserText.label: '결제조건명'
+      _Pterm.Ztext                                             as Ptermt,
 
       @EndUserText.label: '결제조건일수'
       zbd1t                                                    as Zbd1t,
@@ -232,13 +232,13 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '오픈예정일'
       oedat                                                    as Oedat,
 
-//      @ObjectModel.text.element: ['Oplift']
+      @ObjectModel.text.element: ['Oplift']
       @EndUserText.label: '오픈처'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPLIF', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPLIF', element: 'Cdno' }}]
       oplif                                                    as Oplif,
 
-//      @EndUserText.label: '오픈처명'
-//      _oplif.Ztext                                             as Oplift,
+      @EndUserText.label: '오픈처명'
+      _oplif.Ztext                                             as Oplift,
 
       @EndUserText.label: 'Sdate'
       sdate                                                    as Sdate,
@@ -246,23 +246,23 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: 'Edate'
       edate                                                    as Edate,
 
-//      @ObjectModel.text.element: ['Colift']
+      @ObjectModel.text.element: ['Colift']
       @EndUserText.label: '실계약처'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_COLIF', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_COLIF', element: 'Cdno' }}]
       colif                                                    as Colif,
 
-//      @EndUserText.label: '실계약처명'
-//      _colif.Ztext                                             as Colift,
+      @EndUserText.label: '실계약처명'
+      _colif.Ztext                                             as Colift,
 
-//      @ObjectModel.text.element: ['Filift']
-//      @Consumption.valueHelpDefinition: [
-//      {entity: {name: 'ZASIMV_FILIF', element: 'Cdno' }}
-//      ]
+      @ObjectModel.text.element: ['Filift']
+      @Consumption.valueHelpDefinition: [
+      {entity: {name: 'ZASIMV_FILIF', element: 'Cdno' }}
+      ]
       @EndUserText.label: '파이낸스'
       filif                                                    as Filif,
 
-//      @EndUserText.label: '파이낸스명'
-//      _filif.Ztext                                             as Filift,
+      @EndUserText.label: '파이낸스명'
+      _filif.Ztext                                             as Filift,
 
       @EndUserText.label: '계약번호1'
       cont1                                                    as Cont1,
@@ -276,13 +276,13 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: 'BOOKING No.'
       bokno                                                    as Bokno,
 
-//      @ObjectModel.text.element: ['Conrtt']
+      @ObjectModel.text.element: ['Conrtt']
       @EndUserText.label: '계약유형'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONRT', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONRT', element: 'Cdno' }}]
       conrt                                                    as Conrt,
 
-//      @EndUserText.label: '계약유형명'
-//      _conrt.Ztext                                             as Conrtt,
+      @EndUserText.label: '계약유형명'
+      _conrt.Ztext                                             as Conrtt,
 
       @EndUserText.label: '양도일(수입대행)'
       trdat                                                    as Trdat,
@@ -308,13 +308,13 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '부보일'
       bbdat                                                    as Bbdat,
 
-//      @ObjectModel.text.element: ['Bbgbt']
+      @ObjectModel.text.element: ['Bbgbt']
       @EndUserText.label: '보험조건'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBGB', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBGB', element: 'Cdno' }}]
       bbgb                                                     as Bbgb,
 
-//      @EndUserText.label: '보험조건명'
-//      _bbgb.Ztext                                              as Bbgbt,
+      @EndUserText.label: '보험조건명'
+      _bbgb.Ztext                                              as Bbgbt,
 
       @EndUserText.label: '계약완료'
       rqche                                                    as Rqche,
@@ -328,13 +328,13 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '보험증권번호'
       bbno                                                     as Bbno,
 
-//      @ObjectModel.text.element: ['Bblift']
+      @ObjectModel.text.element: ['Bblift']
       @EndUserText.label: '보험회사'
-//      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBLIF', element: 'Cdno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBLIF', element: 'Cdno' }}]
       bblif                                                    as Bblif,
 
-//      @EndUserText.label: '보험회사명'
-//      _bblif.Ztext                                             as Bblift,
+      @EndUserText.label: '보험회사명'
+      _bblif.Ztext                                             as Bblift,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '부보 Basic Rate'
@@ -346,16 +346,16 @@ define root view entity YI_ASIM0010N
 
       crtnm                                                    as Crtnm,
       crtbu                                                    as Crtbu,
-      //  @Semantics.systemDateTime.createdAt: true
+//        @Semantics.systemDateTime.createdAt: true
       @EndUserText.label: 'Create Date'
       crtdt                                                    as Crtdt,
       crttm                                                    as Crttm,
       chgnm                                                    as Chgnm,
       chgbu                                                    as Chgbu,
-      //  @Semantics.systemDateTime.lastChangedAt: true
+//        @Semantics.systemDateTime.lastChangedAt: true
       @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Change Date'
-      chgdt                                                    as Chgdt,
+//      @EndUserText.label: 'Change Date'
+//      chgdt                                                    as Chgdt,
       chgtm                                                    as Chgtm,
 
       @ObjectModel.filter.enabled: false
@@ -364,10 +364,10 @@ define root view entity YI_ASIM0010N
 
       @ObjectModel.filter.enabled: false
       @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at                                          as LastChangedAt,
+      last_changed_at                                          as LastChangedAt
 
       //Association
-      _Item
+//      _Item
 
 }
 where

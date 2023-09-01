@@ -5,10 +5,10 @@ CLASS zcl_insert_data DEFINITION
 
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
-ENDCLASS.
 
+protected section.
+private section.
+ENDCLASS.
 
 
 CLASS ZCL_INSERT_DATA IMPLEMENTATION.
@@ -33,7 +33,7 @@ CLASS ZCL_INSERT_DATA IMPLEMENTATION.
 
     ENDTRY.
 
-      ls_data-client = '100'.
+      ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
       ls_data-reqyr = '2023'.
       ls_data-reqno = '1000000003'.

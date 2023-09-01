@@ -9,7 +9,7 @@
 }
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_CONRT 
-as select from zasimt0001n_c
+as select from zasimt0001n
 {
       @ObjectModel.text.element: ['Text']
   key zcdno as Cdno,   

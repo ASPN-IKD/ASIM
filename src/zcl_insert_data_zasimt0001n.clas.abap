@@ -5,9 +5,11 @@ CLASS zcl_insert_data_zasimt0001n DEFINITION
 
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+
+protected section.
+private section.
 ENDCLASS.
+
 
 
 

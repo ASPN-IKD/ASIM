@@ -5,8 +5,9 @@ CLASS zcl_insert_data_zasimt0000c DEFINITION
 
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+
+protected section.
+private section.
 ENDCLASS.
 
 
@@ -144,14 +145,14 @@ CLASS ZCL_INSERT_DATA_ZASIMT0000C IMPLEMENTATION.
       ls_data-progid = 'IM01'.
       ls_data-viewid = 'IMIT'.
       ls_data-prognm = '수입계약생성(수기)'.
-      ls_data-viewnm = '품목'.
+      ls_data-viewnm = '품목정보'.
       ls_data-viewob = '5'.
       ls_data-viewat = ''.
       ls_data-viewtp = 'G'.
       ls_data-usediv = 'Y'.
-      ls_data-fielda = 'Itmno|Knttp|Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr|Reqwr'.
-      ls_data-fieldc = 'Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr'.
-      ls_data-fieldu = 'Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr'.
+      ls_data-fielda = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldc = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldu = 'Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
       ls_data-fieldm = 'Itmno|Knttp|Werks'.
       ls_data-cdsvid = ''.
 
@@ -277,9 +278,9 @@ CLASS ZCL_INSERT_DATA_ZASIMT0000C IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'G'.
       ls_data-usediv = 'Y'.
-      ls_data-fielda = 'Itmno|Knttp|Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr|Reqwr'.
-      ls_data-fieldc = 'Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr'.
-      ls_data-fieldu = 'Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr'.
+      ls_data-fielda = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldc = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldu = 'Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
       ls_data-fieldm = 'Itmno|Knttp|Werks'.
       ls_data-cdsvid = ''.
 
@@ -405,9 +406,9 @@ CLASS ZCL_INSERT_DATA_ZASIMT0000C IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'G'.
       ls_data-usediv = 'Y'.
-      ls_data-fielda = 'Itmno|Knttp|Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr|Reqwr|Zebeln'.
-      ls_data-fieldc = 'Matnr|Lgort|Reqmg|Reqms|Reqnr'.
-      ls_data-fieldu = 'Matnr|Reqmg|Reqms|Reqnr'.
+      ls_data-fielda = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldc = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldu = 'Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
       ls_data-fieldm = 'Itmno|Knttp|Werks'.
       ls_data-cdsvid = ''.
 
@@ -534,9 +535,9 @@ CLASS ZCL_INSERT_DATA_ZASIMT0000C IMPLEMENTATION.
       ls_data-viewat = ''.
       ls_data-viewtp = 'G'.
       ls_data-usediv = 'Y'.
-      ls_data-fielda = 'Itmno|Knttp|Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr|Reqwr|Peinh|Kostl|Anln1|Sakto|Zdc1_p|Zdc1_n|Zdc2_p|Zdc2_n|Ebeln'.
-      ls_data-fieldc = 'Lgort|Reqmg|Reqms|Reqnr'.
-      ls_data-fieldu = 'Reqmg|Reqms|Reqnr'.
+      ls_data-fielda = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldc = 'Uuid|Itmno|Matnr|Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
+      ls_data-fieldu = 'Reqmg|Reqmg1|Reqnr|Peinh|Reqwr|Werks|Remak'.
       ls_data-fieldm = 'Itmno|Knttp|Werks'.
       ls_data-cdsvid = ''.
 
@@ -816,7 +817,33 @@ CLASS ZCL_INSERT_DATA_ZASIMT0000C IMPLEMENTATION.
       ls_data-viewtp = 'G'.
       ls_data-usediv = 'Y'.
       ls_data-fielda = 'Itmno|Knttp|Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr|Reqwr|Peinh|Kostl|Anln1|Sakto|Zdc1_p|Zdc1_n|Zdc2_p|Zdc2_n|Ebeln'.
-      ls_data-fieldc = 'Lgort|Reqmg|Reqms|Reqnr'.
+      ls_data-fieldc = 'Lgort|Reqmg|Reqms|Reqnr|Ebeln'.
+      ls_data-fieldu = 'Reqmg|Reqms|Reqnr'.
+      ls_data-fieldm = 'Itmno|Knttp|Werks'.
+      ls_data-cdsvid = ''.
+
+      TRY.
+          INSERT zasimt0000c FROM @ls_data.
+      ENDTRY.
+
+
+TRY.
+        lv_uuid = system_uuid->create_uuid_x16( ).
+    CATCH cx_uuid_error.
+    ENDTRY.
+
+      ls_data-client = '080'.
+      ls_data-uuid = lv_uuid.
+      ls_data-progid = 'IV01'.
+      ls_data-viewid = 'IMIT'.
+      ls_data-prognm = 'IV생성'.
+      ls_data-viewnm = '품목정보1'.
+      ls_data-viewob = '6'.
+      ls_data-viewat = ''.
+      ls_data-viewtp = 'G'.
+      ls_data-usediv = 'Y'.
+      ls_data-fielda = 'Itmno|Knttp|Werks|Matnr|Lgort|Reqmg|Reqms|Reqnr|Reqwr|Peinh|Kostl|Anln1|Sakto|Zdc1_p|Zdc1_n|Zdc2_p|Zdc2_n|Ebeln'.
+      ls_data-fieldc = 'Lgort|Reqmg|Reqms|Reqnr|Ebeln'.
       ls_data-fieldu = 'Reqmg|Reqms|Reqnr'.
       ls_data-fieldm = 'Itmno|Knttp|Werks'.
       ls_data-cdsvid = ''.

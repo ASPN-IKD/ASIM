@@ -4,10 +4,10 @@ define view entity YI_ASIM0060N
   as select from zasimt0060n
   association to parent YI_ASIM0050N as _Head on _Head.Uuid = $projection.Parentuuid
 
-//  association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
-//                                                                                   and _productText.Language = '3'
-//  association [1..1] to I_Plant                        as _plant                   on  $projection.Werks = _plant.Plant
-//  association [1..1] to I_CurrencyStdVH                as _Currency                on  $projection.Waers = _Currency.Currency
+  association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
+                                                                                   and _productText.Language = '3'
+  association [1..1] to I_Plant                        as _plant                   on  $projection.Werks = _plant.Plant
+  association [1..1] to I_CurrencyStdVH                as _Currency                on  $projection.Waers = _Currency.Currency
 {
       @ObjectModel.filter.enabled: false
   key uuid                  as Uuid,
@@ -51,14 +51,14 @@ define view entity YI_ASIM0060N
       @EndUserText.label: '플랜트'
       werks                 as Werks,
 
-//           @EndUserText.label: '플랜트명'
-//           _plant.PlantName                             as Werkst,
+           @EndUserText.label: '플랜트명'
+           _plant.PlantName                             as Werkst,
 
       @EndUserText.label: '자재 번호'
       matnr                 as Matnr,
 
-//           @EndUserText.label: '자재명'
-//           _productText.ProductName                     as Maktx,
+           @EndUserText.label: '자재명'
+           _productText.ProductName                     as Maktx,
       
       @Semantics.quantity.unitOfMeasure: 'Meins'
       @EndUserText.label: 'I/V 수량'

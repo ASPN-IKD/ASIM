@@ -9,10 +9,12 @@
 }
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_ZCDNO2 
-    as select from zasimt0001n_c
+    as select from zasimt0001n
 {
-     
+  @ObjectModel.text.element: ['Text']
+  @EndUserText.label: '운송수단'
   key zcdno as Cdno,    
+  @EndUserText.label: '운송수단명'
       ztext as Text
 }
 where

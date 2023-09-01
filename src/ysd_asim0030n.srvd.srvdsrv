@@ -2,6 +2,4 @@
 define service YSD_ASIM0030N {
   expose YI_ASIM0030N;
   expose YI_ASIM0040N;
-  expose YI_ASIM0010N;
-  expose YI_ASIM0020N;
 }

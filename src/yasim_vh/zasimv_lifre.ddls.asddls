@@ -2,17 +2,14 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '공급처 도움말 뷰'
 @Metadata.ignorePropagatedAnnotations: true
-@ObjectModel.usageType:{
-    serviceQuality: #X,
-    sizeCategory: #S,
-    dataClass: #MIXED
-}
-@ObjectModel.resultSet.sizeCategory: #XS
+
 define view entity ZASIMV_LIFRE 
-  as select from zasimt0001n_c
+  as select from zasimt0001n
 {
-    
-  key zcdno as Cdno,    
+ @ObjectModel.text.element: ['Text']
+ @EndUserText.label: '공급처'
+  key zcdno as Cdno,  
+ @EndUserText.label: '공급처명'  
       ztext as Text
 }
 where

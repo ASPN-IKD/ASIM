@@ -4,7 +4,6 @@
   <asx:values>
    <DEVC>
     <CTEXT>화면 관리용 페이지</CTEXT>
-    <TPCLASS>X</TPCLASS>
    </DEVC>
   </asx:values>
  </asx:abap>

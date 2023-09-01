@@ -1,17 +1,16 @@
-CLASS zcl_insert_data_zasimt0070n DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
+class ZCL_INSERT_DATA_ZASIMT0070N definition
+  public
+  create private .
 
-  PUBLIC SECTION.
-    INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+public section.
+protected section.
+private section.
 ENDCLASS.
 
 
 
-CLASS zcl_insert_data_zasimt0070n IMPLEMENTATION.
+CLASS ZCL_INSERT_DATA_ZASIMT0070N IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
     DATA: ls_data TYPE zasimt0070n.
@@ -52,5 +51,4 @@ CLASS zcl_insert_data_zasimt0070n IMPLEMENTATION.
       ENDTRY.
     ENDDO.
   ENDMETHOD.
-
 ENDCLASS.

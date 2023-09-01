@@ -5,8 +5,9 @@ CLASS zcl_insert_data_zasimt0040n DEFINITION
 
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+
+protected section.
+private section.
 ENDCLASS.
 
 
@@ -37,7 +38,7 @@ CLASS ZCL_INSERT_DATA_ZASIMT0040N IMPLEMENTATION.
 
       ls_data-client = '080'.
       ls_data-uuid = lv_uuid.
-      ls_data-parentuuid = '8ACF357A27FB1EDE8E8387F86893C85A'.
+      ls_data-parentuuid = '51273E16A2301EEE9096150B63BF4897'.
       ls_data-bliyr = '2023'.
       ls_data-blino = '1000000003'.
       ls_data-reqyr = '2023'.

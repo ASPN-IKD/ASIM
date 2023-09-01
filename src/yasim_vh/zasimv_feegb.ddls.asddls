@@ -7,7 +7,7 @@
     sizeCategory: #S,
     dataClass: #MIXED
 }
-define view entity ZASIMV_FEEGB as select from zasimt0001n_c
+define view entity ZASIMV_FEEGB as select from zasimt0001n
 {
       @ObjectModel.text.element: ['Text']
   key zcdno as Cdno,    

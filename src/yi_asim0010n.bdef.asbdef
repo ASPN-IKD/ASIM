@@ -13,7 +13,7 @@ authorization master ( instance )
   create;
   update;
   delete;
-  association _Item { create; }
+//  association _Item { create; }
 
   field (numbering : managed, readonly)
   UUid;
@@ -33,7 +33,7 @@ authorization master ( instance )
       Bokno = bokno;
       Bukrs = bukrs;
       Chgbu = chgbu;
-      Chgdt = chgdt;
+    //  Chgdt = chgdt;
       Chgtm = chgnm;
       Colif = colif;
       Conrt = conrt;
@@ -85,7 +85,7 @@ authorization master ( instance )
       Zterm = zterm;
   }
 }
-
+/*
 define behavior for YI_ASIM0020N //alias <alias_name>
 persistent table zasimt0020n
 lock dependent by _Head
@@ -102,7 +102,7 @@ authorization dependent by _Head
    mapping for zasimt0020n
     {
       Chgbu = chgbu;
-      Chgdt = chgdt;
+    //  Chgdt = chgdt;
       Chgtm = chgnm;
 
       Crtbu = crtbu;
@@ -139,4 +139,4 @@ authorization dependent by _Head
       LocalLastChangedAt = local_last_changed_at;
 
     }
-}
+}*/

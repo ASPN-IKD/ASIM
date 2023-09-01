@@ -17,18 +17,23 @@ authorization master ( instance )
   association _0001N { create; }
 
   mapping for zasimt0000n
-  {
-    Uuid = uuid;
-    Zcode = zcode;
-    Ztext = ztext;
-    Zvalu1t = zvalu1t;
-    Zvalu2t = zvalu2t;
-    Zvalu3t = zvalu3t;
-    Zvalu4t = zvalu4t;
-    Zvalu5t = zvalu5t;
-    Zvalu6t = zvalu6t;
-    Zvalu7t = zvalu7t;
-  }
+    {
+      Uuid               = uuid;
+      Zcode              = zcode;
+      Ztext              = ztext;
+      Zvalu1t            = zvalu1t;
+      Zvalu2t            = zvalu2t;
+      Zvalu3t            = zvalu3t;
+      Zvalu4t            = zvalu4t;
+      Zvalu5t            = zvalu5t;
+      Zvalu6t            = zvalu6t;
+      Zvalu7t            = zvalu7t;
+      CreatedAt          = created_at;
+      CreatedBy          = created_by;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+    }
 }
 
 define behavior for YI_ASIM0001N //alias <alias_name>
@@ -46,18 +51,18 @@ authorization dependent by _0000N
   association _0000N;
 
   mapping for zasimt0001n
-  {
-    Parentuuid = parentuuid;
-    Uuid = uuid;
-    Zcdno = zcdno;
-    Zcode = zcode;
-    Ztext = ztext;
-    Zvalu1 = zvalu1;
-    Zvalu2 = zvalu2;
-    Zvalu3 = zvalu3;
-    Zvalu4 = zvalu4;
-    Zvalu5 = zvalu5;
-    Zvalu6 = zvalu6;
-    Zvalu7 = zvalu7;
-  }
+    {
+      Parentuuid = parentuuid;
+      Uuid       = uuid;
+      Zcdno      = zcdno;
+      Zcode      = zcode;
+      Ztext      = ztext;
+      Zvalu1     = zvalu1;
+      Zvalu2     = zvalu2;
+      Zvalu3     = zvalu3;
+      Zvalu4     = zvalu4;
+      Zvalu5     = zvalu5;
+      Zvalu6     = zvalu6;
+      Zvalu7     = zvalu7;
+    }
 }

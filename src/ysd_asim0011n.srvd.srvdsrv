@@ -1,0 +1,4 @@
+@EndUserText.label: '수입 구매오더 헤더/아이템 인터페이스 뷰'
+define service YSD_ASIM0011N {
+  expose YI_ASIM0011N;
+}

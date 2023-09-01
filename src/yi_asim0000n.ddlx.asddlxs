@@ -10,7 +10,7 @@
     }
   }
   }
-annotate view YI_ASIM0000N
+annotate entity  YI_ASIM0000N
     with 
 {
     @UI: { lineItem: [{ position: 1, importance: #HIGH }],

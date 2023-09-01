@@ -3,12 +3,7 @@
 @ObjectModel.resultSet.sizeCategory: #XS
 // 미완성된 뷰 - lfa1 인터페이스 및 30n_c 필요
 define view entity ZASIMV_BLINO
-  as select from zasimt0030n
-  // inner join   lfa1   as B     on A.lifnr = B.lifnr
-  //    inner join   zasimt0010n_c as C on  A.loekz           = C.loekz
-  //                             and A.loekz           = ''
-  //                             and C.loekz = ''
-  association [1..1] to YI_ASIM0010N as _asim0010n on  $projection.reqmu = _asim0010n.Reqmu
+  as select from zasimt0030n  association [1..1] to YI_ASIM0010N as _asim0010n on  $projection.reqmu = _asim0010n.Reqmu
                                                    and zasimt0030n.reqno = _asim0010n.Reqno
                                                    and zasimt0030n.reqyr = _asim0010n.Reqyr
   association [1..1] to ZASIMV_LIFNR as _lifnr     on  $projection.lifnr = _lifnr.Lifnr

@@ -1,0 +1,71 @@
+managed implementation in class zbp_i_asim0031n unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0031N //alias <alias_name>
+persistent table zasimt0010n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+
+
+
+
+{
+
+ mapping for zasimt0010n
+  {
+   Uuid               = uuid;
+      Acdat = acdat;
+      Bbamt = bbamt;
+      Bbdat = bbdat;
+      Bbgb = bbgb;
+      Bblif = bblif;
+      Bbno = bbno;
+      Bbrate = bbrate;
+      Bbrsf = bbrsf;
+      Bbwrs = bbwrs;
+      Bokno = bokno;
+      Bukrs = bukrs;
+      Colif = colif;
+      Conrt = conrt;
+      Cont1 = cont1;
+      Cont2 = cont2;
+      Edate = edate;
+      Ekgrp = ekgrp;
+      Ekorg = ekorg;
+      Filif = filif;
+      Inco1 = inco1;
+      Inco2 = inco2;
+      Isdat = isdat;
+      Lifre = lifre;
+      Lifnr = lifnr;
+      Netwr = netwr;
+      Oedat = oedat;
+      Opamt = opamt;
+      Opbnk = opbnk;
+      Opdat = opdat;
+      Oplif = oplif;
+      Opnum = opnum;
+      Opwrs = opwrs;
+      Pdate = pdate;
+      Pedat = pedat;
+      Pterm = pterm;
+      Reqmu = reqmu;
+      Reqno = reqno;
+      Reqyr = reqyr;
+      Rqche = rqche;
+      Rqrsf = rqrsf;
+      Rqweek = rqweek;
+      Sdate = sdate;
+      Trbln = trbln;
+      Trdat = trdat;
+      Waers = waers;
+      Zbd1t = zbd1t;
+      Zcdno1 = zcdno1;
+      Zcdno2 = zcdno2;
+      Zcdno3 = zcdno3;
+      Zcdno4 = zcdno4;
+      Zterm = zterm;
+  }
+
+}

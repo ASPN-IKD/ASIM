@@ -1,5 +1,13 @@
-CLASS zbp_r_asim0000n DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF yr_asim0000n.
+class ZBP_R_ASIM0000N definition
+  public
+  create private .
+
+public section.
+protected section.
+private section.
 ENDCLASS.
 
-CLASS zbp_r_asim0000n IMPLEMENTATION.
+
+
+CLASS ZBP_R_ASIM0000N IMPLEMENTATION.
 ENDCLASS.

@@ -1,9 +1,4 @@
-projection;
-strict ( 2 );
-
-define behavior for YC_ASIM0000N alias screen
+unmanaged;
+define behavior for YC_ASIM0000N
 {
-  use create;
-  use update;
-  use delete;
 }

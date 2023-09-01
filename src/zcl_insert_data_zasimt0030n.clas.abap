@@ -5,9 +5,11 @@ CLASS zcl_insert_data_zasimt0030n DEFINITION
 
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+
+protected section.
+private section.
 ENDCLASS.
+
 
 
 
@@ -30,22 +32,7 @@ CLASS ZCL_INSERT_DATA_ZASIMT0030N IMPLEMENTATION.
         DELETE FROM zasimt0030n.
     ENDTRY.
 
-    TRY.
-        lv_uuid = system_uuid->create_uuid_x16( ).
-    CATCH cx_uuid_error.
-    ENDTRY.
 
-      ls_data-client = '080'.
-      ls_data-uuid = lv_uuid.
-      ls_data-bliyr = '2023'.
-      ls_data-blino = '1000000003'.
-      ls_data-reqyr = '2023'.
-      ls_data-reqno = '1000000003'.
-      ls_data-reqmu = '2023000003'.
-
-      TRY.
-          INSERT zasimt0030n FROM @ls_data.
-      ENDTRY.
 
     ENDMETHOD.
 ENDCLASS.

@@ -1,151 +1,165 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입 통관예정 아이템 인터페이스 뷰'
 define view entity YI_ASIM0200N
-  as select from zasimt0200n
-  association to parent YI_ASIM0190N as _Head on _Head.Uuid = $projection.Parentuuid
+  as select from    zasimt0200n
+    left outer join YI_ASIM0070N_CREATED_FINAL as _created_cc on  zasimt0200n.eccno = _created_cc.Eccno
+                                                              and zasimt0200n.eccyr = _created_cc.Eccyr
+                                                              and zasimt0200n.eccnp = _created_cc.Eccnp
+                                                              and _created_cc.Eccgb = 'X'
+  association        to parent YI_ASIM0190N as _Head            on  _Head.Uuid = $projection.Parentuuid
 
-//  association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
-//                                                                                   and _productText.Language = '3'
-//  association [1..1] to I_Plant                        as _plant                   on  $projection.Werks = _plant.Plant
-//  association [0..1] to I_StorageLocation              as _storageLocation         on  $projection.Werks = _storageLocation.Plant
-//
-//  association [0..1] to YI_ASIM0001N as _Quacd   on  $projection.Quacd =    _Quacd.Zcdno
-//                                                   and _Quacd.Zcode      like '%QUACD'
-//                                                   and _Quacd.Zcdno      <>   '00' 
-//  association [0..1] to YI_ASIM0001N as _Quars   on  $projection.Quars =    _Quars.Zcdno
-//                                                   and _Quars.Zcode      like '%QUARS'
-//                                                   and _Quars.Zcdno      <>   '00'                                                                                   and $projection.Lgort = _storageLocation.StorageLocation
+  association [1..1] to I_ProductText       as _productText     on  $projection.Matnr     = _productText.Product
+                                                                and _productText.Language = '3'
+  association [1..1] to I_Plant             as _plant           on  $projection.Werks = _plant.Plant
+  association [0..1] to I_StorageLocation   as _storageLocation on  $projection.Werks = _storageLocation.Plant
+                                                                and $projection.Lgort = _storageLocation.StorageLocation
+
+  association [0..1] to YI_ASIM0001N        as _Quacd           on  $projection.Quacd =    _Quacd.Zcdno
+                                                                and _Quacd.Zcode      like '%QUACD'
+                                                                and _Quacd.Zcdno      <>   '00'
+  association [0..1] to YI_ASIM0001N        as _Quars           on  $projection.Quars =    _Quars.Zcdno
+                                                                and _Quars.Zcode      like '%QUARS'
+                                                                and _Quars.Zcdno      <>   '00'
+
 {
       @ObjectModel.filter.enabled: false
-  key uuid                  as Uuid,
+  key zasimt0200n.uuid                           as Uuid,
 
       @ObjectModel.filter.enabled: false
-  key parentuuid            as Parentuuid,
+  key zasimt0200n.parentuuid                     as Parentuuid,
 
       @EndUserText.label: '통관예정번호'
-      eccno                 as Eccno,
+      zasimt0200n.eccno                          as Eccno,
 
       @EndUserText.label: '통관예정년도'
-      eccyr                 as Eccyr,
+      zasimt0200n.eccyr                          as Eccyr,
 
       @EndUserText.label: '통관예정품목'
-      eccnp                 as Eccnp,
+      zasimt0200n.eccnp                          as Eccnp,
 
       @EndUserText.label: 'B/L내부번호'
-      blino                 as Blino,
+      zasimt0200n.blino                          as Blino,
 
       @EndUserText.label: 'B/L연도'
-      bliyr                 as Bliyr,
+      zasimt0200n.bliyr                          as Bliyr,
 
       @EndUserText.label: 'B/L품목'
-      blinp                 as Blinp,
+      zasimt0200n.blinp                          as Blinp,
 
       @EndUserText.label: '구매 문서 번호'
-      ebeln                 as Ebeln,
+      zasimt0200n.ebeln                          as Ebeln,
 
       @EndUserText.label: '구매 문서 품목 번호'
-      ebelp                 as Ebelp,
+      zasimt0200n.ebelp                          as Ebelp,
 
       @EndUserText.label: '계약내부번호'
-      reqno                 as Reqno,
+      zasimt0200n.reqno                          as Reqno,
 
       @EndUserText.label: '계약연도'
-      reqyr                 as Reqyr,
+      zasimt0200n.reqyr                          as Reqyr,
 
       @EndUserText.label: '계약품목'
-      itmno                 as Itmno,
+      zasimt0200n.itmno                          as Itmno,
 
-      werks                 as Werks,
-      //           @EndUserText.label: '플랜트명'
-      //           _plant.PlantName                             as Werkst,
+      zasimt0200n.werks                          as Werks,
+      @EndUserText.label: '플랜트명'
+      _plant.PlantName                           as Werkst,
       @EndUserText.label: '자재번호'
-      matnr                 as Matnr,
-      //           @EndUserText.label: '자재명'
-      //           _productText.ProductName                     as Maktx,
+      zasimt0200n.matnr                          as Matnr,
+      @EndUserText.label: '자재명'
+      _productText.ProductName                   as Maktx,
       @EndUserText.label: '저장위치'
-      lgort                 as Lgort,
-      //           @EndUserText.label: '저장위치명'
-      //           _storageLocation.StorageLocationName         as Lgortt,
+      zasimt0200n.lgort                          as Lgort,
+      @EndUserText.label: '저장위치명'
+      _storageLocation.StorageLocationName       as Lgortt,
 
       @Semantics.quantity.unitOfMeasure : 'Eccmns'
       @EndUserText.label: '통관예정수량'
-      eccmng                as Eccmng,
+      zasimt0200n.eccmng                         as Eccmng,
 
       @EndUserText.label: '통관예정단위'
-      eccmns                as Eccmns,
+      zasimt0200n.eccmns                         as Eccmns,
 
       @Semantics.quantity.unitOfMeasure : 'Eccmns1'
       @EndUserText.label: '통관예정 대체수량'
-      eccmng1               as Eccmng1,
+      zasimt0200n.eccmng1                        as Eccmng1,
 
       @EndUserText.label: '통관예정 대체단위'
-      eccmns1               as Eccmns1,
+      zasimt0200n.eccmns1                        as Eccmns1,
 
       @EndUserText.label: '검역상태'
-      quacd                 as Quacd,
+      zasimt0200n.quacd                          as Quacd,
 
-//      @EndUserText.label: '검역상태명'
-//      _Quacd.Ztext                 as Quacdt,
+      @EndUserText.label: '검역상태명'
+      _Quacd.Ztext                               as Quacdt,
 
       @EndUserText.label: '검역결과'
-      quars                 as Quars,
-      
-//      @EndUserText.label: '검역결과명'
-//      _Quars.Ztext                 as Quarst,
+      zasimt0200n.quars                          as Quars,
+
+      @EndUserText.label: '검역결과명'
+      _Quars.Ztext                               as Quarst,
 
       @EndUserText.label: '검역일'
-      quadt                 as Quadt,
+      zasimt0200n.quadt                          as Quadt,
 
       @Semantics.quantity.unitOfMeasure : 'Eccmns'
       @EndUserText.label: '불합격수량'
-      failmng               as Failmng,
+      zasimt0200n.failmng                        as Failmng,
 
       @Semantics.quantity.unitOfMeasure : 'Eccmns1'
       @EndUserText.label: '불합격 대체수량'
-      failmng1              as Failmng1,
+      zasimt0200n.failmng1                       as Failmng1,
 
       @Semantics.quantity.unitOfMeasure : 'Eccmns'
       @EndUserText.label: '샘플수량'
-      sampmng               as Sampmng,
+      zasimt0200n.sampmng                        as Sampmng,
 
       @Semantics.quantity.unitOfMeasure : 'Eccmns1'
       @EndUserText.label: '샘플 대체수량'
-      sampmng1              as Sampmng1,
+      zasimt0200n.sampmng1                       as Sampmng1,
 
       @EndUserText.label: '비고'
-      eccremak              as Eccremak,
+      zasimt0200n.eccremak                       as Eccremak,
 
-      crtnm                 as Crtnm,
-      crtbu                 as Crtbu,
+      zasimt0200n.crtnm                          as Crtnm,
+      zasimt0200n.crtbu                          as Crtbu,
 
       @Semantics.systemDateTime.createdAt: true
       @EndUserText.label: 'Create Date'
-      crtdt                 as Crtdt,
+      zasimt0200n.crtdt                          as Crtdt,
 
-      crttm                 as Crttm,
-      chgnm                 as Chgnm,
-      chgbu                 as Chgbu,
+      zasimt0200n.crttm                          as Crttm,
+      zasimt0200n.chgnm                          as Chgnm,
+      zasimt0200n.chgbu                          as Chgbu,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: 'Change Date'
-      chgdt                 as Chgdt,
+      zasimt0200n.chgdt                          as Chgdt,
 
-      chgtm                 as Chgtm,
+      zasimt0200n.chgtm                          as Chgtm,
 
       @ObjectModel.filter.enabled: false
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at as LocalLastChangedAt,
+      zasimt0200n.local_last_changed_at          as LocalLastChangedAt,
 
       @ObjectModel.filter.enabled: false
       @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at       as LastChangedAt,
+      zasimt0200n.last_changed_at                as LastChangedAt,
 
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
-      loekz                 as Loekz,
+      zasimt0200n.loekz                          as Loekz,
+
+      /*수입통관예정 기생성여부 확인 chk = 'X'이면 생성완료 통관 생성 시 제외처리 */
+      _created_cc.chk                            as Chk_cc,
+
+      /*수입통관예정 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
+      @Semantics.quantity.unitOfMeasure: 'Eccmns'
+      @EndUserText.label: '수입B/L잔량(통관)'
+      cast(_created_cc.Modmg as abap.quan(13,3)) as Modmg_cc,
 
       _Head
 }
 where
-  loekz = ''
+  zasimt0200n.loekz = ''

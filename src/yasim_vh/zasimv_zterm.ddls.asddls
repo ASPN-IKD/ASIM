@@ -2,10 +2,12 @@
 @EndUserText.label: '지급조건 도움말 뷰'
 @ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_ZTERM
-  as select from zasimt0001n_c
+  as select from zasimt0001n
 {
       @ObjectModel.text.element: ['Text'] // Search Term #DisplayTextAndID
-  key zcdno as Cdno, 
+      @EndUserText.label: '지급조건'
+  key zcdno as Cdno,
+      @EndUserText.label: '지급조건명'
       ztext as Text
 }
 where
