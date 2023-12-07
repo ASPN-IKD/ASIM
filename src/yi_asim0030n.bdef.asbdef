@@ -12,6 +12,7 @@ authorization master ( instance )
   delete;
   association _Item { create; }
 
+  determination create_number on save { create; }
   field ( numbering : managed, readonly )
   UUid;
   mapping for zasimt0030n
@@ -49,14 +50,11 @@ authorization master ( instance )
       Blitx              = Blitx;
       Blche              = Blche;
       Eccgb              = Eccgb;
-      Crtnm              = Crtnm;
-      Crtbu              = Crtbu;
-      Crtdt              = Crtdt;
-      Crttm              = Crttm;
-      Chgnm              = Chgnm;
-      Chgbu              = Chgbu;
-      Chgdt              = Chgdt;
-      Chgtm              = Chgtm;
+      ReturnMsg          = return_msg;
+      CreatedAt          = created_at;
+      CreatedBy          = created_by;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
       LocalLastChangedAt = local_last_changed_at;
     }
 
@@ -64,7 +62,7 @@ authorization master ( instance )
 
 }
 
-define behavior for YI_ASIM0040N //alias <alias_name>
+define behavior for YI_ASIM0041N //alias <alias_name>
 persistent table zasimt0040n
 lock dependent by _Head
 authorization dependent by _Head
@@ -72,42 +70,39 @@ authorization dependent by _Head
 {
   update;
   delete;
-  field ( numbering : managed )
-  UUid;
-  field ( readonly ) ParentUUID;
+  field ( numbering : managed ) UUid;
+  field ( readonly ) UUid, ParentUUID;
   association _Head;
   mapping for zasimt0040n
     {
-      Uuid               = uuid;
+      Uuid       = uuid;
       //      Zdc1P              = zdc1_p;
       //      Zdc1N              = zdc1_n;
       //      Zdc2P              = zdc2_p;
       //      Zdc2N              = zdc2_n;
-      parentuuid         = Parentuuid;
-      bliyr              = Bliyr;
-      blino              = Blino;
-      blinp              = Blinp;
-      loekz              = Loekz;
-      reqyr              = Reqyr;
-      reqno              = Reqno;
-      itmno              = Itmno;
-      ebeln              = Ebeln;
-      ebelp              = Ebelp;
-      matnr              = Matnr;
-      werks              = Werks;
-      lgort              = Lgort;
-      blmng              = Blmng;
-      blmns              = Blmns;
-      blmpr              = Blmpr;
-      blmwr              = Blmwr;
-      blpnh              = Blpnh;
-      waers              = Waers;
-      blmng1             = Blmng1;
-      blmns1             = Blmns1;
-      eindt              = Eindt;
-      hsdat              = Hsdat;
-      LastChangedAt      = last_changed_at;
-      LocalLastChangedAt = local_last_changed_at;
+      parentuuid = Parentuuid;
+      bliyr      = Bliyr;
+      blino      = Blino;
+      blinp      = Blinp;
+      loekz      = Loekz;
+      reqyr      = Reqyr;
+      reqno      = Reqno;
+      itmno      = Itmno;
+      ebeln      = Ebeln;
+      ebelp      = Ebelp;
+      matnr      = Matnr;
+      werks      = Werks;
+      lgort      = Lgort;
+      blmng      = Blmng;
+      blmns      = Blmns;
+      blmpr      = Blmpr;
+      blmwr      = Blmwr;
+      blpnh      = Blpnh;
+      waers      = Waers;
+      blmng1     = Blmng1;
+      blmns1     = Blmns1;
+      eindt      = Eindt;
+      hsdat      = Hsdat;
     }
 
 

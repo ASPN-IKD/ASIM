@@ -1,0 +1,47 @@
+managed implementation in class zbp_i_asim0080n unique;
+strict ( 2 );
+
+define behavior for YI_ASIM0080N //alias <alias_name>
+persistent table zasimt0080n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field ( numbering : managed, readonly ) Uuid;
+
+  determination calc_value on save { create; update; }
+
+  mapping for zasimt0080n
+    {
+      Uuid       = uuid;
+      ParentUUID = parentuuid;
+      Cclno      = cclno;
+      Cclnp      = cclnp;
+      Cclyr      = cclyr;
+      Loekz      = loekz;
+      Eccno      = eccno;
+      Eccnp      = eccnp;
+      Eccyr      = eccyr;
+      Blino      = blino;
+      Blinp      = blinp;
+      Bliyr      = bliyr;
+      Ebeln      = ebeln;
+      Ebelp      = ebelp;
+      Reqno      = reqno;
+      Reqyr      = reqyr;
+      Itmno      = itmno;
+      Matnr      = matnr;
+      Werks      = werks;
+      Lgort      = lgort;
+      Cclmng     = cclmng;
+      Cclmng1    = cclmng1;
+      Cclmns     = cclmns;
+      Cclmns1    = cclmns1;
+      Waers      = waers;
+    }
+
+}

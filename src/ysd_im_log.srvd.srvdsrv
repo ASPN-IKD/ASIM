@@ -1,0 +1,4 @@
+@EndUserText.label: '수입이력 서비스 뷰'
+define service YSD_IM_LOG {
+  expose YI_IM_LOG;
+}

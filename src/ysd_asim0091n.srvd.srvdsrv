@@ -1,0 +1,4 @@
+@EndUserText.label: '수입 입고 기생성 정보 서비스 정의'
+define service YSD_ASIM0091N {
+  expose YI_ASIM0091N;
+}

@@ -1,0 +1,4 @@
+@EndUserText.label: '상세화면관리 O4 서비스 정의'
+define service YSD_ASIM0000C_O4 {
+  expose YC_ASIM0000C;
+}

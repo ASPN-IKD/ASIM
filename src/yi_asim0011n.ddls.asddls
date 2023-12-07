@@ -18,7 +18,7 @@ define view entity YI_ASIM0011N
                                                                                        and _sch.PurchaseOrderScheduleLine = '0001'
   association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc1                        on  $projection.Ebeln   = _Zdc1.PurchaseOrder
                                                                                        and $projection.Ebelp   = _Zdc1.PurchaseOrderItem
-                                                                                       and _Zdc1.ConditionType = 'DRN1' //'ZDC1'
+                                                                                       and _Zdc1.ConditionType = 'ZDC1' 
     association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                        on  $projection.Ebeln   = _Zdc2.PurchaseOrder
                                                                                          and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
                                                                                          and _Zdc2.ConditionType = 'ZDC2'
@@ -125,12 +125,12 @@ define view entity YI_ASIM0011N
       @EndUserText.label: '저장위치명'
       _storageLocation.StorageLocationName                     as Lgortt,
 
-      @Semantics.quantity.unitOfMeasure: 'Meins'
+      @Semantics.quantity.unitOfMeasure: 'PurchaseOrderQuantityUnit'
       @EndUserText.label: '오더수량'
       _item.OrderQuantity                                      as Menge,
 
       @EndUserText.label: '오더단위'
-      _item.PurchaseOrderQuantityUnit                          as Meins,
+      _item.PurchaseOrderQuantityUnit                          as PurchaseOrderQuantityUnit,
 
       @Semantics.amount.currencyCode : 'Waers'
       @EndUserText.label: '오더단가'
@@ -159,7 +159,7 @@ define view entity YI_ASIM0011N
       _Zdc1.ConditionRateValue                                 as Zdc1_p,
 
       @EndUserText.label: '부대비율'
-      _Zdc2.ConditionRateValue                                                                               as Zdc2_p,
+      _Zdc2.ConditionRateValue                                 as Zdc2_p,
 
       @EndUserText.label: '납품일'
       _sch.ScheduleLineDeliveryDate                            as Eindt,
@@ -181,3 +181,4 @@ define view entity YI_ASIM0011N
       cast(_created_po.Modmg as abap.quan(13,3))               as Modmg,
       _created_po.Reqms                                        as Reqms
 }
+//where _created_po.Modmg <> 0

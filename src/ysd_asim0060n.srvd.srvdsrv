@@ -1,0 +1,6 @@
+@EndUserText.label: '수입I/V 아이템 서비스 정의'
+define service YSD_ASIM0060N {
+  expose YI_ASIM0060N;
+  expose YI_ASIM0062N;
+  expose YI_ASIM0063N;
+}

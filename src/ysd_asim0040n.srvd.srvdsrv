@@ -1,0 +1,5 @@
+@EndUserText.label: '수입B/L 아이템 서비스 정의'
+define service YSD_ASIM0040N {
+  expose YI_ASIM0040N;
+  expose YI_ASIM0042N;
+}

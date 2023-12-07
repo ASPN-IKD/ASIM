@@ -13,9 +13,9 @@ define view entity YI_ASIM0010N_CREATED_PO
       sum( _item.reqmg )                as Reqmg,
       _item.reqms                       as Reqms,
 
-      @Semantics.quantity.unitOfMeasure: 'Meins'
-      _poitem.OrderQuantity             as Menge,
-      _poitem.PurchaseOrderQuantityUnit as Meins,
+//      @Semantics.quantity.unitOfMeasure: 'Meins'
+//      _poitem.OrderQuantity             as Menge,
+//      _poitem.PurchaseOrderQuantityUnit as Meins,
 
       @Semantics.amount.currencyCode: 'Waers'
       sum( _item.reqwr )                as Reqwr,
@@ -28,7 +28,7 @@ where
 group by
   _item.ebeln,
   _item.ebelp,
-  _poitem.OrderQuantity,
-  _poitem.PurchaseOrderQuantityUnit,
+//  _poitem.OrderQuantity,
+//  _poitem.PurchaseOrderQuantityUnit,
   _item.reqms,
   _item.waers

@@ -1,5 +1,5 @@
 projection;
-strict ( 1 );
+//strict ( 1 );
 
 define behavior for YC_ASIM0000C //alias <alias_name>
 {

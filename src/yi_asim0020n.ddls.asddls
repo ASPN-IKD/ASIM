@@ -1,15 +1,15 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입계약 아이템 인터페이스 뷰'
-define view entity YI_ASIM0020N
+define root view entity YI_ASIM0020N
   as select from    zasimt0020n
-    left outer join YI_ASIM0030N_CREATED_FINAL as _created_req on  zasimt0020n.reqno = _created_req.Reqno
-                                                               and zasimt0020n.reqyr = _created_req.Reqyr
-                                                               and zasimt0020n.itmno = _created_req.Itmno
-    left outer join YI_ASIM0050N_CREATED_FINAL as _created_iv on  zasimt0020n.reqno = _created_iv.Blino
-                                                               and zasimt0020n.reqyr = _created_iv.Bliyr
-                                                               and zasimt0020n.itmno = _created_iv.Blinp
-                                                               and _created_iv.Ivgb = 'A'
-  association        to parent YI_ASIM0010N            as _Head                    on  _Head.Uuid = $projection.ParentUUID
+    left outer join YI_ASIM0030N_CREATED_FINAL as _created_bl on  zasimt0020n.reqno = _created_bl.Reqno
+                                                              and zasimt0020n.reqyr = _created_bl.Reqyr
+                                                              and zasimt0020n.itmno = _created_bl.Itmno
+    left outer join YI_ASIM0050N_CREATED_FINAL as _created_iv on  zasimt0020n.reqno = _created_iv.reqno
+                                                              and zasimt0020n.reqyr = _created_iv.reqyr
+                                                              and zasimt0020n.itmno = _created_iv.itmno
+                                                              and _created_iv.Ivgb  = 'A'
+  //  association        to parent YI_ASIM0010N            as _Head                    on  _Head.Uuid = $projection.ParentUUID
   association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
                                                                                    and _productText.Language = '3'
   association [1..1] to I_Plant                        as _plant                   on  $projection.Werks = _plant.Plant
@@ -31,7 +31,7 @@ define view entity YI_ASIM0020N
 
   key      zasimt0020n.uuid                             as Uuid,
 
-  key      zasimt0020n.parentuuid                       as ParentUUID,
+           zasimt0020n.parentuuid                       as ParentUUID,
 
            @EndUserText.label: '계약연도'
            zasimt0020n.reqyr                            as Reqyr,
@@ -47,14 +47,19 @@ define view entity YI_ASIM0020N
            @EndUserText.label: '구매문서품목번호'
            zasimt0020n.ebelp                            as Ebelp,
            @EndUserText.label: '플랜트'
+           @Consumption.valueHelpDefinition: [{ entity : { element: 'Werks', name: 'ZASIMV_WERKS' } }]
            zasimt0020n.werks                            as Werks,
            @EndUserText.label: '플랜트명'
            _plant.PlantName                             as Werkst,
            @EndUserText.label: '자재번호'
+           @Consumption.valueHelpDefinition: [{ entity : { element: 'Matnr', name: 'ZASIMV_MATNR' },
+                                                additionalBinding: [   {localElement: 'Reqmg', element: 'Meins'},
+                                                                       {localElement: 'Maktx', element: 'Maktx'}] }]
            zasimt0020n.matnr                            as Matnr,
            @EndUserText.label: '자재명'
            _productText.ProductName                     as Maktx,
            @EndUserText.label: '저장위치'
+           @Consumption.valueHelpDefinition: [{ entity : { element: 'Lgort', name: 'ZASIMV_LGORT' } }]
            zasimt0020n.lgort                            as Lgort,
            @EndUserText.label: '저장위치명'
            _storageLocation.StorageLocationName         as Lgortt,
@@ -70,7 +75,7 @@ define view entity YI_ASIM0020N
            @Semantics.amount.currencyCode: 'Waers'
            zasimt0020n.reqwr                            as Reqwr,
            @EndUserText.label: '통화 단위'
-           @Consumption.valueHelpDefinition: [{ entity : { element: 'Currency', name: 'I_CurrencyStdVH' } } ]
+           @Consumption.valueHelpDefinition: [{ entity : { element: 'Waers', name: 'ZASIMV_WAERS' } } ]
            zasimt0020n.waers                            as Waers,
            @EndUserText.label: '가격단위'
            zasimt0020n.peinh                            as Peinh,
@@ -106,40 +111,31 @@ define view entity YI_ASIM0020N
            @EndUserText.label: '부대비율'
            _Zdc2.ConditionRateValue                     as Zdc2_p,
 
-           zasimt0020n.crtnm                            as Crtnm,
-           zasimt0020n.crtbu                            as Crtbu,
-           zasimt0020n.crtdt                            as Crtdt,
-           zasimt0020n.crttm                            as Crttm,
-           zasimt0020n.chgnm                            as Chgnm,
-           zasimt0020n.chgbu                            as Chgbu,
-      //     zasimt0020n.chgdt                            as Chgdt,
-           zasimt0020n.chgtm                            as Chgtm,
-           @Semantics.systemDateTime.localInstanceLastChangedAt: true
-           zasimt0020n.local_last_changed_at            as LocalLastChangedAt,
-           @Semantics.systemDateTime.lastChangedAt: true
-           zasimt0020n.last_changed_at                  as LastChangedAt,
-
            /*수입계약 기생성여부 확인 chk = 'X'이면 생성완료 B/L생성 시 제외처리 */
-           _created_req.chk                             as Chk,
+           _created_bl.chk                              as Chk,
 
            /*수입계약 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
            @Semantics.quantity.unitOfMeasure: 'Reqms'
            @EndUserText.label: '수입계약잔량'
-           cast(_created_req.Modmg as abap.quan(13,3))  as Modmg,
-           _created_req.Blmns                           as Blmns,
+           case when _created_bl.chk = '' or _created_bl.chk = 'X' then cast(_created_bl.Modmg as abap.quan(13,3))
+                else zasimt0020n.reqmg end              as Modmg,
+           _created_bl.Blmns                            as Blmns,
 
 
            /*수입계약 기생성여부 확인 chk = 'X'이면 생성완료 I/V생성 시 제외처리 */
-           _created_iv.chk                             as Chk_iv,
+           _created_iv.chk                              as Chk_iv,
 
            /*수입계약 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
            @Semantics.quantity.unitOfMeasure: 'Reqms'
            @EndUserText.label: '수입계약잔량'
-           cast(_created_iv.Modmg as abap.quan(13,3))  as Modmg_iv,
-           _created_iv.Blmns                           as Blmns_iv,
-           
+           case when _created_iv.chk = '' or _created_iv.chk = 'X' then cast(_created_iv.Modmg as abap.quan(13,3))
+                else zasimt0020n.reqmg end              as Modmg_iv,
+           _created_iv.Blmns                            as Blmns_iv,
+
            cast(zasimt0020n.reqnr as abap.dec(20,2))    as Modpr,
+
+           cast('' as abap.char(3))                     as ItemIndex,
            /* association */
-           _Head,
+           //          _Head,
            _Currency
 }

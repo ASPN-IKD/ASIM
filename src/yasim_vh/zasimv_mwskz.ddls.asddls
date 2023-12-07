@@ -2,17 +2,14 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '세금 도움말 뷰'
 @Metadata.ignorePropagatedAnnotations: true
-@ObjectModel.usageType:{
-    serviceQuality: #X,
-    sizeCategory: #S,
-    dataClass: #MIXED
-}
+@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_MWSKZ 
   as select from zasimt0001n
 {
       @ObjectModel.text.element: ['Text']
   key zcdno as Cdno,    
-      ztext as Text
+      ztext as Text,
+      zvalu1 as TaxRate
 }
 where
       zcode like '%MWSKZ'

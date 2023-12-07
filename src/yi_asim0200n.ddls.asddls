@@ -1,12 +1,11 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입 통관예정 아이템 인터페이스 뷰'
-define view entity YI_ASIM0200N
+define root view entity YI_ASIM0200N
   as select from    zasimt0200n
     left outer join YI_ASIM0070N_CREATED_FINAL as _created_cc on  zasimt0200n.eccno = _created_cc.Eccno
                                                               and zasimt0200n.eccyr = _created_cc.Eccyr
                                                               and zasimt0200n.eccnp = _created_cc.Eccnp
                                                               and _created_cc.Eccgb = 'X'
-  association        to parent YI_ASIM0190N as _Head            on  _Head.Uuid = $projection.Parentuuid
 
   association [1..1] to I_ProductText       as _productText     on  $projection.Matnr     = _productText.Product
                                                                 and _productText.Language = '3'
@@ -26,7 +25,7 @@ define view entity YI_ASIM0200N
   key zasimt0200n.uuid                           as Uuid,
 
       @ObjectModel.filter.enabled: false
-  key zasimt0200n.parentuuid                     as Parentuuid,
+      zasimt0200n.parentuuid                     as ParentUUID,
 
       @EndUserText.label: '통관예정번호'
       zasimt0200n.eccno                          as Eccno,
@@ -60,7 +59,8 @@ define view entity YI_ASIM0200N
 
       @EndUserText.label: '계약품목'
       zasimt0200n.itmno                          as Itmno,
-
+      @ObjectModel.text.element: [ 'Werkst' ]
+      @EndUserText.label: '플랜트'
       zasimt0200n.werks                          as Werks,
       @EndUserText.label: '플랜트명'
       _plant.PlantName                           as Werkst,
@@ -69,6 +69,7 @@ define view entity YI_ASIM0200N
       @EndUserText.label: '자재명'
       _productText.ProductName                   as Maktx,
       @EndUserText.label: '저장위치'
+       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_LGORT', element: 'Lgort' }}]
       zasimt0200n.lgort                          as Lgort,
       @EndUserText.label: '저장위치명'
       _storageLocation.StorageLocationName       as Lgortt,
@@ -87,12 +88,14 @@ define view entity YI_ASIM0200N
       @EndUserText.label: '통관예정 대체단위'
       zasimt0200n.eccmns1                        as Eccmns1,
 
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_QUACD', element: 'Cdno' }}]
       @EndUserText.label: '검역상태'
       zasimt0200n.quacd                          as Quacd,
 
       @EndUserText.label: '검역상태명'
       _Quacd.Ztext                               as Quacdt,
-
+      
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_QUARS', element: 'Cdno' }} ]
       @EndUserText.label: '검역결과'
       zasimt0200n.quars                          as Quars,
 
@@ -121,35 +124,12 @@ define view entity YI_ASIM0200N
       @EndUserText.label: '비고'
       zasimt0200n.eccremak                       as Eccremak,
 
-      zasimt0200n.crtnm                          as Crtnm,
-      zasimt0200n.crtbu                          as Crtbu,
-
-      @Semantics.systemDateTime.createdAt: true
-      @EndUserText.label: 'Create Date'
-      zasimt0200n.crtdt                          as Crtdt,
-
-      zasimt0200n.crttm                          as Crttm,
-      zasimt0200n.chgnm                          as Chgnm,
-      zasimt0200n.chgbu                          as Chgbu,
-
-      @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Change Date'
-      zasimt0200n.chgdt                          as Chgdt,
-
-      zasimt0200n.chgtm                          as Chgtm,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      zasimt0200n.local_last_changed_at          as LocalLastChangedAt,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.lastChangedAt: true
-      zasimt0200n.last_changed_at                as LastChangedAt,
-
-
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
       zasimt0200n.loekz                          as Loekz,
+      
+      @EndUserText.label: '통화 단위'
+      zasimt0200n.waers                          as Waers,
 
       /*수입통관예정 기생성여부 확인 chk = 'X'이면 생성완료 통관 생성 시 제외처리 */
       _created_cc.chk                            as Chk_cc,
@@ -157,9 +137,10 @@ define view entity YI_ASIM0200N
       /*수입통관예정 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
       @Semantics.quantity.unitOfMeasure: 'Eccmns'
       @EndUserText.label: '수입B/L잔량(통관)'
-      cast(_created_cc.Modmg as abap.quan(13,3)) as Modmg_cc,
-
-      _Head
+      case when _created_cc.chk = '' or _created_cc.chk = 'X' then cast(_created_cc.Modmg as abap.quan(13,3)) 
+           else zasimt0200n.eccmng end as Modmg_cc,
+      
+      cast('' as abap.char(3)) as ItemIndex
 }
 where
   zasimt0200n.loekz = ''

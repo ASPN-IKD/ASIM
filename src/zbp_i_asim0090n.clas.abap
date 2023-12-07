@@ -1,8 +1,4 @@
-class ZBP_I_ASIM0090N definition
-  public
-  create private .
-
-public section.
+CLASS zbp_i_asim0090n DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF yi_asim0090n.
 protected section.
 private section.
 ENDCLASS.

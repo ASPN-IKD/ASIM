@@ -1,0 +1,131 @@
+managed implementation in class zbp_r_im_po_header unique;
+
+define behavior for YR_IM_PO_HEADER alias _Header
+persistent table yim_po_header
+with additional save
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  association _Item { create; }
+
+   determination calculate_order_id on save { create; }
+
+  mapping for yim_po_header
+    {
+      OrderUUID                  = orderuuid;
+      PurchaseOrder              = purchaseorder;
+      CompanyCode                = companycode;
+      PurchaseOrderType          = purchaseordertype;
+      Supplier                   = supplier;
+      Language                   = language;
+      PurchasingOrganization     = purchasingorganization;
+      PurchasingGroup            = purchasinggroup;
+      PurchaseOrderDate          = purchaseorderdate;
+      DocumentCurrency           = documentcurrency;
+      IncotermsClassification    = incotermsclassification;
+      CorrespncExternalReference = correspncexternalreference;
+      CorrespncInternalReference = correspncinternalreference;
+      Ifmsg                      = ifmsg;
+      Ifstatus                   = ifstatus;
+    }
+}
+
+define behavior for YR_IM_PO_ITEM alias _Item
+persistent table yim_po_item
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) OrderUUID;
+  field (numbering : managed, readonly) ItemUUID;
+  association _Header;
+  association _PricingElement { create; }
+  association _ScheduleLine { create; }
+
+  mapping for yim_po_item
+    {
+      ItemUUID                     = itemuuid;
+      OrderUUID                    = orderuuid;
+      PurchaseOrder                = purchaseorder;
+      PurchaseOrderItem            = purchaseorderitem;
+      Plant                        = plant;
+      StorageLocation              = storagelocation;
+      Material                     = material;
+      OrderQuantity                = orderquantity;
+      PurchaseOrderQuantityUnit    = purchaseorderquantityunit;
+      OrderPriceUnit               = orderpriceunit;
+      NetPriceAmount               = netpriceamount;
+      NetPriceQuantity             = netpricequantity;
+      TaxCode                      = taxcode;
+      GoodsReceiptIsExpected       = goodsreceiptisexpected;
+      GoodsReceiptIsNonValuated    = goodsreceiptisnonvaluated;
+      InvoiceIsExpected            = invoiceisexpected;
+      InvoiceIsGoodsReceiptBased   = invoiceisgoodsreceiptbased;
+      IsReturnsItem                = isreturnsitem;
+      PurchasingItemIsFreeOfCharge = purchasingitemisfreeofcharge;
+      Ifmsg                        = ifmsg;
+      Ifstatus                     = ifstatus;
+    }
+}
+
+define behavior for YR_IM_PO_ITEM_PE alias _PricingElement
+persistent table yim_po_item_pe
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) ItemUUID, HeaderUUID;
+  field (numbering : managed, readonly) PurchaseElementUUID;
+  association _Header;
+  association _Item;
+
+  mapping for yim_po_item_pe
+    {
+      PurchaseElementUUID   = purchaseelementuuid;
+      HeaderUUID            = headeruuid;
+      ItemUUID              = itemuuid;
+      PurchaseOrderItem     = purchaseorderitem;
+      ConditionType         = conditiontype;
+      ConditionRateValue    = conditionratevalue;
+      ConditionCurrency     = conditioncurrency;
+      ConditionQuantityUnit = conditionquantityunit;
+      Ifmsg                 = ifmsg;
+      Ifstatus              = ifstatus;
+    }
+}
+
+define behavior for YR_IM_PO_ITEM_SL alias _ScheduleLine
+persistent table yim_po_item_sl
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) ItemUUID, HeaderUUID;
+  field (numbering : managed, readonly) ScheduleLineUUID;
+  association _Header;
+  association _Item;
+
+  mapping for yim_po_item_sl
+    {
+      ScheduleLineUUID         = schedulelineuuid;
+      HeaderUUID               = headeruuid;
+      ItemUUID                 = itemuuid;
+      PurchasingDocumentItem   = purchasingdocumentitem;
+      ScheduleLine             = scheduleline;
+      ScheduleLineDeliveryDate = schedulelinedeliverydate;
+      Ifmsg                    = ifmsg;
+      Ifstatus                 = ifstatus;
+    }
+
+
+}

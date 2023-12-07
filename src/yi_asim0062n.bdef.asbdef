@@ -1,0 +1,45 @@
+managed implementation in class zbp_i_asim0062n unique;
+strict ( 2 );
+
+define behavior for YI_ASIM0062N //alias <alias_name>
+persistent table zasimt0060n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field (numbering : managed)
+  Uuid;
+  field ( readonly ) Uuid;
+
+  mapping for zasimt0060n
+  {
+      uuid = Uuid;
+      parentuuid = ParentUUID;
+      belnr = Belnr;
+      gjahr = Gjahr;
+      buzei = Buzei;
+      reqno = Reqno;
+      reqyr = Reqyr;
+      itmno = Itmno;
+      bliyr = Bliyr;
+      blino = Blino;
+      blinp = Blinp;
+      loekz = Loekz;
+      ebeln = Ebeln;
+      ebelp = Ebelp;
+      werks = Werks;
+      matnr = Matnr;
+      ivmng = Ivmng;
+      meins = Meins;
+      ivmng1= Ivmng1;
+      meins1= Meins1;
+      ivwra = Ivwra;
+      ivwmw = Ivwmw;
+      waers = Waers;
+
+  }
+}

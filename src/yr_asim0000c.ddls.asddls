@@ -12,9 +12,11 @@ as select from YI_ASIM0000C
     Viewat,
     Viewtp,
     Usediv,
-    Fielda,
-    Fieldc,
-    Fieldu,
-    Fieldm,
-    Cdsvid
+    Fieldall,
+    Fieldcre,
+    Fieldupd,
+    Fieldnum,
+    Fielddat,
+    Fieldseq,
+    Roleid
 }

@@ -1,0 +1,103 @@
+managed implementation in class zbp_i_asim0050n unique;
+strict ( 2 );
+
+define behavior for YI_ASIM0050N //alias <alias_name>
+persistent table zasimt0050n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  association _Item { create; }
+
+  field ( numbering : managed, readonly )
+  UUid;
+
+  mapping for zasimt0050n
+    {
+      Uuid    = uuid;
+      Belnr   = belnr;
+      Gjahr   = gjahr;
+      BudatIv = budat_iv;
+      BelnrFi = belnr_fi;
+      Stblg   = stblg;
+      Stjah   = stjah;
+      Reqyr   = reqyr;
+      Reqno   = reqno;
+      Reqmu   = reqmu;
+      Bliyr   = bliyr;
+      Blino   = blino;
+      Bukrs   = bukrs;
+      Ekorg   = ekorg;
+      Ivlif   = ivlif;
+      Bleno   = bleno;
+      Decno   = decno;
+      Rmwwr   = rmwwr;
+      Ivamt   = ivamt;
+      Wmwst1  = wmwst1;
+      Ivwae   = ivwae;
+      Kursf   = kursf;
+      Invno   = invno;
+      Iverm   = iverm;
+      Zlsch   = zlsch;
+      Zfbdt   = zfbdt;
+      Zbd1t   = zbd1t;
+      Fbedt   = fbedt;
+      Mwskz   = mwskz;
+      Bktxt   = bktxt;
+      Sgtxt   = sgtxt;
+      Clgb    = clgb;
+      Ivgb    = ivgb;
+      Loekz   = loekz;
+      ReturnMsg = return_msg;
+      CreatedAt          = created_at;
+      CreatedBy          = created_by;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+
+}
+
+define behavior for YI_ASIM0061N //alias <alias_name>
+persistent table zasimt0060n
+lock dependent by _Head
+authorization dependent by _Head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( numbering : managed ) UUid;
+  field ( readonly ) UUid, ParentUUID;
+  association _Head;
+
+
+  mapping for zasimt0060n
+    {
+      Uuid               = uuid;
+      Parentuuid         = parentuuid;
+      Belnr              = belnr;
+      Gjahr              = gjahr;
+      Buzei              = buzei;
+      Reqno              = reqno;
+      Reqyr              = reqyr;
+      Itmno              = itmno;
+      Bliyr              = bliyr;
+      Blino              = blino;
+      Blinp              = blinp;
+      Ebeln              = ebeln;
+      Ebelp              = ebelp;
+      Werks              = werks;
+      Matnr              = matnr;
+      Ivmng              = ivmng;
+      Meins              = meins;
+      Ivmng1             = ivmng1;
+      Meins1             = meins1;
+      Ivwra              = ivwra;
+      Ivwmw              = ivwmw;
+      Waers              = waers;
+      Loekz              = loekz;
+    }
+}

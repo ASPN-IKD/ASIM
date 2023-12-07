@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SIA6" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SIA6>
+    <MAIN_OBJECT>
+     <NAME>Y_IAM_ASIM_DP_EXT</NAME>
+     <TYPE>SIA6</TYPE>
+     <DESCRIPTION>상세 화면 관리 프로그램</DESCRIPTION>
+     <RESPONSIBLE>CB9980000001</RESPONSIBLE>
+     <MASTER_LANGUAGE>KO</MASTER_LANGUAGE>
+     <MASTER_SYSTEM>ZAM</MASTER_SYSTEM>
+     <PACKAGE_REF>
+      <PACKAGE_NAME>YASIM</PACKAGE_NAME>
+     </PACKAGE_REF>
+     <ABAP_LANGU_VERSION>5</ABAP_LANGU_VERSION>
+    </MAIN_OBJECT>
+    <APP_ID>Y_IAM_ASIM_DP_EXT</APP_ID>
+    <APP_TYPE>EXT</APP_TYPE>
+    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+    <UI_APP_ID>YASIM_DP_UI5R</UI_APP_ID>
+    <SERVICE>
+     <item>
+      <REL_NAME>YUI_ASIM0000C_O2                   0001</REL_NAME>
+      <REL_TYPE>IWSV</REL_TYPE>
+      <APP_ID>Y_IAM_ASIM_DP_EXT</APP_ID>
+      <SRVC_NAME>0B43F503D8646C9DD7E123007A0B4E</SRVC_NAME>
+      <SRVC_TYPE>HT</SRVC_TYPE>
+      <UIAD_SRC>YASIM_DP_UI5R</UIAD_SRC>
+      <TYPE_TEXT>OData V2</TYPE_TEXT>
+     </item>
+    </SERVICE>
+    <PUBLISH_STATUS>p</PUBLISH_STATUS>
+   </SIA6>
+  </asx:values>
+ </asx:abap>
+</abapGit>

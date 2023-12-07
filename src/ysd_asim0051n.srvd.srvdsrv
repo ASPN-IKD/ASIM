@@ -1,0 +1,4 @@
+@EndUserText.label: '수입I/V 생성 서비스 정의(수입계약)'
+define service YSD_ASIM0051N {
+  expose YI_ASIM0051N;
+}

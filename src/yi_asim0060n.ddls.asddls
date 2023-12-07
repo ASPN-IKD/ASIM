@@ -1,8 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입 I/V 품목 인터페이스 뷰'
-define view entity YI_ASIM0060N
+define root view entity YI_ASIM0060N
   as select from zasimt0060n
-  association to parent YI_ASIM0050N as _Head on _Head.Uuid = $projection.Parentuuid
 
   association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
                                                                                    and _productText.Language = '3'
@@ -13,10 +12,13 @@ define view entity YI_ASIM0060N
   key uuid                  as Uuid,
 
       @ObjectModel.filter.enabled: false
-  key parentuuid            as Parentuuid,
+      parentuuid            as ParentUUID,
 
       @EndUserText.label: '송장 문서 번호'
       belnr                 as Belnr,
+      
+       @EndUserText.label: '회계 전표 번호'
+      belnr_fi              as BelnrFi,
 
       @EndUserText.label: '회계연도'
       gjahr                 as Gjahr,
@@ -87,36 +89,14 @@ define view entity YI_ASIM0060N
       waers                 as Waers,
 
 
-      crtnm                 as Crtnm,
-      crtbu                 as Crtbu,
-
-      @Semantics.systemDateTime.createdAt: true
-      @EndUserText.label: 'Create Date'
-      crtdt                 as Crtdt,
-
-      crttm                 as Crttm,
-      chgnm                 as Chgnm,
-      chgbu                 as Chgbu,
-
-      @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Change Date'
-      chgdt                 as Chgdt,
-
-      chgtm                 as Chgtm,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at as LocalLastChangedAt,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at       as LastChangedAt,
-
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
       loekz                 as Loekz,
       
-      _Head
+      cast('' as abap.char(3)) as ItemIndex,
+      
+      @Semantics.amount.currencyCode : 'Waers'
+      cast(0 as abap.curr(17,2)) as UnitPrice
 
 }
 

@@ -3,20 +3,23 @@
 @Metadata.allowExtensions: true
 define root view entity YC_ASIM0000C
   provider contract transactional_query
-  as projection on YR_ASIM0000C
+  as projection on YI_ASIM0000C
 {
     key Uuid,
-    Progid,
-    Viewid,
+    key Progid,
+    key Viewid,
     Prognm,
     Viewnm,
     Viewob,
     Viewat,
     Viewtp,
     Usediv,
-    Fielda,
-    Fieldc,
-    Fieldu,
-    Fieldm,
-    Cdsvid
+    Fieldall,
+    Fieldcre,
+    Fieldupd,
+    Fieldnum,
+    Fielddat,
+    Fieldkey,
+    Fieldseq,
+    Roleid
 }

@@ -1,0 +1,6 @@
+@EndUserText.label: '수입 통관 품목 서비스 정의'
+define service YSD_ASIM0080N {
+  expose YI_ASIM0080N;
+  expose YI_ASIM0083N;
+  expose YI_ASIM0084N;
+}

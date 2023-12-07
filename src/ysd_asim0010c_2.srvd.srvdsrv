@@ -1,0 +1,6 @@
+@EndUserText.label: '권한 관리 서비스 정의'
+define service YSD_ASIM0010C_2 {
+  expose YC_ASIM0010C;
+  expose YC_ASIM0011C;
+  expose YI_ASIM0012C;
+}

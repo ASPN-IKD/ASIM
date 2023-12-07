@@ -3,6 +3,7 @@
 {
 "FROM":
 [
+"I_PLANT",
 "I_STORAGELOCATION"
 ],
 "ASSOCIATED":

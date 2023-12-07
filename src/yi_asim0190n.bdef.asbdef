@@ -12,22 +12,42 @@ authorization master ( instance )
   delete;
   association _Item { create; }
 
-  field (numbering : managed, readonly)
+
+  determination create_number on save { create; }
+  field ( numbering : managed, readonly )
   UUid;
   mapping for zasimt0190n
     {
-      Uuid               = uuid;
-      Eccdt              = eccdt;
-      Egrdt              = egrdt;
-      Ccldt              = ccldt;
-      Cclgort            = cclgort;
-      Cclog              = cclog;
-      LastChangedAt      = last_changed_at;
-      LocalLastChangedAt = local_last_changed_at;
+      uuid               = uuid;
+      eccno              = eccno;
+      eccyr              = eccyr;
+      reqmu              = reqmu;
+      reqno              = reqno;
+      reqyr              = reqyr;
+      reqdt              = reqdt;
+      blino              = blino;
+      bliyr              = bliyr;
+      loekz              = loekz;
+      bukrs              = bukrs;
+      ekorg              = ekorg;
+      eccdt              = eccdt;
+      egrdt              = egrdt;
+      eccmrn             = eccmrn;
+      ecctrn             = ecctrn;
+      eccwmn             = eccwmn;
+      ccldt              = ccldt;
+      cclgort            = cclgort;
+      cclog              = cclog;
+      quacdyn            = quacdyn;
+      createdby          = created_by;
+      createdat          = created_at;
+      lastchangedby      = last_changed_by;
+      lastchangedat      = last_changed_at;
+      locallastchangedat = local_last_changed_at;
     }
 }
 
-define behavior for YI_ASIM0200N //alias <alias_name>
+define behavior for YI_ASIM0201N //alias <alias_name>
 persistent table zasimt0200n
 lock dependent by _Head
 authorization dependent by _Head
@@ -38,21 +58,23 @@ authorization dependent by _Head
   field ( numbering : managed )
   UUid;
   field ( readonly ) Parentuuid;
+
+  determination calc_value on save { create; update;}
+
   association _Head;
   mapping for zasimt0200n
     {
-      Uuid          = uuid;
-      Parentuuid    = parentuuid;
-      Quars         = quars;
-      Quacd         = quacd;
-      Quadt         = quadt;
-      Failmng       = failmng;
-      Failmng1      = failmng1;
-      Eccmng        = eccmng;
-      Sampmng       = sampmng;
-      Sampmng1      = sampmng1;
-      Eccmns        = eccmns;
-      eccmns1       = eccmns1;
-      LastChangedAt = last_changed_at;
+      Uuid       = uuid;
+      Parentuuid = parentuuid;
+      Quars      = quars;
+      Quacd      = quacd;
+      Quadt      = quadt;
+      Failmng    = failmng;
+      Failmng1   = failmng1;
+      Eccmng     = eccmng;
+      Sampmng    = sampmng;
+      Sampmng1   = sampmng1;
+      Eccmns     = eccmns;
+      eccmns1    = eccmns1;
     }
 }

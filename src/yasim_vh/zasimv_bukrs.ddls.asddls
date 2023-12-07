@@ -6,6 +6,7 @@ define view entity ZASIMV_BUKRS
   
 {     
       @EndUserText.label: '회사코드'
+       @ObjectModel.text.element: ['Bukrst']
   key CompanyCode     as Bukrs,
       @EndUserText.label: '회사코드명'
       CompanyCodeName as Bukrst

@@ -12,12 +12,11 @@ ENDCLASS.
 
 
 
-
 CLASS ZCL_INSERT_DATA_ZASIMT0001N IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
-    DATA: ls_data TYPE zasimt0001n.
+    DATA: ls_data TYPE zasimtdummy.
     DATA: lv_uuid TYPE sysuuid_x16.
 
     DATA: system_uuid TYPE REF TO if_system_uuid,
@@ -33,22 +32,23 @@ CLASS ZCL_INSERT_DATA_ZASIMT0001N IMPLEMENTATION.
       ENDTRY.
 
 
-      ls_data-client = '100'.
-      ls_data-parentuuid = '3EB149C0E3D11EEE8CD3DDD473D74497'.
-      ls_data-uuid = lv_uuid.
-      ls_data-zcode = '0.POSTNO'.
-      ls_data-zcdno = '01'.
-      ls_data-zvalu1 = '11100600'.
-      ls_data-zvalu2 = 'A'.
-      ls_data-zvalu3 = 'H'.
-      ls_data-zvalu4 = 'H'.
-      ls_data-zvalu5 = 'KR'.
-      ls_data-zvalu6 = ''.
-      ls_data-zvalu7 = ''.
-      ls_data-ztext = '선급금'.
+*      ls_data-client = '100'.
+*      ls_data-parentuuid = '3EB149C0E3D11EEE8CD3DDD473D74497'.
+*      ls_data-uuid = lv_uuid.
+*      ls_data-zcode = '0.POSTNO'.
+*      ls_data-zcdno = '01'.
+*      ls_data-zvalu1 = '11100600'.
+*      ls_data-zvalu2 = 'A'.
+*      ls_data-zvalu3 = 'H'.
+*      ls_data-zvalu4 = 'H'.
+*      ls_data-zvalu5 = 'KR'.
+*      ls_data-zvalu6 = ''.
+*      ls_data-zvalu7 = ''.
+*      ls_data-ztext = '선급금'.
 
       TRY.
-          INSERT zasimt0001n FROM @ls_data.
+          INSERT zasimtdummy FROM @ls_data.
+*           DELETE  FROM ZASIMT0001N .
       ENDTRY.
 
 

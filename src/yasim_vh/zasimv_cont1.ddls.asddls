@@ -23,10 +23,10 @@ define view entity  ZASIMV_CONT1
   association [1..1] to ZASIMV_BUKRS   as _Company  on  $projection.Bukrs = _Company.Bukrs
     
 {
-      @UI.hidden: true
-  key uuid  as Uuid,
       @EndUserText.label: '계약번호1'
   key cont1 as Cont1,
+      @UI.hidden: true
+      uuid  as Uuid,
       @EndUserText.label: '계약연도'
       reqyr                           as Reqyr,
       @EndUserText.label: '계약내부번호'
@@ -164,5 +164,5 @@ define view entity  ZASIMV_CONT1
       _Bblif,
       _Supplier,
       _Company
-}
+} where loekz != 'Y'
 

@@ -20,13 +20,19 @@ define root view entity YI_ASIM0000C as select from zasimt0000c
     @EndUserText.label: '사용여부'
     usediv as Usediv,
     @EndUserText.label: '전체필드'
-    fielda as Fielda,
+    fieldall as Fieldall,
     @EndUserText.label: '생성필드'
-    fieldc as Fieldc,
+    fieldcre as Fieldcre,
     @EndUserText.label: '수정필드'
-    fieldu as Fieldu,
+    fieldupd as Fieldupd,
+    @EndUserText.label: '숫자필드'
+    fieldnum as Fieldnum,
+    @EndUserText.label: '날짜필드'
+    fielddat as Fielddat,
     @EndUserText.label: '필수필드'
-    fieldm as Fieldm,
-    @EndUserText.label: 'CDSVIEW'
-    cdsvid as Cdsvid
+    fieldkey as Fieldkey,
+    @EndUserText.label: '후속필드'
+    fieldseq as Fieldseq,
+    @EndUserText.label: '권한코드'
+    roleid as Roleid
 }

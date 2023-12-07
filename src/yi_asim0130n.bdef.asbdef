@@ -1,0 +1,127 @@
+managed implementation in class zbp_i_asim0130n unique;
+
+define behavior for YI_ASIM0130N //alias <alias_name>
+persistent table zasimt0130n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  association _Item { create; }
+
+  field ( numbering : managed, readonly )
+  uuid;
+
+  determination create_number on save { create; }
+  //ONE TO MANY 사용시 오류 발생 => result [1] 로 수정
+  //저장후에 "전기" 버튼 클릭 시 타는 event
+  static action post_action parameter zst_ex_post_param_001 result [1] $self;
+  validation api_error on save { create; update; }
+
+  mapping for zasimt0130n
+    {
+      uuid               = uuid;
+      feeno              = feeno;
+      feeyr              = feeyr;
+      zcdno              = zcdno;
+      loekz              = loekz;
+      feegb              = feegb;
+      gbno               = gbno;
+      feeno1             = feeno1;
+      bukrs              = bukrs;
+      ekorg              = ekorg;
+      reqmu              = reqmu;
+      reqno              = reqno;
+      reqyr              = reqyr;
+      blino              = blino;
+      bliyr              = bliyr;
+      cclno              = cclno;
+      cclyr              = cclyr;
+      mblnr              = mblnr;
+      mjahr              = mjahr;
+      budatfees          = budat_fees;
+      lifrefees          = lifre_fees;
+      trliffees          = trlif_fees;
+      ztermfees          = zterm_fees;
+      ivamtfees          = ivamt_fees;
+      wmwst1fees         = wmwst1_fees;
+      waersfees          = waers_fees;
+      zlsch              = zlsch;
+      mwskz              = mwskz;
+      zfbdt              = zfbdt;
+      fbedt              = fbedt;
+      kursf              = kursf;
+      bktxt              = bktxt;
+      belnr              = belnr;
+      gjahr              = gjahr;
+      belnrfi            = belnr_fi;
+      gjahrfi            = gjahr_fi;
+      belnrap            = belnr_ap;
+      gjahrap            = gjahr_ap;
+      belnrtr            = belnr_tr;
+      gjahrtr            = gjahr_tr;
+      RmwwrFees          = rmwwr_fees;
+      mesg               = mesg;
+      code               = code;
+      zetno              = zetno;
+      createdby          = created_by;
+      createdat          = created_at;
+      lastchangedby      = last_changed_by;
+      lastchangedat      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+define behavior for YI_ASIM0141N //alias <alias_name>
+persistent table zasimt0140n
+lock dependent by _Head
+authorization dependent by _Head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) ParentUUID;
+  field ( numbering : managed, readonly )
+  uuid;
+  association _Head;
+
+  mapping for zasimt0140n
+    {
+      uuid       = uuid;
+      parentuuid = parentuuid;
+      feeno      = feeno;
+      feeyr      = feeyr;
+      feenp      = feenp;
+      zcdno      = zcdno;
+      feeno1     = feeno1;
+      feegb      = feegb;
+      gbno       = gbno;
+      gbnp       = gbnp;
+      ebeln      = ebeln;
+      ebelp      = ebelp;
+      matnr      = matnr;
+      werks      = werks;
+      mengefees  = menge_fees;
+      meinsfees  = meins_fees;
+      netwr      = netwr;
+      waers      = waers;
+      netwrfees  = netwr_fees;
+      wmwstfees  = wmwst_fees;
+      waersfees  = waers_fees;
+      zdc1_p     = zdc1_p;
+      mblnr      = mblnr;
+      mjahr      = mjahr;
+      cclno      = cclno;
+      cclyr      = cclyr;
+      cclnp      = cclnp;
+      blino      = blino;
+      bliyr      = bliyr;
+      blinp      = blinp;
+      reqno      = reqno;
+      reqyr      = reqyr;
+      itmno      = itmno;
+    }
+
+}

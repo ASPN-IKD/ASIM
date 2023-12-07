@@ -2,7 +2,7 @@
 @EndUserText.label: '수입B/L 헤더 인터페이스 뷰'
 define root view entity YI_ASIM0030N
   as select from zasimt0030n
-  composition [1..*] of YI_ASIM0040N as _Item
+  composition [1..*] of YI_ASIM0041N as _Item
   association [1..1] to YI_ASIM0010N as _asim0010n on  $projection.Reqno = _asim0010n.Reqno
                                                    and $projection.Reqyr = _asim0010n.Reqyr
                                                    and $projection.Reqmu = _asim0010n.Reqmu
@@ -73,6 +73,9 @@ define root view entity YI_ASIM0030N
 
       @EndUserText.label: '삭제지시자'
       loekz                 as Loekz,
+      
+      @EndUserText.label: '요청일'
+      _asim0010n.Reqdt      as Reqdt,
 
       @EndUserText.label: 'B/L번호'
       bleno                 as Bleno,
@@ -105,8 +108,10 @@ define root view entity YI_ASIM0030N
       blgrd                 as Blgrd,
 
       @EndUserText.label: '총중량'
+      @Semantics.quantity.unitOfMeasure: 'Gewei' 
       brgew                 as Brgew,
       @EndUserText.label: '순중량'
+      @Semantics.quantity.unitOfMeasure: 'Gewei' 
       negew                 as Negew,
       @EndUserText.label: '중량단위'
       gewei                 as Gewei,
@@ -129,6 +134,7 @@ define root view entity YI_ASIM0030N
 
       @EndUserText.label: 'B/L총금액'
       @Semantics.amount.currencyCode : 'Waers'
+      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       blamt                 as Blamt,
 
       @EndUserText.label: '통화키'
@@ -207,6 +213,7 @@ define root view entity YI_ASIM0030N
 
       @EndUserText.label: '총금액'
       @Semantics.amount.currencyCode : 'Waers'
+      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       _asim0010n.Netwr      as Netwr,
 
       @EndUserText.label: 'L/C오픈일'
@@ -280,7 +287,7 @@ define root view entity YI_ASIM0030N
       _asim0010n.Filift     as Filift,
 
       @EndUserText.label: '계약번호1'
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONT1', element: 'Cdno' }}]
+      //@Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONT1', element: 'Cdno' }}]
       _asim0010n.Cont1      as Cont1,
 
       @EndUserText.label: '계약번호2'
@@ -360,27 +367,29 @@ define root view entity YI_ASIM0030N
       @EndUserText.label: 'Remark'
       _asim0010n.Remak      as Remak,
 
-      crtnm                 as Crtnm,
-      crtbu                 as Crtbu,
-      //  @Semantics.systemDateTime.createdAt: true
-      @EndUserText.label: 'Create Date'
-      crtdt                 as Crtdt,
-      crttm                 as Crttm,
-      chgnm                 as Chgnm,
-      chgbu                 as Chgbu,
-      //  @Semantics.systemDateTime.lastChangedAt: true
-      @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Change Date'
-      chgdt                 as Chgdt,
-      chgtm                 as Chgtm,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at as LocalLastChangedAt,
-
-      @ObjectModel.filter.enabled: false
+      @EndUserText.label: '생성자'
+      @Semantics.user.createdBy: true
+      created_by            as CreatedBy,
+      @EndUserText.label: '생성일'
+      @Semantics.systemDateTime.createdAt: true
+      created_at            as CreatedAt,
+      @EndUserText.label: '최종 변경자'
+      @Semantics.user.lastChangedBy: true
+      last_changed_by       as LastChangedBy,
+      @EndUserText.label: '최종 변경일'
       @Semantics.systemDateTime.lastChangedAt: true
       last_changed_at       as LastChangedAt,
+      @EndUserText.label: '인스턴스 변경시간'
+      @Semantics.systemDateTime.localInstanceLastChangedAt: true
+      local_last_changed_at as LocalLastChangedAt,
+      
+      return_msg as ReturnMsg,
+      
+      @EndUserText.label: '부대비참조구분'
+      cast('B' as abap.char(12)) as Feegb,
+      
+      @EndUserText.label: '참조문서구분'
+      cast('B/L참조' as abap.char(40)) as Feegbt,
 
       //Association
       _Item

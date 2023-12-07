@@ -57,17 +57,23 @@ annotate view YC_ASIM0000C
   }
   Usediv;
   @UI.identification: [{ position: 90 }]
-  Fielda;
+  Fieldall;
   @UI.identification: [{ position: 100 }]
-  Fieldc;
+  Fieldcre;
   @UI.identification: [{ position: 110 }]
-  Fieldu;
+  Fieldupd;
+  @UI.identification: [{ position: 120 }]
+  Fieldkey;
+  @UI.identification: [{ position: 130 }]
+  Fieldseq;
+  @UI.identification: [{ position: 140 }]
+  Fieldnum;
   @UI: {
-    lineItem:       [ { position: 90, importance: #HIGH } ],
-    identification: [ { position: 120 } ],
-    selectionField: [ { position: 90 } ]
+    lineItem:       [ { position: 130, importance: #HIGH } ],
+    identification: [ { position: 130 } ],
+    selectionField: [ { position: 130 } ]
   }
-  Cdsvid;
+  Roleid;
   @UI.hidden: true
   Uuid;
     

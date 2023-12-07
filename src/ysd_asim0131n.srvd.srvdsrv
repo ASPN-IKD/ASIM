@@ -1,0 +1,7 @@
+@EndUserText.label: '부대비 생성 가능 정보'
+define service YSD_ASIM0131N {
+  expose YI_ASIM0131N;
+  expose YI_ASIM0132N;
+  expose YI_ASIM0133N;
+  expose YI_ASIM0134N;
+}

@@ -1,0 +1,40 @@
+@Metadata.layer: #CORE
+
+annotate view YC_ASIM0011C with
+
+{
+  @UI.facet: [{
+          id: 'HeaderData',
+          purpose: #STANDARD,
+          label: 'Item Information',
+          type: #IDENTIFICATION_REFERENCE,
+          position: 10
+     }]
+
+  @UI: { lineItem: [{ position: 10, importance: #HIGH }],
+           identification: [{ position: 10, importance: #HIGH }] }
+  Roletype;
+  
+  @UI: { lineItem: [{ position: 20, importance: #HIGH }],
+           identification: [{ position: 20, importance: #HIGH }] }
+  Userid;
+
+  @UI: { lineItem: [{ position: 30, importance: #HIGH }],
+           identification: [{ position: 30, importance: #HIGH }] }
+  Usernm;
+
+  @UI: { lineItem: [{ position: 40, importance: #HIGH }],
+           identification: [{ position: 40, importance: #HIGH }] }
+  Userdp;
+  
+  @UI: { lineItem: [{ position: 50, importance: #HIGH }],
+           identification: [{ position: 50, importance: #HIGH }] }
+  Hiddenid;
+
+  @UI: { lineItem: [{ position: 60, importance: #HIGH }],
+           identification: [{ position: 60, importance: #HIGH }] }
+  Remark;
+  
+   
+
+}

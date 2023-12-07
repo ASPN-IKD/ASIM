@@ -2,7 +2,7 @@
 @EndUserText.label: '수입계약 헤더 인터페이스 뷰'
 define root view entity YI_ASIM0010N
   as select from zasimt0010n
-//  composition [1..*] of YI_ASIM0020N                  as _Item
+  composition [1..*] of YI_ASIM0021N                  as _Item
   association [1..1] to I_CompanyCode                 as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
   association [1..1] to I_PurchasingOrganization      as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
   association [0..1] to I_PurchasingGroup             as _PurchasingGroup             on  $projection.Ekgrp = _PurchasingGroup.PurchasingGroup
@@ -51,7 +51,7 @@ define root view entity YI_ASIM0010N
   association [0..1] to YI_ASIM0001N                  as _bblif                       on  $projection.Bblif =    _bblif.Zcdno
                                                                                       and _bblif.Zcode      like '%BBLIF'
                                                                                       and _bblif.Zcdno      <>   '00'
-                                                                                                                                                                       
+
 
 {
       @ObjectModel.filter.enabled: false
@@ -60,21 +60,20 @@ define root view entity YI_ASIM0010N
       @UI:{ lineItem: [{ position: 10 }],
             selectionField: [{ position: 10 }] }
       @EndUserText.label: '계약연도'
-      reqyr   
-                                                       as Reqyr,
+      reqyr                                                    as Reqyr,
       @UI:{lineItem: [{ position: 20 }],
       selectionField: [{position: 20}] }
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQNO', element: 'reqno' }}]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQNO', element: 'Reqno' }}]
       @EndUserText.label: '계약내부번호'
       reqno                                                    as Reqno,
-    
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQMU', element: 'reqmu' }}]
+
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQMU', element: 'Reqmu' }}]
       @EndUserText.label: '관리번호'
       reqmu                                                    as Reqmu,
 
       @EndUserText.label: '요청일'
       reqdt                                                    as Reqdt,
-      
+
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs'} }]
       @ObjectModel.text.element: ['Bukrst']
       @EndUserText.label: '회사코드'
@@ -82,7 +81,7 @@ define root view entity YI_ASIM0010N
 
       @EndUserText.label: '회사코드명'
       _CompanyCode.CompanyCodeName                             as Bukrst,
-     
+
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKORG', element: 'Ekorg'} }]
       @ObjectModel.text.element: ['Ekorgt']
       @EndUserText.label: '구매조직'
@@ -90,7 +89,7 @@ define root view entity YI_ASIM0010N
 
       @EndUserText.label: '구매조직명'
       _PurchasingOrganization.PurchasingOrganizationName       as Ekorgt,
-      
+
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKGRP', element: 'Ekgrp'} }]
       @ObjectModel.text.element: ['Ekgrpt']
       @EndUserText.label: '구매그룹'
@@ -125,7 +124,7 @@ define root view entity YI_ASIM0010N
       @ObjectModel.text.element: ['Inco1t']
       @Consumption.valueHelpDefinition: [
       {entity: {name: 'ZASIMV_INCO1', element: 'inco1' }}
-      ] 
+      ]
       @EndUserText.label: '인도조건'
       inco1                                                    as Inco1,
 
@@ -212,7 +211,8 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '통화 키'
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       opwrs                                                    as Opwrs,
-
+    
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_PTERM', element: 'Cdno' }}]
       @ObjectModel.text.element: ['Ptermt']
       @EndUserText.label: '결제조건'
       pterm                                                    as Pterm,
@@ -341,33 +341,33 @@ define root view entity YI_ASIM0010N
       bbrate                                                   as Bbrate,
 
       @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Remark'
+      @EndUserText.label: '비고'
       remak                                                    as Remak,
 
-      crtnm                                                    as Crtnm,
-      crtbu                                                    as Crtbu,
-//        @Semantics.systemDateTime.createdAt: true
-      @EndUserText.label: 'Create Date'
-      crtdt                                                    as Crtdt,
-      crttm                                                    as Crttm,
-      chgnm                                                    as Chgnm,
-      chgbu                                                    as Chgbu,
-//        @Semantics.systemDateTime.lastChangedAt: true
-      @ObjectModel.filter.enabled: false
-//      @EndUserText.label: 'Change Date'
-//      chgdt                                                    as Chgdt,
-      chgtm                                                    as Chgtm,
-
-      @ObjectModel.filter.enabled: false
+      @EndUserText.label: '생성자'
+      @Semantics.user.createdBy: true
+      created_by                                               as CreatedBy,
+      @EndUserText.label: '생성일'
+      @Semantics.systemDateTime.createdAt: true
+      created_at                                               as CreatedAt,
+      @EndUserText.label: '최종 변경자'
+      @Semantics.user.lastChangedBy: true
+      last_changed_by                                          as LastChangedBy,
+      @EndUserText.label: '최종 변경일'
+      @Semantics.systemDateTime.lastChangedAt: true
+      last_changed_at                                          as LastChangedAt,
+      @EndUserText.label: '인스턴스 변경시간'
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
       local_last_changed_at                                    as LocalLastChangedAt,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at                                          as LastChangedAt
+      
+      @EndUserText.label: '부대비참조구분'
+      cast('A' as abap.char(12)) as Feegb,
+      
+      @EndUserText.label: '참조문서구분'
+      cast('수입계약참조' as abap.char(40)) as Feegbt,
 
       //Association
-//      _Item
+      _Item
 
 }
 where

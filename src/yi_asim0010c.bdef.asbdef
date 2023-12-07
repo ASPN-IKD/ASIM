@@ -1,0 +1,57 @@
+managed implementation in class zbp_i_asim0010c unique;
+strict ( 1 );
+
+define behavior for YI_ASIM0010C //alias <alias_name>
+persistent table zasimt0010c
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  field ( numbering : managed, readonly )
+  UUid;
+
+  create;
+  update;
+  delete;
+  association _0011C { create; }
+
+  mapping for zasimt0010c
+  {
+      Uuid   = uuid;
+      Bukrs = bukrs;
+      Ekorg = ekorg;
+      Roleid = roleid;
+      Rolenm = rolenm;
+      Hiddenid = hiddenid;
+      Remark = remark;
+
+  }
+}
+
+define behavior for YI_ASIM0011C //alias <alias_name>
+persistent table zasimt0011c
+lock dependent by _0010C
+authorization dependent by _0010C
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( numbering : managed, readonly )
+  Uuid;
+
+  field ( readonly ) Parentuuid;
+  association _0010C;
+
+  mapping for zasimt0011c
+    {
+      Parentuuid = parentuuid;
+      Uuid       = uuid;
+      Roletype   = roletype;
+      Userid     = userid;
+      Usernm     = usernm;
+      Userdp     = userdp;
+      Hiddenid   = hiddenid;
+      Remark     = remark;
+
+    }
+}

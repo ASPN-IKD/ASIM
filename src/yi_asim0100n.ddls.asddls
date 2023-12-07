@@ -1,150 +1,154 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입입고 아이템 인터페이스 뷰'
-define view entity YI_ASIM0100N
+define root view entity YI_ASIM0100N
   as select from zasimt0100n
-  association to parent YI_ASIM0090N as _Head on _Head.Uuid = $projection.Parentuuid
+
+  association [1..1] to I_ProductText     as _productText     on  $projection.Matnr     = _productText.Product
+                                                              and _productText.Language = '3'
+  association [1..1] to I_Plant           as _plant           on  $projection.Werks = _plant.Plant
+  association [0..1] to I_StorageLocation as _storageLocation on  $projection.Werks = _storageLocation.Plant
+                                                              and $projection.Lgort = _storageLocation.StorageLocation
+  association [1..1] to YI_ASIM0040N     as _asim0040         on  $projection.Blino = _asim0040.Blino
+                                                              and $projection.Bliyr = _asim0040.Bliyr
+                                                              and $projection.Blinp = _asim0040.Blinp
 
 {
       @ObjectModel.filter.enabled: false
-  key uuid                  as Uuid,
+  key uuid                                 as Uuid,
 
       @ObjectModel.filter.enabled: false
-  key parentuuid            as Parentuuid,
+      parentuuid                           as ParentUUID,
 
       @EndUserText.label: '자재 문서 번호'
-      mblnr                 as Mblnr,
+      mblnr                                as Mblnr,
 
       @EndUserText.label: '자재 문서 연도'
-      mjahr                 as Mjahr,
+      mjahr                                as Mjahr,
 
       @EndUserText.label: '자재 문서 항목'
-      zeile                 as Zeile,
+      zeile                                as Zeile,
 
       @EndUserText.label: '통관번호'
-      cclno                 as Cclno,
+      cclno                                as Cclno,
 
       @EndUserText.label: '통관연도'
-      cclyr                 as Cclyr,
+      cclyr                                as Cclyr,
 
       @EndUserText.label: '통관품목'
-      cclnp                 as Cclnp,
+      cclnp                                as Cclnp,
 
       @EndUserText.label: '통관예정번호'
-      eccno                 as Eccno,
+      eccno                                as Eccno,
 
       @EndUserText.label: '통관예정년도'
-      eccyr                 as Eccyr,
+      eccyr                                as Eccyr,
 
       @EndUserText.label: '통관예정품목'
-      eccnp                 as Eccnp,
+      eccnp                                as Eccnp,
 
       @EndUserText.label: 'B/L내부번호'
-      blino                 as Blino,
+      blino                                as Blino,
 
       @EndUserText.label: 'B/L연도'
-      bliyr                 as Bliyr,
+      bliyr                                as Bliyr,
 
       @EndUserText.label: 'B/L품목'
-      blinp                 as Blinp,
+      blinp                                as Blinp,
 
       @EndUserText.label: '구매 문서 번호'
-      ebeln                 as Ebeln,
+      ebeln                                as Ebeln,
 
       @EndUserText.label: '구매 문서 품목 번호'
-      ebelp                 as Ebelp,
+      ebelp                                as Ebelp,
 
       @EndUserText.label: '계약내부번호'
-      reqno                 as Reqno,
+      reqno                                as Reqno,
 
       @EndUserText.label: '계약연도'
-      reqyr                 as Reqyr,
+      reqyr                                as Reqyr,
 
       @EndUserText.label: '계약품목'
-      itmno                 as Itmno,
+      itmno                                as Itmno,
 
       @EndUserText.label: '배치 번호'
-      charg                 as Charg,
+      charg                                as Charg,
 
       @EndUserText.label: '제조일'
-      hsdat                 as Hsdat,
+      hsdat                                as Hsdat,
 
       @EndUserText.label: '유효기간'
-      vfdat                 as Vfdat,
+      vfdat                                as Vfdat,
 
       @EndUserText.label: '최대 저장 기간'
-      maxlz                 as Maxlz,
+      maxlz                                as Maxlz,
 
       @EndUserText.label: '자재 번호'
-      matnr                 as Matnr,
+      matnr                                as Matnr,
 
+      @EndUserText.label: '자재명'
+      _productText.ProductName             as Maktx,
+
+      @Semantics.quantity.unitOfMeasure: 'Grmns'
       @EndUserText.label: '입고수량'
-      grmng                 as Grmng,
+      grmng                                as Grmng,
 
       @EndUserText.label: '기본 단위'
-      grmns                 as Grmns,
+      grmns                                as Grmns,
 
+      @Semantics.quantity.unitOfMeasure: 'Grmns1'
       @EndUserText.label: '입고 대체수량'
-      grmng1                as Grmng1,
+      grmng1                               as Grmng1,
 
       @EndUserText.label: '대체단위'
-      grmns1                as Grmns1,
+      grmns1                               as Grmns1,
 
       @EndUserText.label: '플랜트'
-      werks                 as Werks,
+      werks                                as Werks,
 
+      @EndUserText.label: '플랜트명'
+      _plant.PlantName                     as Werkst,
+
+      @Consumption.valueHelpDefinition: [{ entity : { element: 'Lgort', name: 'ZASIMV_LGORT' } }]
       @EndUserText.label: '저장 위치'
-      lgort                 as Lgort,
+      lgort                                as Lgort,
 
+      @EndUserText.label: '저장위치명'
+      _storageLocation.StorageLocationName as Lgortt,
+
+      @Semantics.amount.currencyCode : 'V2wae'
       @EndUserText.label: '의제매입세 재고자산 차감액'
-      amtv2                 as Amtv2,
+      amtv2                                as Amtv2,
 
       @EndUserText.label: '통화 키'
-      v2wae                 as V2wae,
+      v2wae                                as V2wae,
 
       @EndUserText.label: '회계 전표 번호'
-      belnr1                as Belnr1,
+      belnr1                               as Belnr1,
 
       @EndUserText.label: '회계연도'
-      gjahr1                as Gjahr1,
+      gjahr1                               as Gjahr1,
 
       @EndUserText.label: '회계 전표 번호'
-      cbelnr                as Cbelnr,
+      cbelnr                               as Cbelnr,
 
       @EndUserText.label: '회계연도'
-      cgjahr                as Cgjahr,
-
-
-      crtnm                 as Crtnm,
-      crtbu                 as Crtbu,
-
-      @Semantics.systemDateTime.createdAt: true
-      @EndUserText.label: 'Create Date'
-      crtdt                 as Crtdt,
-
-      crttm                 as Crttm,
-      chgnm                 as Chgnm,
-      chgbu                 as Chgbu,
-
-      @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Change Date'
-      chgdt                 as Chgdt,
-
-      chgtm                 as Chgtm,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at as LocalLastChangedAt,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at       as LastChangedAt,
+      cgjahr                               as Cgjahr,
 
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
-      loekz                 as Loekz,
+      loekz                                as Loekz,
       
-      _Head
+      _asim0040.Waers                      as Waers,
+      
+      @Semantics.amount.currencyCode: 'Waers'
+      _asim0040.Blmpr                      as Blmpr,
+      
+      @Semantics.amount.currencyCode: 'Waers'
+      cast( cast( _asim0040.Blmpr as abap.dec( 20, 2)) * grmng / _asim0040.Blpnh as abap.dec( 20, 2 )  ) as Grnwr,
+
+      cast('' as abap.char(3))             as ItemIndex
+
 }
 
 where

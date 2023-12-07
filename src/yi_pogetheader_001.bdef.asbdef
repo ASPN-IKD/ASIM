@@ -1,0 +1,67 @@
+managed implementation in class zbp_i_pogetheader_001 unique;
+//strict ( 2 );
+
+define behavior for YI_POGETHEADER_001 alias Header
+persistent table zpogettheader001
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field ( numbering : managed, readonly ) Uuid;
+
+  association _Item { create; }
+
+//  determination get_po on save { create; }8
+  static action GET_PO parameter zst_po_param_001 result [1] $self;
+
+  mapping for zpogettheader001{
+    Companycode = companycode;
+    Createdbyuser = createdbyuser;
+    Creationdate = creationdate;
+    Documentcurrency = documentcurrency;
+    Incotermsclassification = incotermsclassification;
+    Incotermslocation1 = incotermslocation1;
+    Paymentterms = paymentterms;
+    Purchaseorder = purchaseorder;
+    Purchaseordertype = purchaseordertype;
+    Purchasinggroup = purchasinggroup;
+    Purchasingorganization = purchasingorganization;
+    Supplier = supplier;
+    Uuid = uuid;
+    RequestUser = request_user;
+  }
+}
+
+define behavior for YI_POGETITEM_001 alias Item
+persistent table zpogettitem001
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) HeaderUuid;
+  field ( numbering : managed, readonly ) Uuid;
+  association _Header;
+
+  mapping for zpogettitem001 {
+    Accountassignmentcategory = accountassignmentcategory;
+    HeaderUuid = header_uuid;
+    Material = material;
+    Netpriceamount = netpriceamount;
+    Netpricequantity = netpricequantity;
+    Orderquantity = orderquantity;
+    Plant = plant;
+    Purchaseorder = purchaseorder;
+    Purchaseorderitem = purchaseorderitem;
+    Purchaseorderitemtext = purchaseorderitemtext;
+    Purchaseorderquantityunit = purchaseorderquantityunit;
+    Storagelocation = storagelocation;
+    Uuid = uuid;
+
+  }
+}

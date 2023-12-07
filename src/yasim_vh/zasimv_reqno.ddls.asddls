@@ -4,7 +4,7 @@
 @Metadata.ignorePropagatedAnnotations: true
 
 define view entity ZASIMV_REQNO
-   
+
   as select from YI_ASIM0010N
   association [1..1] to I_CompanyCode                 as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
   association [1..1] to I_PurchasingOrganization      as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
@@ -41,68 +41,166 @@ define view entity ZASIMV_REQNO
                                                                                       and _oplif.Zcdno      <>   '00'
 
 {
-@UI.hidden: true
-key Uuid,
-  Reqno,
-  Reqyr,
-  Reqmu,
-  Cont1,
-  Cont2,
-  Reqdt,
-  Bukrs,
-  _CompanyCode.CompanyCodeName                             as Bukrst,
-  Ekorg,
-  _PurchasingOrganization.PurchasingOrganizationName       as Ekorgt,
-  Ekgrp,
-  _PurchasingGroup.PurchasingGroupName                     as Ekgrpt,
-  Lifnr,
-  _lifnr.Lifnrt                                            as Lifnrt,
-  Lifre,
-  _lifre.Ztext                                             as Lifret,
-  Inco1,
-  _IncotermsClassificationText.IncotermsClassificationName as Inco1t,
-  Inco2,
-  Zterm,
-  _zterm.Ztext                                             as Ztermt,
-  @Semantics.amount.currencyCode: 'WAERS'
-  Netwr,
-  Waers,
-  Zcdno1,
-  _zcdno1.Ztext                                            as Zcdno1t,
-  Zcdno2,
-  _zcdno2.Ztext                                            as Zcdno2t,
-  Zcdno3,
-  _zcdno3.Ztext                                            as Zcdno3t,
-  Zcdno4,
-  _zcdno4.Ztext                                            as Zcdno4t,
-  Opdat,
-  Opnum,
-  Opbnk,
-  _opbnk.Ztext                                             as Opbnkt,
-  @Semantics.amount.currencyCode: 'OPWRS'
-  Opamt,
-  Opwrs,
-  Pterm,
-  _Pterm.Ztext                                             as Ptermt,
-  Oplif,
-  _oplif.Ztext                                             as Oplift,
-  Acdat,
-  Bbno,
-  //REMAK,
-  Crtnm,
-  Crtdt,
-    
-  case _CompanyCode.CompanyCodeName
-    when 'ASPN' then 'X'
-    else ''
-    end as del         
+      @UI.hidden: true
+  key Uuid,
+
+   
+      @EndUserText.label: '계약내부번호'
+      Reqno,
+
+      @EndUserText.label: '계약연도'
+      Reqyr,
+
+  
+      @EndUserText.label: '관리번호'
+      Reqmu,
+
+      @EndUserText.label: '계약번호1'
+      Cont1,
+
+      @EndUserText.label: '계약번호2'
+      Cont2,
+
+      @EndUserText.label: '요청일'
+      Reqdt,
+
+      @EndUserText.label: '회사코드'
+      Bukrs,
+
+      @EndUserText.label: '회사코드명'
+      _CompanyCode.CompanyCodeName                             as Bukrst,
+
+      @EndUserText.label: '구매조직'
+      Ekorg,
+
+      @EndUserText.label: '구매조직명'
+      _PurchasingOrganization.PurchasingOrganizationName       as Ekorgt,
+
+      @ObjectModel.text.element: ['Ekgrpt']
+      @EndUserText.label: '구매그룹'
+      Ekgrp,
+
+      @EndUserText.label: '구매그룹명'
+      _PurchasingGroup.PurchasingGroupName                     as Ekgrpt,
+
+      @ObjectModel.text.element: ['Lifnrt']
+      @EndUserText.label: '공급업체'
+      Lifnr,
+
+      @EndUserText.label: '공급업체명'
+      _lifnr.Lifnrt                                            as Lifnrt,
+
+      @ObjectModel.text.element: ['Lifret']
+      @EndUserText.label: '공급처'
+      Lifre,
+
+      @EndUserText.label: '공급처명'
+      _lifre.Ztext                                             as Lifret,
+
+      @ObjectModel.text.element: ['Inco1t']
+      @EndUserText.label: '인도조건'
+      Inco1,
+
+      @EndUserText.label: '인도조건명'
+      _IncotermsClassificationText.IncotermsClassificationName as Inco1t,
+
+      @EndUserText.label: '인도처'
+      Inco2,
+
+      @ObjectModel.text.element: ['Ztermt']
+      @EndUserText.label: '지급조건'
+      Zterm,
+
+      @EndUserText.label: '지급조건명'
+      _zterm.Ztext                                             as Ztermt,
+
+      @EndUserText.label: '계약총금액'
+      @Semantics.amount.currencyCode: 'WAERS'
+      Netwr,
+
+      @EndUserText.label: '통화'
+      Waers,
+
+      @ObjectModel.text.element: ['Zcdno1t']
+      @EndUserText.label: '도착지'
+      Zcdno1,
+
+      @EndUserText.label: '도착지명'
+      _zcdno1.Ztext                                            as Zcdno1t,
+
+      @ObjectModel.text.element: ['Zcdno2t']
+      @EndUserText.label: '운송수단'
+      Zcdno2,
+
+      @EndUserText.label: '운송수단명'
+      _zcdno2.Ztext                                            as Zcdno2t,
+
+      @ObjectModel.text.element: ['Zcdno3t']
+      @EndUserText.label: '선적지'
+      Zcdno3,
+
+      @EndUserText.label: '선적지명'
+      _zcdno3.Ztext                                            as Zcdno3t,
+
+      @ObjectModel.text.element: ['Zcdno4t']
+      @EndUserText.label: '운송형태'
+      Zcdno4,
+
+      @EndUserText.label: '운송형태명'
+      _zcdno4.Ztext                                            as Zcdno4t,
+      
+      @EndUserText.label: 'L/C오픈일'
+      Opdat,
+      
+      @EndUserText.label: 'L/C번호'
+      Opnum,
+      
+      @ObjectModel.text.element: ['Opbnkt']
+      @EndUserText.label: '개설은행'
+      Opbnk,
+      
+      @EndUserText.label: '개설은행명'
+      _opbnk.Ztext                                             as Opbnkt,
+      
+      @EndUserText.label: 'L/C오픈금액'
+      @Semantics.amount.currencyCode: 'OPWRS'
+      Opamt,
+      
+      @EndUserText.label: '개설통화'
+      Opwrs,
+      
+      @ObjectModel.text.element: ['Ptermt']
+      @EndUserText.label: '결제조건'
+      Pterm,
+      
+      @EndUserText.label: '결제조건명'
+      _Pterm.Ztext                                             as Ptermt,
+      
+      @ObjectModel.text.element: ['Oplift']
+      @EndUserText.label: '오픈처'
+      Oplif,
+      
+      @EndUserText.label: '오픈처명'
+      _oplif.Ztext                                             as Oplift,
+      
+      @EndUserText.label: '접수일'
+      Acdat,
+      
+      @EndUserText.label: '보험증권번호'
+      Bbno,
+      //REMAK,
+      //  Crtnm,
+      //  Crtdt,
+
+      case _CompanyCode.CompanyCodeName
+        when 'ASPN' then 'X'
+        else ''
+        end                                                    as del
 
 }
 where
-  Loekz like ''
-  and
-  case Bukrst
-    when 'ASPN' then 'X'
-    else ''
-    end = 'X'
-  
+      Loekz like ''
+  and case Bukrst
+        when 'ASPN' then 'X'
+        else ''
+        end =    'X'

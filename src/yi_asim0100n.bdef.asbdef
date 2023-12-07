@@ -1,0 +1,60 @@
+managed implementation in class zbp_i_asim0100n unique;
+//strict ( 2 );
+
+define behavior for YI_ASIM0100N //alias <alias_name>
+persistent table zasimt0100n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field ( numbering : managed, readonly ) Uuid;
+
+  determination calc_value on save { create; }
+
+  validation api_error on save {create;}
+
+  mapping for zasimt0100n
+    {
+      Uuid       = uuid;
+      Parentuuid = parentuuid;
+      Mblnr      = mblnr;
+      Mjahr      = mjahr;
+      Zeile      = zeile;
+      Cclno      = cclno;
+      Cclyr      = cclyr;
+      Cclnp      = cclnp;
+      Eccno      = eccno;
+      Eccyr      = eccyr;
+      Eccnp      = eccnp;
+      Blino      = blino;
+      Bliyr      = bliyr;
+      Blinp      = blinp;
+      Ebeln      = ebeln;
+      Ebelp      = ebelp;
+      Reqno      = reqno;
+      Reqyr      = reqyr;
+      Itmno      = itmno;
+      Loekz      = loekz;
+      Charg      = charg;
+      Hsdat      = hsdat;
+      Vfdat      = vfdat;
+      Maxlz      = maxlz;
+      Matnr      = matnr;
+      Grmng      = grmng;
+      Grmns      = grmns;
+      Grmng1     = grmng1;
+      Grmns1     = grmns1;
+      Werks      = werks;
+      Lgort      = lgort;
+      Amtv2      = amtv2;
+      V2wae      = v2wae;
+      Belnr1     = belnr1;
+      Gjahr1     = gjahr1;
+      Cbelnr     = cbelnr;
+      Cgjahr     = cgjahr;
+    }
+}

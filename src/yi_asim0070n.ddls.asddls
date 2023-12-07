@@ -3,7 +3,7 @@
 define root view entity YI_ASIM0070N
   as select from zasimt0070n as _Asim0070n
 
-  composition [1..*] of YI_ASIM0080N             as _Item
+  composition [1..*] of YI_ASIM0082N             as _Item
   association [0..1] to YI_ASIM0030N             as _Asim0030n              on  _Asim0030n.Blino = _Asim0070n.blino
                                                                             and _Asim0030n.Bliyr = _Asim0070n.bliyr
   association [0..1] to YI_ASIM0190N             as _Asim0190n              on  _Asim0190n.Blino = _Asim0070n.blino
@@ -46,6 +46,9 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '계약연도'
       reqyr                                              as Reqyr,
+      
+      @EndUserText.label: '계약일'
+      _Asim0030n.Reqdt                                            as Reqdt,
 
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BLINO', element: 'Blino' }}]
       @EndUserText.label: 'B/L내부번호'
@@ -53,6 +56,9 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: 'B/L연도'
       bliyr                                              as Bliyr,
+      
+      @EndUserText.label: '구매문서번호'
+      _Asim0030n.Ebeln                 as Ebeln,
 
       @EndUserText.label: '통관예정번호'
       eccno                                              as Eccno,
@@ -118,7 +124,7 @@ define root view entity YI_ASIM0070N
       ccamt                                              as Ccamt,
 
       @Semantics.amount.currencyCode : 'Ccwaek'
-      @EndUserText.label: '총과세가격(환화)'
+      @EndUserText.label: '총과세가격(현지 통화)'
       ccamtk                                             as Ccamtk,
 
       @Semantics.amount.currencyCode : 'Ccwaek'
@@ -139,7 +145,8 @@ define root view entity YI_ASIM0070N
       ccwae                                              as Ccwae,
 
       @EndUserText.label: '현지통화'
-      ccwaek                                             as Ccwaek,
+      @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }} ]
+      ccwaek                                             as Ccwaek ,
 
       @EndUserText.label: '통관환율'
       ccrsf                                              as Ccrsf,
@@ -153,7 +160,7 @@ define root view entity YI_ASIM0070N
       @EndUserText.label: '검사(반입)장소'
       cclog                                              as Cclog,
 
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_MOSNO', element: 'Cdno'} }]
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CCMOS', element: 'Cdno'} }]
       @ObjectModel.text.element: ['Ccmost']
       @EndUserText.label: '환적모선'
       ccmos                                              as Ccmos,
@@ -448,36 +455,47 @@ define root view entity YI_ASIM0070N
       @ObjectModel.filter.enabled: false
       @EndUserText.label: 'Remark'
       _Asim0030n.Remak                                   as Remak,
+      
+     @EndUserText.label: '통관예정일'
+      _Asim0190n.Eccdt                                   as Eccdt,
 
-      crtnm                                              as Crtnm,
-      crtbu                                              as Crtbu,
+      @EndUserText.label: '입고예정일'
+      _Asim0190n.Egrdt                                   as Egrdt,
 
+      @EndUserText.label: '화물관리번호'
+      _Asim0190n.Eccmrn                                  as Eccmrn,
+
+      @EndUserText.label: '보세운송번호'
+      _Asim0190n.Ecctrn                                  as Ecctrn,
+
+      @EndUserText.label: '장치위치정보'
+      _Asim0190n.Eccwmn                                  as Eccwmn,
+      
+      @EndUserText.label: '생성자'
+      @Semantics.user.createdBy: true
+      created_by            as CreatedBy,
+      @EndUserText.label: '생성일'
       @Semantics.systemDateTime.createdAt: true
-      @EndUserText.label: 'Create Date'
-      crtdt                                              as Crtdt,
-
-      crttm                                              as Crttm,
-      chgnm                                              as Chgnm,
-      chgbu                                              as Chgbu,
-
-      @ObjectModel.filter.enabled: false
-      @EndUserText.label: 'Change Date'
-      chgdt                                              as Chgdt,
-
-      chgtm                                              as Chgtm,
-
-      @ObjectModel.filter.enabled: false
-      @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at                              as LocalLastChangedAt,
-
-      @ObjectModel.filter.enabled: false
+      created_at            as CreatedAt,
+      @EndUserText.label: '최종 변경자'
+      @Semantics.user.lastChangedBy: true
+      last_changed_by       as LastChangedBy,
+      @EndUserText.label: '최종 변경일'
       @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at                                    as LastChangedAt,
-
+      last_changed_at       as LastChangedAt,
+      @EndUserText.label: '인스턴스 변경시간'
+      @Semantics.systemDateTime.localInstanceLastChangedAt: true
+      local_last_changed_at as LocalLastChangedAt,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
       loekz                                              as Loekz,
+      
+      @EndUserText.label: '부대비참조구분'
+      cast('C' as abap.char(12)) as Feegb,
+      
+      @EndUserText.label: '참조문서구분'
+      cast('통관참조' as abap.char(40)) as Feegbt,
 
       _Item
 }

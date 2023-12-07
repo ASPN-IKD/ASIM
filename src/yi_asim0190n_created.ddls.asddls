@@ -7,10 +7,11 @@ define view entity YI_ASIM0190N_CREATED as select from zasimt0200n as _Eccitem
  join zasimt0030n as _Blheader on _Blitem.blino = _Blheader.blino
                                 and _Blitem.bliyr = _Blheader.bliyr
                                 and _Blheader.eccgb = 'X'
+                                and _Blitem.loekz <> 'X'
 {
-  key _Eccitem.blino as Blino,
-  key _Eccitem.bliyr as Bliyr,
-  key _Eccitem.blinp as Blinp,
+  key _Blitem.blino as Blino,
+  key _Blitem.bliyr as Bliyr,
+  key _Blitem.blinp as Blinp,
   
   @Semantics.quantity.unitOfMeasure: 'Eccmns'
   sum(_Eccitem.eccmng) as Eccmng,
@@ -22,9 +23,9 @@ define view entity YI_ASIM0190N_CREATED as select from zasimt0200n as _Eccitem
   
 } where _Eccitem.loekz =  ''
 
-group by _Eccitem.blino,
-         _Eccitem.bliyr,
-         _Eccitem.blinp,
+group by _Blitem.blino,
+         _Blitem.bliyr,
+         _Blitem.blinp,
          _Eccitem.eccmns,
          _Blitem.blmng,
          _Blitem.blmns

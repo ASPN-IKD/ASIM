@@ -9,6 +9,7 @@ define root view entity YI_ASIM0070N_CREATED as select from zasimt0080n as _Ccit
  left outer join zasimt0200n as _Eccitem on _Ccitem.eccno = _Eccitem.eccno
                                         and _Ccitem.eccyr = _Eccitem.eccyr 
                                         and _Ccitem.eccnp = _Eccitem.eccnp
+                                        and _Blheader.eccgb = 'X'
 {
   key _Blheader.eccgb as Eccgb,
   key _Ccitem.blino as Blino,

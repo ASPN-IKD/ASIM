@@ -13,80 +13,134 @@ authorization master ( instance )
   create;
   update;
   delete;
-//  association _Item { create; }
+  association _Item { create; }
 
-  field (numbering : managed, readonly)
+  determination create_number on save { create; }
+  field ( numbering : managed, readonly )
   UUid;
 
-   mapping for zasimt0010n
-  {
-   Uuid               = uuid;
-      Acdat = acdat;
-      Bbamt = bbamt;
-      Bbdat = bbdat;
-      Bbgb = bbgb;
-      Bblif = bblif;
-      Bbno = bbno;
-      Bbrate = bbrate;
-      Bbrsf = bbrsf;
-      Bbwrs = bbwrs;
-      Bokno = bokno;
-      Bukrs = bukrs;
-      Chgbu = chgbu;
-    //  Chgdt = chgdt;
-      Chgtm = chgnm;
-      Colif = colif;
-      Conrt = conrt;
-      Cont1 = cont1;
-      Cont2 = cont2;
-      Crtbu = crtbu;
-      Crtdt = crtdt;
-      Crtnm = crtnm;
-      Crttm = crttm;
-      Edate = edate;
-      Ekgrp = ekgrp;
-      Ekorg = ekorg;
-      Filif = filif;
-      Inco1 = inco1;
-      Inco2 = inco2;
-      Isdat = isdat;
-      LastChangedAt = last_changed_at;
+  mapping for zasimt0010n
+    {
+
+      //   Uuid               = uuid;
+      //      Acdat = acdat;
+      //      Bbamt = bbamt;
+      //      Bbdat = bbdat;
+      //      Bbgb = bbgb;
+      //      Bblif = bblif;
+      //      Bbno = bbno;
+      //      Bbrate = bbrate;
+      //      Bbrsf = bbrsf;
+      //      Bbwrs = bbwrs;
+      //      Bokno = bokno;
+      //      Bukrs = bukrs;
+      //      Colif = colif;
+      //      Conrt = conrt;
+      //      Cont1 = cont1;
+      //      Cont2 = cont2;
+      //      Edate = edate;
+      //      Ekgrp = ekgrp;
+      //      Ekorg = ekorg;
+      //      Filif = filif;
+      //      Inco1 = inco1;
+      //      Inco2 = inco2;
+      //      Isdat = isdat;
+      //      Remak = remak;
+      //      Loekz = loekz;
+      //      Lifre = lifre;
+      //      Lifnr = lifnr;
+      //      Netwr = netwr;
+      //      Oedat = oedat;
+      //      Opamt = opamt;
+      //      Opbnk = opbnk;
+      //      Opdat = opdat;
+      //      Oplif = oplif;
+      //      Opnum = opnum;
+      //      Opwrs = opwrs;
+      //      Pdate = pdate;
+      //      Pedat = pedat;
+      //      Pterm = pterm;
+      //      Reqdt = reqdt;
+      //      Reqmu = reqmu;
+      //      Reqno = reqno;
+      //      Reqyr = reqyr;
+      //      Rqche = rqche;
+      //      Rqrsf = rqrsf;
+      //      Rqweek = rqweek;
+      //      Sdate = sdate;
+      //      Trbln = trbln;
+      //      Trdat = trdat;
+      //      Waers = waers;
+      //      Zbd1t = zbd1t;
+      //      Zcdno1 = zcdno1;
+      //      Zcdno2 = zcdno2;
+      //      Zcdno3 = zcdno3;
+      //      Zcdno4 = zcdno4;
+      //      Zterm = zterm;
+      Uuid               = uuid;
+      Reqyr              = reqyr;
+      Reqno              = reqno;
+      Reqmu              = reqmu;
+      Reqdt              = reqdt;
+      Bukrs              = bukrs;
+      Ekorg              = ekorg;
+      Ekgrp              = ekgrp;
+      Lifnr              = lifnr;
+      Loekz              = loekz;
+      Lifre              = lifre;
+      Inco1              = inco1;
+      Inco2              = inco2;
+      Zterm              = zterm;
+      Zcdno1             = zcdno1;
+      Zcdno2             = zcdno2;
+      Zcdno3             = zcdno3;
+      Zcdno4             = zcdno4;
+      Netwr              = netwr;
+      Waers              = waers;
+      Opdat              = opdat;
+      Opbnk              = opbnk;
+      Opnum              = opnum;
+      Opamt              = opamt;
+      Opwrs              = opwrs;
+      Pterm              = pterm;
+      Zbd1t              = zbd1t;
+      Pedat              = pedat;
+      Pdate              = pdate;
+      Oedat              = oedat;
+      Oplif              = oplif;
+      Sdate              = sdate;
+      Edate              = edate;
+      Colif              = colif;
+      Filif              = filif;
+      Cont1              = cont1;
+      Cont2              = cont2;
+      Acdat              = acdat;
+      Bokno              = bokno;
+      Conrt              = conrt;
+      Trdat              = trdat;
+      Trbln              = trbln;
+      Rqrsf              = rqrsf;
+      Bbrsf              = bbrsf;
+      Bbamt              = bbamt;
+      Bbwrs              = bbwrs;
+      Bbdat              = bbdat;
+      Bbgb               = bbgb;
+      Rqche              = rqche;
+      Isdat              = isdat;
+      Rqweek             = rqweek;
+      Bbno               = bbno;
+      Bblif              = bblif;
+      Bbrate             = bbrate;
+      Remak              = remak;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
       LocalLastChangedAt = local_last_changed_at;
-      Loekz = loekz;
-      Lifre = lifre;
-      Lifnr = lifnr;
-      Netwr = netwr;
-      Oedat = oedat;
-      Opamt = opamt;
-      Opbnk = opbnk;
-      Opdat = opdat;
-      Oplif = oplif;
-      Opnum = opnum;
-      Opwrs = opwrs;
-      Pdate = pdate;
-      Pedat = pedat;
-      Pterm = pterm;
-      Reqdt = reqdt;
-      Reqmu = reqmu;
-      Reqno = reqno;
-      Reqyr = reqyr;
-      Rqche = rqche;
-      Rqrsf = rqrsf;
-      Rqweek = rqweek;
-      Sdate = sdate;
-      Trbln = trbln;
-      Trdat = trdat;
-      Waers = waers;
-      Zbd1t = zbd1t;
-      Zcdno1 = zcdno1;
-      Zcdno2 = zcdno2;
-      Zcdno3 = zcdno3;
-      Zcdno4 = zcdno4;
-      Zterm = zterm;
-  }
+    }
 }
-/*
-define behavior for YI_ASIM0020N //alias <alias_name>
+
+define behavior for YI_ASIM0021N //alias <alias_name>
 persistent table zasimt0020n
 lock dependent by _Head
 authorization dependent by _Head
@@ -94,49 +148,37 @@ authorization dependent by _Head
 {
   update;
   delete;
-  field (numbering : managed)
+  field ( numbering : managed )
   UUid;
   field ( readonly ) ParentUUID, UUID;
+
+  determination calc_value on save { create; update;}
   association _Head;
 
-   mapping for zasimt0020n
+  mapping for zasimt0020n
     {
-      Chgbu = chgbu;
-    //  Chgdt = chgdt;
-      Chgtm = chgnm;
-
-      Crtbu = crtbu;
-      Crtdt = crtdt;
-      Crtnm = crtnm;
-      Crttm = crttm;
-      Ebeln = ebeln;
-      Ebelp = ebelp;
-      Itmno = itmno;
-      Lgort = lgort;
-      Loekz = loekz;
-//      Maktx = maktx;
-      Matnr = matnr;
+      Ebeln      = ebeln;
+      Ebelp      = ebelp;
+      Itmno      = itmno;
+      Lgort      = lgort;
+      Loekz      = loekz;
+      Matnr      = matnr;
       ParentUUID = parentuuid;
-      Peinh = peinh;
-      Remak = remak;
-      Reqmg = reqmg;
-      Reqmg1 = reqmg1;
-      Reqms = reqms;
-      Reqms1 = reqms1;
-      Reqno = reqno;
-      Reqnr = reqnr;
-      Reqwr = reqwr;
-      Reqyr = reqyr;
-      Uuid = uuid;
-      Vbeln = vbeln;
-      Waers = waers;
-      Werks = werks;
-      Zebeln = zebeln;
-      Zebelp = zebelp;
-
-
-      LastChangedAt = last_changed_at;
-      LocalLastChangedAt = local_last_changed_at;
-
+      Peinh      = peinh;
+      Remak      = remak;
+      Reqmg      = reqmg;
+      Reqmg1     = reqmg1;
+      Reqms      = reqms;
+      Reqms1     = reqms1;
+      Reqno      = reqno;
+      Reqnr      = reqnr;
+      Reqwr      = reqwr;
+      Reqyr      = reqyr;
+      Uuid       = uuid;
+      Vbeln      = vbeln;
+      Waers      = waers;
+      Werks      = werks;
+      Zebeln     = zebeln;
+      Zebelp     = zebelp;
     }
-}*/
+}

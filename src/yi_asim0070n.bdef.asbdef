@@ -10,49 +10,57 @@ authorization master ( instance )
   create;
   update;
   delete;
+
+  field (numbering : managed, readonly) Uuid;
+
   association _Item { create; }
+
+  determination create_number on save { create; }
 
   mapping for zasimt0070n
     {
       Uuid               = uuid;
-Cclno   =   Cclno   ;
-Cclyr   =   Cclyr   ;
-Reqmu   =   Reqmu   ;
-Reqno   =   Reqno   ;
-Reqyr   =   Reqyr   ;
-Blino   =   Blino   ;
-Bliyr   =   Bliyr   ;
-Eccno   =   Eccno   ;
-Eccyr   =   Eccyr   ;
-Decno   =   Decno   ;
-Loekz   =   Loekz   ;
-Bukrs   =   Bukrs   ;
-Ekorg   =   Ekorg   ;
-Cclif   =   Cclif   ;
-Decdt   =   Decdt   ;
-Ccldt   =   Ccldt   ;
-Ccper   =   Ccper   ;
-Ccamt   =   Ccamt   ;
-Ccamtk  =   Ccamtk  ;
-Ccvat1  =   Ccvat1  ;
-Ccvat2  =   Ccvat2  ;
-Hwbas   =   Hwbas   ;
-Ccwae   =   Ccwae   ;
-Ccwaek  =   Ccwaek  ;
-Ccrsf   =   Ccrsf   ;
-Ccdat1  =   Ccdat1  ;
-Ccdat2  =   Ccdat2  ;
-Cclog   =   Cclog   ;
-Ccmos   =   Ccmos   ;
-Cclgort     =   Cclgort     ;
-Ccltx   =   Ccltx   ;
+      Cclno              = cclno;
+      Cclyr              = cclyr;
+      Reqmu              = reqmu;
+      Reqno              = reqno;
+      Reqyr              = reqyr;
+      Blino              = blino;
+      Bliyr              = bliyr;
+      Eccno              = eccno;
+      Eccyr              = eccyr;
+      Decno              = decno;
+      Loekz              = loekz;
+      Bukrs              = bukrs;
+      Ekorg              = ekorg;
+      Cclif              = cclif;
+      Decdt              = decdt;
+      Ccldt              = ccldt;
+      Ccper              = ccper;
+      Ccamt              = ccamt;
+      Ccamtk             = ccamtk;
+      Ccvat1             = ccvat1;
+      Ccvat2             = ccvat2;
+      Hwbas              = hwbas;
+      Ccwae              = ccwae;
+      Ccwaek             = ccwaek;
+      Ccrsf              = ccrsf;
+      Ccdat1             = ccdat1;
+      Ccdat2             = ccdat2;
+      Cclog              = cclog;
+      Ccmos              = ccmos;
+      Cclgort            = cclgort;
+      Ccltx              = ccltx;
+      CreatedAt          = created_at;
+      CreatedBy          = created_by;
       LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
       LocalLastChangedAt = local_last_changed_at;
     }
 
 }
 
-define behavior for YI_ASIM0080N //alias <alias_name>
+define behavior for YI_ASIM0082N //alias <alias_name>
 persistent table zasimt0080n
 lock dependent by _Head
 authorization dependent by _Head
@@ -60,35 +68,35 @@ authorization dependent by _Head
 {
   update;
   delete;
-  field ( readonly ) Parentuuid;
+  field ( readonly ) ParentUUID;
   association _Head;
 
   mapping for zasimt0080n
     {
-      Uuid          = uuid;
-      Parentuuid    = parentuuid;
-Cclno   =   Cclno   ;
-Cclyr   =   Cclyr   ;
-Cclnp   =   Cclnp   ;
-Loekz   =   Loekz   ;
-Eccno   =   Eccno   ;
-Eccyr   =   Eccyr   ;
-Eccnp   =   Eccnp   ;
-Blino   =   Blino   ;
-Bliyr   =   Bliyr   ;
-Blinp   =   Blinp   ;
-Ebeln   =   Ebeln   ;
-Ebelp   =   Ebelp   ;
-Reqno   =   Reqno   ;
-Reqyr   =   Reqyr   ;
-Itmno   =   Itmno   ;
-Matnr   =   Matnr   ;
-Werks   =   Werks   ;
-Lgort   =   Lgort   ;
-Cclmng  =   Cclmng  ;
-Cclmns  =   Cclmns  ;
-Cclmng1     =   Cclmng1     ;
-Cclmns1     =   Cclmns1     ;
-      LastChangedAt = last_changed_at;
+      Uuid       = uuid;
+      ParentUUID = parentuuid;
+      Cclno      = cclno;
+      Cclyr      = cclyr;
+      Cclnp      = cclnp;
+      Loekz      = loekz;
+      Eccno      = eccno;
+      Eccyr      = eccyr;
+      Eccnp      = eccnp;
+      Blino      = blino;
+      Bliyr      = bliyr;
+      Blinp      = blinp;
+      Ebeln      = ebeln;
+      Ebelp      = ebelp;
+      Reqno      = reqno;
+      Reqyr      = reqyr;
+      Itmno      = itmno;
+      Matnr      = matnr;
+      Werks      = werks;
+      Lgort      = lgort;
+      Cclmng     = cclmng;
+      Cclmns     = cclmns;
+      Cclmng1    = cclmng1;
+      Cclmns1    = cclmns1;
+      Waers      = waers;
     }
 }

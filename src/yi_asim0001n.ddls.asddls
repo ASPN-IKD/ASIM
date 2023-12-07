@@ -21,9 +21,6 @@ define view entity YI_ASIM0001N
             @EndUserText.label: '코드 번호'
             zcdno      as Zcdno,
 
-            @Consumption.valueHelpDefinition: [
-             {entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}
-            ]
             @EndUserText.label: 'Value01'
             zvalu1     as Zvalu1,
 

@@ -1,0 +1,4 @@
+@EndUserText.label: '수입 입고 생성가능 뷰 서비스 정의'
+define service YSD_ASIM0102N {
+  expose YI_ASIM0102N;
+}

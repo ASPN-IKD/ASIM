@@ -2,11 +2,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '지급방법 도움말 뷰'
 @Metadata.ignorePropagatedAnnotations: true
-@ObjectModel.usageType:{
-    serviceQuality: #X,
-    sizeCategory: #S,
-    dataClass: #MIXED
-}
+@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_ZLSCH 
   as select from zasimt0001n
 {

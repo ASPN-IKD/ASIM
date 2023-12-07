@@ -68,6 +68,8 @@ define view entity YI_ASIM0012N
       _reqitem.reqnr as Reqnr,
       _reqitem.waers as Waers,
       @EndUserText.label: '인도조건'
-      _reqhead.inco1       as Inco1
+      _reqhead.inco1       as Inco1m,
+      _blitem.Blmng as Blmng,
+      _blitem.Blmns as Blmns
 }
 where cast((_reqitem.reqmg - _blitem.Blmng) as abap.quan( 13, 3 )) > cast(5 as abap.quan( 13, 3 ))

@@ -1,51 +1,32 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입I/V 기생성 정보 인터페이스 뷰(참조용)'
 define view entity YI_ASIM0050N_CREATED_FINAL as select from YI_ASIM0050N_CREATED as _item
+   join         zasimt0020n as _reqitem  on  _item.reqno = _reqitem.reqno
+                                          and _item.reqyr = _reqitem.reqyr
+                                          and _item.itmno = _reqitem.itmno
+
+
 
 {
   key _item.Ivgb as Ivgb,
-  key case when _item.Ivgb = 'A' then _item.Reqno 
-           else _item.Blino
-           end as Blino,
-  key case when _item.Ivgb = 'A' then _item.Reqyr 
-           else _item.Bliyr
-           end as Bliyr,
-  key case when _item.Ivgb = 'A' then _item.Itmno 
-           else _item.Blinp
-           end as Blinp,
+  key _item.reqno ,
+  key _item.reqyr ,
+  key _item.itmno ,
 
       @Semantics.quantity.unitOfMeasure: 'Blmns'
-      case when _item.Ivgb = 'A' then _item.Reqmg 
-           else _item.Blmng
-           end as Blmng,
+      _reqitem.reqmg  as Blmng,
       
-      _item.Blmns as Blmns,
+      cast(_item.Ivmng as abap.dec(20,3)) as Ivmng,
+      
+      _reqitem.reqms as Blmns,
 
       //제외여부필드
-      case
-      when _item.Ivgb = 'A'
-        then case
-             when cast(_item.Reqmg as abap.dec(20,3)) <= cast(_item.Ivmng as abap.dec(20,3)) then 'X'
-             else ''
-             end
-      else
-             case
-             when cast(_item.Blmng as abap.dec(20,3)) <= cast(_item.Ivmng as abap.dec(20,3)) then 'X'
-             else ''
-             end
-      end         as chk,
+      case when cast(_reqitem.reqmg as abap.dec(20,3)) <= cast(_item.Ivmng as abap.dec(20,3)) then 'X'
+           else null
+           end as chk,
 
       //잔량필드
-      case
-      when _item.Ivgb = 'A'
-        then case
-             when cast(_item.Reqmg as abap.dec(20,3)) <= cast(_item.Ivmng as abap.dec(20,3)) then 0
-             else cast(_item.Reqmg as abap.dec(20,3)) - cast(_item.Ivmng as abap.dec(20,3))
-             end
-      else
-            case
-             when cast(_item.Blmng as abap.dec(20,3)) <= cast(_item.Ivmng as abap.dec(20,3)) then 0
-             else cast(_item.Blmng as abap.dec(20,3)) - cast(_item.Ivmng as abap.dec(20,3))
-             end
-      end         as Modmg
+      case when cast(_reqitem.reqmg as abap.dec(20,3)) <= cast(_item.Ivmng as abap.dec(20,3)) then 0
+           else cast(_reqitem.reqmg as abap.dec(20,3)) - cast(_item.Ivmng as abap.dec(20,3))
+           end as Modmg
 }

@@ -11,7 +11,7 @@
 define view entity ZASIMV_PTERM 
   as select from zasimt0001n
 {
-     
+      @ObjectModel.text.element: ['Text']
   key zcdno as Cdno,    
       ztext as Text
 }

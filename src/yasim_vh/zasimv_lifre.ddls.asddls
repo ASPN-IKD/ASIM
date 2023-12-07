@@ -2,7 +2,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '공급처 도움말 뷰'
 @Metadata.ignorePropagatedAnnotations: true
-
+@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_LIFRE 
   as select from zasimt0001n
 {

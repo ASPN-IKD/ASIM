@@ -1,0 +1,4 @@
+@EndUserText.label: '환율 서비스 정의'
+define service YSD_ASIM_CURRATE_2 {
+  expose YI_ASIM_CURRATE;
+}

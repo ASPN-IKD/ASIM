@@ -1,0 +1,54 @@
+managed implementation in class zbp_i_asim0140n unique;
+
+define behavior for YI_ASIM0140N //alias <alias_name>
+persistent table zasimt0140n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field ( numbering : managed, readonly ) Uuid;
+
+  determination calc_value on save { create; }
+
+  mapping for zasimt0140n
+    {
+      parentuuid = parentuuid;
+      uuid       = uuid;
+      feeno      = feeno;
+      feeyr      = feeyr;
+      feenp      = feenp;
+      zcdno      = zcdno;
+      feeno1     = feeno1;
+      feegb      = feegb;
+      gbno       = gbno;
+      gbnp       = gbnp;
+      ebeln      = ebeln;
+      ebelp      = ebelp;
+      matnr      = matnr;
+      werks      = werks;
+      MengeFees  = menge_fees;
+      MeinsFees  = meins_fees;
+      netwr      = netwr;
+      waers      = waers;
+      NetwrFees  = netwr_fees;
+      WmwstFees  = wmwst_fees;
+      WaersFees  = waers_fees;
+      zdc1_p     = zdc1_p;
+      mblnr      = mblnr;
+      mjahr      = mjahr;
+      Zelie      = zeile;
+      cclno      = cclno;
+      cclyr      = cclyr;
+      cclnp      = cclnp;
+      blino      = blino;
+      bliyr      = bliyr;
+      blinp      = blinp;
+      reqno      = reqno;
+      reqyr      = reqyr;
+      itmno      = itmno;
+    }
+}

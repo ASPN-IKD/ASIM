@@ -1,0 +1,4 @@
+@EndUserText.label: '수입I/V 생성 서비스 정의(B/L)'
+define service YSD_ASIM0052N {
+  expose YI_ASIM0052N;
+}

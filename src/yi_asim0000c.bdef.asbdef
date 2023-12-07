@@ -25,9 +25,14 @@ authorization master ( instance )
       Viewat = viewat;
       Viewtp = viewtp;
       Usediv = usediv;
-      Fielda = fielda;
-      Fieldc = fieldc;
-      Fieldu = fieldu;
-      Cdsvid = cdsvid;
+      Fieldall = fieldall;
+      Fieldcre = fieldcre;
+      Fieldupd = fieldupd;
+      Fieldnum = fieldnum;
+      Fielddat = fielddat;
+      Fieldkey = fieldkey;
+      Fieldseq = fieldseq;
+      Roleid   = roleid;
+
   }
 }

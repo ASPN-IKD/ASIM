@@ -11,6 +11,7 @@ private section.
 ENDCLASS.
 
 
+
 CLASS ZCL_INSERT_DATA IMPLEMENTATION.
 
 

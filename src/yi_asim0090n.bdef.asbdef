@@ -25,22 +25,12 @@ authorization master ( instance )
     Bukrs = bukrs;
     Cclno = cclno;
     Cclyr = cclyr;
-    Chgbu = chgbu;
-    Chgdt = chgdt;
-    Chgnm = chgnm;
-    Chgtm = chgtm;
-    Crtbu = crtbu;
-    Crtdt = crtdt;
-    Crtnm = crtnm;
-    Crttm = crttm;
     Eccno = eccno;
     Eccyr = eccyr;
     Ekorg = ekorg;
     GjahrGr = gjahr_gr;
     Grche = grche;
-    LastChangedAt = last_changed_at;
     Lifnr = lifnr;
-    LocalLastChangedAt = local_last_changed_at;
     Loekz = loekz;
     Mblnr = mblnr;
     Mjahr = mjahr;
@@ -50,11 +40,16 @@ authorization master ( instance )
     SjahrGr = sjahr_gr;
     SmblnGr = smbln_gr;
     Uuid = uuid;
+     CreatedAt          = created_at;
+      CreatedBy          = created_by;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
 
   }
 }
 
-define behavior for YI_ASIM0100N //alias <alias_name>
+define behavior for YI_ASIM0101N //alias <alias_name>
 persistent table zasimt0100n
 lock dependent by _Head
 authorization dependent by _Head
@@ -81,14 +76,6 @@ authorization dependent by _Head
     Cclyr = cclyr;
     Cgjahr = cgjahr;
     Charg = charg;
-    Chgbu = chgbu;
-    Chgdt = chgdt;
-    Chgnm = chgnm;
-    Chgtm = chgtm;
-    Crtbu = crtbu;
-    Crtdt = crtdt;
-    Crtnm = crtnm;
-    Crttm = crttm;
     Ebeln = ebeln;
     Ebelp = ebelp;
     Eccno = eccno;
@@ -101,9 +88,7 @@ authorization dependent by _Head
     Grmns1 = grmns1;
     Hsdat = hsdat;
     Itmno = itmno;
-    LastChangedAt = last_changed_at;
     Lgort = lgort;
-    LocalLastChangedAt = local_last_changed_at;
     Loekz = loekz;
     Matnr = matnr;
     Maxlz = maxlz;

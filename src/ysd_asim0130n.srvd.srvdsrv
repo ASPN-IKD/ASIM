@@ -1,0 +1,5 @@
+@EndUserText.label: '수입 부대비 서비스 정의'
+define service YSD_ASIM0130N {
+  expose YI_ASIM0130N;
+  expose YI_ASIM0141N;
+}

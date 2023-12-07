@@ -1,0 +1,5 @@
+@EndUserText.label: '구매 오더 CBO'
+define service YSD_POHEADER_001 {
+  expose YI_POGETHEADER_001;
+  expose YI_POGETITEM_001;
+}

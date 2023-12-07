@@ -1,46 +1,39 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-@EndUserText.label: '수입통관예정 생성가능 정보 인터페이스 뷰'
+@EndUserText.label: '통관예정 생성가능 정보 인터페이스 뷰'
 define root view entity YI_ASIM0191N
-  as select from YI_ASIM0030N as _Asim0030n
-
-  association [1..*] to YI_ASIM0040N as _Asim0040n on  $projection.Uuid     = _Asim0040n.ParentUUID
-                                                   and _Asim0040n.Modmg_ecc > 0
-
+  as select from YI_ASIM0040N as _Asim0040n
+    join         YI_ASIM0030N as _Asim0030n on _Asim0030n.Uuid = _Asim0040n.ParentUUID
 {
-      @ObjectModel.filter.enabled: false
-  key _Asim0030n.Uuid                                                                          as Uuid,
+  key _Asim0040n.Uuid                                                                          as Uuid,
 
-      @ObjectModel.filter.enabled: false
-  key _Asim0040n.ParentUUID                                                                    as Parentuuid,
+      @EndUserText.label: 'B/L내부번호'
+      _Asim0030n.Blino                                                                         as Blino,
 
       @EndUserText.label: 'B/L연도'
-      _Asim0040n.Bliyr                                                                         as Bliyr,
+      _Asim0030n.Bliyr                                                                         as Bliyr,
 
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BLINO', element: 'Blino' }}]
-      @EndUserText.label: 'B/L내부번호'
-      _Asim0040n.Blino                                                                         as Blino,
-
-      @EndUserText.label: 'B/L품목번호'
+      @EndUserText.label: 'B/L품목'
       _Asim0040n.Blinp                                                                         as Blinp,
 
       @EndUserText.label: '계약연도'
       _Asim0040n.Reqyr                                                                         as Reqyr,
 
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQNO', element: 'Reqno' }}]
       @EndUserText.label: '계약내부번호'
       _Asim0040n.Reqno                                                                         as Reqno,
+
+      @EndUserText.label: '요청일'
+      _Asim0030n.Reqdt                                                                         as Reqdt,
 
       @EndUserText.label: '계약품목'
       _Asim0040n.Itmno                                                                         as Itmno,
 
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQMU', element: 'Reqmu' }}]
       @EndUserText.label: '관리번호'
       _Asim0030n.Reqmu                                                                         as Reqmu,
 
       @EndUserText.label: '구매문서번호'
       _Asim0040n.Ebeln                                                                         as Ebeln,
 
-      @EndUserText.label: '구매문서품목번호'
+      @EndUserText.label: '구매문서품목'
       _Asim0040n.Ebelp                                                                         as Ebelp,
 
       @ObjectModel.text.element: ['Bukrst']
@@ -51,8 +44,6 @@ define root view entity YI_ASIM0191N
       @EndUserText.label: '회사코드명'
       _Asim0030n.Bukrst                                                                        as Bukrst,
 
-      @ObjectModel.text.element: ['Ekorgt']
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKORG', element: 'Ekorg' }}]
       @EndUserText.label: '구매조직'
       _Asim0030n.Ekorg                                                                         as Ekorg,
 
@@ -74,9 +65,6 @@ define root view entity YI_ASIM0191N
 
       @EndUserText.label: '공급업체명'
       _Asim0030n.Lifnrt                                                                        as Lifnrt,
-
-      @EndUserText.label: '삭제지시자'
-      _Asim0030n.Loekz                                                                         as Loekz,
 
       @EndUserText.label: 'B/L번호'
       _Asim0030n.Bleno                                                                         as Bleno,
@@ -110,10 +98,8 @@ define root view entity YI_ASIM0191N
 
       @EndUserText.label: '총중량'
       _Asim0030n.Brgew                                                                         as Brgew,
-
       @EndUserText.label: '순중량'
       _Asim0030n.Negew                                                                         as Negew,
-
       @EndUserText.label: '중량단위'
       _Asim0030n.Gewei                                                                         as Gewei,
 
@@ -123,8 +109,9 @@ define root view entity YI_ASIM0191N
       @EndUserText.label: '컨테이너번호'
       _Asim0030n.Cntno                                                                         as Cntno,
 
-      @ObjectModel.text.element: ['Mosno']
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_MOSNO', element: 'Cdno' }}]
+      @ObjectModel.text.element: ['Mosnot']
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_MOSNO', element: 'Cdno' }}
+      ]
       @EndUserText.label: '모선번호'
       _Asim0030n.Mosno                                                                         as Mosno,
 
@@ -156,7 +143,6 @@ define root view entity YI_ASIM0191N
       _Asim0030n.Lifret                                                                        as Lifret,
 
       @ObjectModel.text.element: ['Inco1t']
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_INCO1', element: 'inco1' }}]
       @EndUserText.label: '인도조건'
       _Asim0030n.Inco1                                                                         as Inco1,
 
@@ -233,7 +219,6 @@ define root view entity YI_ASIM0191N
       _Asim0030n.Opwrs                                                                         as Opwrs,
 
       @ObjectModel.text.element: ['Ptermt']
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_PTERM', element: 'Cdno' }}]
       @EndUserText.label: '결제조건'
       _Asim0030n.Pterm                                                                         as Pterm,
 
@@ -410,16 +395,16 @@ define root view entity YI_ASIM0191N
       @EndUserText.label: '관세율'
       _Asim0040n.Zdc1_p                                                                        as Zdc1_p,
 
-      //      @EndUserText.label: '관세액'
-      //      @Semantics.amount.currencyCode: 'Waers'
-      //      _Asim0040n.Zdc1_n                                                                        as Zdc1_n,
+      @EndUserText.label: '관세액'
+      @Semantics.amount.currencyCode: 'Waers'
+      _Asim0040n.Zdc1_n                                                                        as Zdc1_n,
 
       @EndUserText.label: '부대비율'
       _Asim0040n.Zdc2_p                                                                        as Zdc2_p,
 
-      //      @EndUserText.label: '부대비액'
-      //      @Semantics.amount.currencyCode: 'Waers'
-      //      _Asim0040n.Zdc2_n                                                                        as Zdc2_n,
+      @EndUserText.label: '부대비액'
+      @Semantics.amount.currencyCode: 'Waers'
+      _Asim0040n.Zdc2_n                                                                        as Zdc2_n,
 
       @EndUserText.label: '제조일'
       _Asim0040n.Hsdat                                                                         as Hsdat,
@@ -438,10 +423,11 @@ define root view entity YI_ASIM0191N
 
       @EndUserText.label: '구매요청번호'
       _Asim0040n.Zebeln                                                                        as Zebeln,
-
       @EndUserText.label: '구매요청품목'
       _Asim0040n.Zebelp                                                                        as Zebelp
+
 }
 where
-      _Asim0030n.Eccgb = 'X'
-  and _Asim0030n.Loekz = ''
+      _Asim0030n.Loekz   = ''
+  and _Asim0030n.Eccgb   = 'X'
+  and _Asim0040n.Chk_ecc is null

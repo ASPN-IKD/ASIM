@@ -1,0 +1,5 @@
+@EndUserText.label: '수입원가현황 서비스 정의'
+define service YSD_ASIM0900N {
+  expose YCUBE_ASIM0900N;
+  expose YQUERY_ASIM0900N;
+}

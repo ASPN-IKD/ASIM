@@ -1,6 +1,5 @@
 @EndUserText.label: '플랜트 도움말 뷰'
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-@ObjectModel.resultSet.sizeCategory: #XS
 define view entity ZASIMV_WERKS
   as select from I_Plant
 

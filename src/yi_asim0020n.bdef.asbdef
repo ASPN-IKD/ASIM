@@ -1,0 +1,60 @@
+managed implementation in class zbp_i_asim0020n unique;
+strict ( 2 );
+
+define behavior for YI_ASIM0020N //alias <alias_name>
+persistent table zasimt0020n
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+
+  field (numbering : managed)
+  UUid;
+  field ( readonly ) UUID;
+  determination calc_value on save { create; update; }
+  determination d_calc_total on save { delete; }
+
+   mapping for zasimt0020n
+    {
+//      Chgbu = chgbu;
+//    //  Chgdt = chgdt;
+//      Chgtm = chgnm;
+//
+//      Crtbu = crtbu;
+//      Crtdt = crtdt;
+//      Crtnm = crtnm;
+//      Crttm = crttm;
+      Ebeln = ebeln;
+      Ebelp = ebelp;
+      Itmno = itmno;
+      Lgort = lgort;
+      Loekz = loekz;
+//      Maktx = maktx;
+      Matnr = matnr;
+      ParentUUID = parentuuid;
+      Peinh = peinh;
+      Remak = remak;
+      Reqmg = reqmg;
+      Reqmg1 = reqmg1;
+      Reqms = reqms;
+      Reqms1 = reqms1;
+      Reqno = reqno;
+      Reqnr = reqnr;
+      Reqwr = reqwr;
+      Reqyr = reqyr;
+      Uuid = uuid;
+      Vbeln = vbeln;
+      Waers = waers;
+      Werks = werks;
+      Zebeln = zebeln;
+      Zebelp = zebelp;
+
+
+//      LastChangedAt = last_changed_at;
+//      LocalLastChangedAt = local_last_changed_at;
+
+    }
+}

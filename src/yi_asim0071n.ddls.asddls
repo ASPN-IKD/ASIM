@@ -1,505 +1,534 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입통관 생성가능 정보 인터페이스 뷰'
 define root view entity YI_ASIM0071N
-  as select from    YI_ASIM0030N as _Asim0030n
-    join            YI_ASIM0040N as _Asim0040n on _Asim0030n.Uuid = _Asim0040n.Uuid
-    left outer join YI_ASIM0190N as _Asim0190n on  _Asim0030n.Blino = _Asim0190n.Blino
-                                               and _Asim0030n.Bliyr = _Asim0190n.Bliyr
-                                               and _Asim0190n.Loekz = ''
+  as select from    YI_ASIM0040N as _Asim0040n
+    join            YI_ASIM0030N as _Asim0030n on _Asim0030n.Uuid = _Asim0040n.ParentUUID
+                                               and _Asim0030n.Loekz = ''
+                                               and ( _Asim0040n.Chk_cc = '' or _Asim0040n.Chk_cc is null )
+
     left outer join YI_ASIM0200N as _Asim0200n on  _Asim0040n.Blinp = _Asim0200n.Blinp
                                                and _Asim0040n.Blino = _Asim0200n.Blino
                                                and _Asim0040n.Bliyr = _Asim0200n.Bliyr
+                                               and _Asim0030n.Eccgb = 'X'
                                                and _Asim0200n.Loekz = ''
+                                               and ( _Asim0200n.Chk_cc = '' or _Asim0200n.Chk_cc is null )
+                                               
+    left outer join YI_ASIM0190N as _Asim0190n on  _Asim0030n.Blino = _Asim0190n.Blino
+                                               and _Asim0030n.Bliyr = _Asim0190n.Bliyr
+                                               and _Asim0190n.Uuid = _Asim0200n.ParentUUID
+                                               and _Asim0030n.Eccgb = 'X'
+                                               and _Asim0190n.Loekz = ''
+  /*on  _Asim0030n.Reqno = _Asim0190n.Reqno
+  and _Asim0030n.Reqyr = _Asim0190n.Reqyr
+  and _Asim0190n.Loekz = ''*/
+                                               
+  /*on  _Asim0040n.Reqno = _Asim0200n.Reqno
+  and _Asim0040n.Reqyr = _Asim0200n.Reqyr
+  and _Asim0200n.Loekz = ''*/
 {
+      @EndUserText.label: '참조구분'
+  key case when _Asim0190n.Eccno is null then 'BL' else 'EC' end                       as Refdiv,
+
+  key case when _Asim0190n.Eccno is null then _Asim0040n.Uuid else _Asim0200n.Uuid end as Uuid,
+
       @EndUserText.label: 'B/L내부번호'
-  key _Asim0030n.Blino    as Blino,
+      _Asim0030n.Blino                                                                 as Blino,
 
       @EndUserText.label: 'B/L연도'
-  key _Asim0030n.Bliyr    as Bliyr,
+      _Asim0030n.Bliyr                                                                 as Bliyr,
 
       @EndUserText.label: 'B/L품목'
-  key _Asim0040n.Blinp    as Blinp,
+      _Asim0040n.Blinp                                                                 as Blinp,
 
-      @EndUserText.label: '통관예정번호'
-  key _Asim0190n.Eccno    as Eccno,
 
       @EndUserText.label: '통관예정연도'
-  key _Asim0190n.Eccyr    as Eccyr,
+      _Asim0190n.Eccyr                                                                 as Eccyr,
 
       @EndUserText.label: '통관예정품목'
-  key _Asim0200n.Eccnp    as Eccnp,
+      _Asim0200n.Eccnp                                                                 as Eccnp,
+
+
+
+      @EndUserText.label: '통관예정번호'
+      _Asim0190n.Eccno                                                                 as Eccno,
 
       @EndUserText.label: '계약연도'
-      _Asim0040n.Reqyr    as Reqyr,
+      _Asim0040n.Reqyr                                                                 as Reqyr,
 
       @EndUserText.label: '계약내부번호'
-      _Asim0040n.Reqno    as Reqno,
+      _Asim0040n.Reqno                                                                 as Reqno,
+
+      @EndUserText.label: '요청일'
+      _Asim0030n.Reqdt                                                                 as Reqdt,
 
       @EndUserText.label: '계약품목'
-      _Asim0040n.Itmno    as Itmno,
+      _Asim0040n.Itmno                                                                 as Itmno,
 
       @EndUserText.label: '관리번호'
-      _Asim0030n.Reqmu    as Reqmu,
+      _Asim0030n.Reqmu                                                                 as Reqmu,
 
       @EndUserText.label: '구매문서번호'
-      _Asim0040n.Ebeln    as Ebeln,
+      _Asim0040n.Ebeln                                                                 as Ebeln,
 
       @EndUserText.label: '구매문서품목'
-      _Asim0040n.Ebelp    as Ebelp,
+      _Asim0040n.Ebelp                                                                 as Ebelp,
 
       @ObjectModel.text.element: ['Bukrst']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs' }}]
       @EndUserText.label: '회사코드'
-      _Asim0030n.Bukrs    as Bukrs,
+      _Asim0030n.Bukrs                                                                 as Bukrs,
 
       @EndUserText.label: '회사코드명'
-      _Asim0030n.Bukrst   as Bukrst,
+      _Asim0030n.Bukrst                                                                as Bukrst,
 
       @EndUserText.label: '구매조직'
-      _Asim0030n.Ekorg    as Ekorg,
+      _Asim0030n.Ekorg                                                                 as Ekorg,
 
       @EndUserText.label: '구매조직명'
-      _Asim0030n.Ekorgt   as Ekorgt,
+      _Asim0030n.Ekorgt                                                                as Ekorgt,
 
       @ObjectModel.text.element: ['Ekgrpt']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_EKGRP', element: 'Ekgrp' }}]
       @EndUserText.label: '구매그룹'
-      _Asim0030n.Ekgrp    as Ekgrp,
+      _Asim0030n.Ekgrp                                                                 as Ekgrp,
 
       @EndUserText.label: '구매그룹명'
-      _Asim0030n.Ekgrpt   as Ekgrpt,
+      _Asim0030n.Ekgrpt                                                                as Ekgrpt,
 
       @ObjectModel.text.element: ['Lifnrt']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}]
       @EndUserText.label: '공급업체'
-      _Asim0030n.Lifnr    as Lifnr,
+      _Asim0030n.Lifnr                                                                 as Lifnr,
 
       @EndUserText.label: '공급업체명'
-      _Asim0030n.Lifnrt   as Lifnrt,
+      _Asim0030n.Lifnrt                                                                as Lifnrt,
 
       @EndUserText.label: 'B/L번호'
-      _Asim0030n.Bleno    as Bleno,
+      _Asim0030n.Bleno                                                                 as Bleno,
 
       @EndUserText.label: 'B/L발행일'
-      _Asim0030n.Bldat    as Bldat,
+      _Asim0030n.Bldat                                                                 as Bldat,
 
       @EndUserText.label: '입항일'
-      _Asim0030n.Bleta    as Bleta,
+      _Asim0030n.Bleta                                                                 as Bleta,
 
       @EndUserText.label: '선적일'
-      _Asim0030n.Bletd    as Bletd,
+      _Asim0030n.Bletd                                                                 as Bletd,
 
       @EndUserText.label: 'ETD'
-      _Asim0030n.Rqetd    as Rqetd,
+      _Asim0030n.Rqetd                                                                 as Rqetd,
 
       @EndUserText.label: 'ETA'
-      _Asim0030n.Rqeta    as Rqeta,
+      _Asim0030n.Rqeta                                                                 as Rqeta,
 
       @EndUserText.label: '만기일수'
-      _Asim0030n.Bld1t    as Bld1t,
+      _Asim0030n.Bld1t                                                                 as Bld1t,
 
       @EndUserText.label: '인수만기일'
-      _Asim0030n.Bledt    as Bledt,
+      _Asim0030n.Bledt                                                                 as Bledt,
 
       @EndUserText.label: '선적서류접수일'
-      _Asim0030n.Bldat2   as Bldat2,
+      _Asim0030n.Bldat2                                                                as Bldat2,
 
       @EndUserText.label: '입고예정일'
-      _Asim0030n.Blgrd    as Blgrd,
+      _Asim0030n.Blgrd                                                                 as Blgrd,
 
       @EndUserText.label: '총중량'
-      _Asim0030n.Brgew    as Brgew,
+      _Asim0030n.Brgew                                                                 as Brgew,
       @EndUserText.label: '순중량'
-      _Asim0030n.Negew    as Negew,
+      _Asim0030n.Negew                                                                 as Negew,
       @EndUserText.label: '중량단위'
-      _Asim0030n.Gewei    as Gewei,
+      _Asim0030n.Gewei                                                                 as Gewei,
 
       @EndUserText.label: 'L/G번호'
-      _Asim0030n.Lgnum    as Lgnum,
+      _Asim0030n.Lgnum                                                                 as Lgnum,
 
       @EndUserText.label: '컨테이너번호'
-      _Asim0030n.Cntno    as Cntno,
+      _Asim0030n.Cntno                                                                 as Cntno,
 
       @ObjectModel.text.element: ['Mosnot']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_MOSNO', element: 'Cdno' }}
       ]
       @EndUserText.label: '모선번호'
-      _Asim0030n.Mosno    as Mosno,
+      _Asim0030n.Mosno                                                                 as Mosno,
 
       @EndUserText.label: '모선번호명'
-      _Asim0030n.Mosnot   as Mosnot,
+      _Asim0030n.Mosnot                                                                as Mosnot,
 
       @EndUserText.label: 'B/L총금액'
       @Semantics.amount.currencyCode : 'Waers'
-      _Asim0030n.Blamt    as Blamt,
+      _Asim0030n.Blamt                                                                 as Blamt,
 
       @EndUserText.label: '통화키'
-      _Asim0030n.Waers    as Waers,
+      _Asim0030n.Waers                                                                 as Waers,
 
       @EndUserText.label: 'B/L Text'
-      _Asim0030n.Blitx    as Blitx,
+      _Asim0030n.Blitx                                                                 as Blitx,
 
       @EndUserText.label: '납품완료체크'
-      _Asim0030n.Blche    as Blche,
+      _Asim0030n.Blche                                                                 as Blche,
 
       @EndUserText.label: '검역여부'
-      _Asim0030n.Eccgb    as Eccgb,
+      _Asim0030n.Eccgb                                                                 as Eccgb,
 
       @ObjectModel.text.element: ['Lifret']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_LIFRE', element: 'Cdno' }}]
       @EndUserText.label: '공급처'
-      _Asim0030n.Lifre    as Lifre,
+      _Asim0030n.Lifre                                                                 as Lifre,
 
       @EndUserText.label: '공급처명'
-      _Asim0030n.Lifret   as Lifret,
+      _Asim0030n.Lifret                                                                as Lifret,
 
       @ObjectModel.text.element: ['Inco1t']
       @EndUserText.label: '인도조건'
-      _Asim0030n.Inco1    as Inco1,
+      _Asim0030n.Inco1                                                                 as Inco1,
 
       @EndUserText.label: '인도조건명'
-      _Asim0030n.Inco1t   as Inco1t,
+      _Asim0030n.Inco1t                                                                as Inco1t,
 
       @EndUserText.label: '인도처'
-      _Asim0030n.Inco2    as Inco2,
+      _Asim0030n.Inco2                                                                 as Inco2,
 
       @ObjectModel.text.element: ['Ztermt']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}]
       @EndUserText.label: '지급조건'
-      _Asim0030n.Zterm    as Zterm,
+      _Asim0030n.Zterm                                                                 as Zterm,
 
       @EndUserText.label: '지급조건명'
-      _Asim0030n.Ztermt   as Ztermt,
+      _Asim0030n.Ztermt                                                                as Ztermt,
 
       @ObjectModel.text.element: ['Zcdno1t']
       @EndUserText.label: '도착지'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO1', element: 'Cdno' }}]
-      _Asim0030n.Zcdno1   as Zcdno1,
+      _Asim0030n.Zcdno1                                                                as Zcdno1,
 
       @EndUserText.label: '도착지명'
-      _Asim0030n.Zcdno1t  as Zcdno1t,
+      _Asim0030n.Zcdno1t                                                               as Zcdno1t,
 
       @ObjectModel.text.element: ['Zcdno2t']
       @EndUserText.label: '운송수단'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO2', element: 'Cdno' }}]
-      _Asim0030n.Zcdno2   as Zcdno2,
+      _Asim0030n.Zcdno2                                                                as Zcdno2,
 
       @EndUserText.label: '운송수단명'
-      _Asim0030n.Zcdno2t  as Zcdno2t,
+      _Asim0030n.Zcdno2t                                                               as Zcdno2t,
 
       @ObjectModel.text.element: ['Zcdno3t']
       @EndUserText.label: '선적지'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO3', element: 'Cdno' }}]
-      _Asim0030n.Zcdno3   as Zcdno3,
+      _Asim0030n.Zcdno3                                                                as Zcdno3,
 
       @EndUserText.label: '선적지명'
-      _Asim0030n.Zcdno3t  as Zcdno3t,
+      _Asim0030n.Zcdno3t                                                               as Zcdno3t,
 
       @ObjectModel.text.element: ['Zcdno4t']
       @EndUserText.label: '운송형태'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZCDNO4', element: 'Cdno' }}]
-      _Asim0030n.Zcdno4   as Zcdno4,
+      _Asim0030n.Zcdno4                                                                as Zcdno4,
 
       @EndUserText.label: '운송형태명'
-      _Asim0030n.Zcdno4t  as Zcdno4t,
+      _Asim0030n.Zcdno4t                                                               as Zcdno4t,
 
       @EndUserText.label: '총금액'
       @Semantics.amount.currencyCode : 'Waers'
-      _Asim0030n.Netwr    as Netwr,
+      _Asim0030n.Netwr                                                                 as Netwr,
 
       @EndUserText.label: 'L/C오픈일'
-      _Asim0030n.Opdat    as Opdat,
+      _Asim0030n.Opdat                                                                 as Opdat,
 
       @ObjectModel.text.element: ['Opbnkt']
       @EndUserText.label: '개설은행'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPBNK', element: 'Cdno' }}]
-      _Asim0030n.Opbnk    as Opbnk,
+      _Asim0030n.Opbnk                                                                 as Opbnk,
 
       @EndUserText.label: '개설은행명'
-      _Asim0030n.Opbnkt   as Opbnkt,
+      _Asim0030n.Opbnkt                                                                as Opbnkt,
 
       @EndUserText.label: 'L/C번호'
-      _Asim0030n.Opnum    as Opnum,
+      _Asim0030n.Opnum                                                                 as Opnum,
 
       @EndUserText.label: 'L/C오픈금액'
       @Semantics.amount.currencyCode : 'Opwrs'
-      _Asim0030n.Opamt    as Opamt,
+      _Asim0030n.Opamt                                                                 as Opamt,
 
       @EndUserText.label: '통화 키'
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
-      _Asim0030n.Opwrs    as Opwrs,
+      _Asim0030n.Opwrs                                                                 as Opwrs,
 
       @ObjectModel.text.element: ['Ptermt']
       @EndUserText.label: '결제조건'
-      _Asim0030n.Pterm    as Pterm,
+      _Asim0030n.Pterm                                                                 as Pterm,
 
       @EndUserText.label: '결제조건명'
-      _Asim0030n.Ptermt   as Ptermt,
+      _Asim0030n.Ptermt                                                                as Ptermt,
 
       @EndUserText.label: '결제조건일수'
-      _Asim0030n.Zbd1t    as Zbd1t,
+      _Asim0030n.Zbd1t                                                                 as Zbd1t,
 
       @EndUserText.label: '결제예정일'
-      _Asim0030n.Pedat    as Pedat,
+      _Asim0030n.Pedat                                                                 as Pedat,
 
       @EndUserText.label: '결제일'
-      _Asim0030n.Pdate    as Pdate,
+      _Asim0030n.Pdate                                                                 as Pdate,
 
       @EndUserText.label: '오픈예정일'
-      _Asim0030n.Oedat    as Oedat,
+      _Asim0030n.Oedat                                                                 as Oedat,
 
       @ObjectModel.text.element: ['Oplift']
       @EndUserText.label: '오픈처'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_OPLIF', element: 'Cdno' }}]
-      _Asim0030n.Oplif    as Oplif,
+      _Asim0030n.Oplif                                                                 as Oplif,
 
       @EndUserText.label: '오픈처명'
-      _Asim0030n.Oplift   as Oplift,
+      _Asim0030n.Oplift                                                                as Oplift,
 
       @EndUserText.label: 'Sdate'
-      _Asim0030n.Sdate    as Sdate,
+      _Asim0030n.Sdate                                                                 as Sdate,
 
       @EndUserText.label: 'Edate'
-      _Asim0030n.Edate    as Edate,
+      _Asim0030n.Edate                                                                 as Edate,
 
       @ObjectModel.text.element: ['Colift']
       @EndUserText.label: '실계약처'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_COLIF', element: 'Cdno' }}]
-      _Asim0030n.Colif    as Colif,
+      _Asim0030n.Colif                                                                 as Colif,
 
       @EndUserText.label: '실계약처명'
-      _Asim0030n.Colift   as Colift,
+      _Asim0030n.Colift                                                                as Colift,
 
       @ObjectModel.text.element: ['Filift']
       @EndUserText.label: '파이낸스'
-      _Asim0030n.Filif    as Filif,
+      _Asim0030n.Filif                                                                 as Filif,
 
       @EndUserText.label: '파이낸스명'
-      _Asim0030n.Filift   as Filift,
+      _Asim0030n.Filift                                                                as Filift,
 
       @EndUserText.label: '계약번호1'
-      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONT1', element: 'Cdno' }}]
-      _Asim0030n.Cont1    as Cont1,
+      //@Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONT1', element: 'Cdno' }}]
+      _Asim0030n.Cont1                                                                 as Cont1,
 
       @EndUserText.label: '계약번호2'
-      _Asim0030n.Cont2    as Cont2,
+      _Asim0030n.Cont2                                                                 as Cont2,
 
       @EndUserText.label: '접수일'
-      _Asim0030n.Acdat    as Acdat,
+      _Asim0030n.Acdat                                                                 as Acdat,
 
       @EndUserText.label: 'BOOKING No.'
-      _Asim0030n.Bokno    as Bokno,
+      _Asim0030n.Bokno                                                                 as Bokno,
 
       @ObjectModel.text.element: ['Conrtt']
       @EndUserText.label: '계약유형'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CONRT', element: 'Cdno' }}]
-      _Asim0030n.Conrt    as Conrt,
+      _Asim0030n.Conrt                                                                 as Conrt,
 
       @EndUserText.label: '계약유형명'
-      _Asim0030n.Conrt    as Conrtt,
+      _Asim0030n.Conrt                                                                 as Conrtt,
 
       @EndUserText.label: '양도일(수입대행)'
-      _Asim0030n.Trdat    as Trdat,
+      _Asim0030n.Trdat                                                                 as Trdat,
 
       @EndUserText.label: 'B/L번호(수입대행)'
-      _Asim0030n.Trbln    as Trbln,
+      _Asim0030n.Trbln                                                                 as Trbln,
 
       @EndUserText.label: '개설환율'
-      _Asim0030n.Rqrsf    as Rqrsf,
+      _Asim0030n.Rqrsf                                                                 as Rqrsf,
 
       @EndUserText.label: '부보환율'
-      _Asim0030n.Bbrsf    as Bbrsf,
+      _Asim0030n.Bbrsf                                                                 as Bbrsf,
 
       @EndUserText.label: '부보대상금액'
       @Semantics.amount.currencyCode : 'Bbwrs'
-      _Asim0030n.Bbamt    as Bbamt,
+      _Asim0030n.Bbamt                                                                 as Bbamt,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '통화 키'
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
-      _Asim0030n.Bbwrs    as Bbwrs,
+      _Asim0030n.Bbwrs                                                                 as Bbwrs,
 
       @EndUserText.label: '부보일'
-      _Asim0030n.Bbdat    as Bbdat,
+      _Asim0030n.Bbdat                                                                 as Bbdat,
 
       @ObjectModel.text.element: ['Bbgbt']
       @EndUserText.label: '보험조건'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBGB', element: 'Cdno' }}]
-      _Asim0030n.Bbgb     as Bbgb,
+      _Asim0030n.Bbgb                                                                  as Bbgb,
 
       @EndUserText.label: '보험조건명'
-      _Asim0030n.Bbgbt    as Bbgbt,
+      _Asim0030n.Bbgbt                                                                 as Bbgbt,
 
       @EndUserText.label: '계약완료'
-      _Asim0030n.Rqche    as Rqche,
+      _Asim0030n.Rqche                                                                 as Rqche,
 
       @EndUserText.label: '인수일'
-      _Asim0030n.Isdat    as Isdat,
+      _Asim0030n.Isdat                                                                 as Isdat,
 
       @EndUserText.label: '주차(오퍼)'
-      _Asim0030n.Rqweek   as Rqweek,
+      _Asim0030n.Rqweek                                                                as Rqweek,
 
       @EndUserText.label: '보험증권번호'
-      _Asim0030n.Bbno     as Bbno,
+      _Asim0030n.Bbno                                                                  as Bbno,
 
       @ObjectModel.text.element: ['Bblift']
       @EndUserText.label: '보험회사'
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BBLIF', element: 'Cdno' }}]
-      _Asim0030n.Bblif    as Bblif,
+      _Asim0030n.Bblif                                                                 as Bblif,
 
       @EndUserText.label: '보험회사명'
-      _Asim0030n.Bblift   as Bblift,
+      _Asim0030n.Bblift                                                                as Bblift,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '부보 Basic Rate'
-      _Asim0030n.Bbrate   as Bbrate,
+      _Asim0030n.Bbrate                                                                as Bbrate,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: 'Remark'
-      _Asim0030n.Remak    as Remak,
+      _Asim0030n.Remak                                                                 as Remak,
 
       @EndUserText.label: '통관예정일'
-      _Asim0190n.Eccdt    as Eccdt,
+      _Asim0190n.Eccdt                                                                 as Eccdt,
 
       @EndUserText.label: '입고예정일'
-      _Asim0190n.Egrdt    as Egrdt,
+      _Asim0190n.Egrdt                                                                 as Egrdt,
 
       @EndUserText.label: '화물관리번호'
-      _Asim0190n.Eccmrn   as Eccmrn,
+      _Asim0190n.Eccmrn                                                                as Eccmrn,
 
       @EndUserText.label: '보세운송번호'
-      _Asim0190n.Ecctrn   as Ecctrn,
+      _Asim0190n.Ecctrn                                                                as Ecctrn,
 
       @EndUserText.label: '장치위치정보'
-      _Asim0190n.Eccwmn   as Eccwmn,
+      _Asim0190n.Eccwmn                                                                as Eccwmn,
 
       @EndUserText.label: '반입일'
-      _Asim0190n.Ccldt    as Ccldt,
+      _Asim0190n.Ccldt                                                                 as Ccldt,
 
       @ObjectModel.text.element: ['Cclgortt']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_CCLGORT', element: 'Cdno' }}]
       @EndUserText.label: '보세창고'
-      _Asim0190n.Cclgort  as Cclgort,
+      _Asim0190n.Cclgort                                                               as Cclgort,
 
       @EndUserText.label: '보세창고명'
-      _Asim0190n.Cclgortt as Cclgortt,
+      _Asim0190n.Cclgortt                                                              as Cclgortt,
 
       @EndUserText.label: '검사(반입)장소'
-      _Asim0190n.Cclog    as Cclog,
+      _Asim0190n.Cclog                                                                 as Cclog,
 
       @ObjectModel.text.element: ['Werkst']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_WERKS', element: 'Werks' }}]
       @EndUserText.label: '플랜트'
-      _Asim0040n.Werks    as Werks,
+      _Asim0040n.Werks                                                                 as Werks,
 
       @EndUserText.label: '플랜트명'
-      _Asim0040n.Werkst   as Werkst,
+      _Asim0040n.Werkst                                                                as Werkst,
 
       @ObjectModel.text.element: ['Maktx']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_MATNR', element: 'Matnr' }}]
       @EndUserText.label: '자재번호'
-      _Asim0040n.Matnr    as Matnr,
+      _Asim0040n.Matnr                                                                 as Matnr,
 
       @EndUserText.label: '자재명'
-      _Asim0040n.Maktx    as Maktx,
+      _Asim0040n.Maktx                                                                 as Maktx,
 
       @ObjectModel.text.element: ['Lgortt']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_LGORT', element: 'Lgort' }}]
       @EndUserText.label: '저장위치'
-      _Asim0040n.Lgort    as Lgort,
+      _Asim0040n.Lgort                                                                 as Lgort,
 
       @EndUserText.label: '저장위치명'
-      _Asim0040n.Lgortt   as Lgortt,
+      _Asim0040n.Lgortt                                                                as Lgortt,
 
       @EndUserText.label: 'B/L수량'
       @Semantics.quantity.unitOfMeasure: 'Blmns'
       case when _Asim0030n.Eccgb = 'X' then _Asim0200n.Modmg_cc
            else _Asim0040n.Modmg_cc
-           end            as Blmng,
+           end                                                                         as Blmng,
 
       @EndUserText.label: 'B/L단위'
-      _Asim0040n.Blmns    as Blmns,
+      _Asim0040n.Blmns                                                                 as Blmns,
 
       @EndUserText.label: 'B/L단가'
       @Semantics.amount.currencyCode: 'Waers'
-      _Asim0040n.Blmpr    as Blmpr,
+      _Asim0040n.Blmpr                                                                 as Blmpr,
 
       @EndUserText.label: 'B/L금액'
       @Semantics.amount.currencyCode: 'Waers'
       case when _Asim0030n.Eccgb = 'X' then cast( _Asim0200n.Modmg_cc * ( _Asim0040n.Modpr / _Asim0040n.Blpnh ) as abap.dec(20,2) )
       else cast( _Asim0040n.Modmg_cc * ( _Asim0040n.Modpr / _Asim0040n.Blpnh ) as abap.dec(20,2) )
-      end                 as Blmwr,
+      end                                                                              as Blmwr,
 
       @EndUserText.label: '가격단위'
-      _Asim0040n.Blpnh    as Blpnh,
+      _Asim0040n.Blpnh                                                                 as Blpnh,
 
       @EndUserText.label: '납품일'
-      _Asim0040n.Eindt    as Eindt,
+      _Asim0040n.Eindt                                                                 as Eindt,
 
       @EndUserText.label: '관세율'
-      _Asim0040n.Zdc1_p   as Zdc1_p,
+      _Asim0040n.Zdc1_p                                                                as Zdc1_p,
 
       @EndUserText.label: '관세액'
       @Semantics.amount.currencyCode: 'Waers'
-      _Asim0040n.Zdc1_n   as Zdc1_n,
+      _Asim0040n.Zdc1_n                                                                as Zdc1_n,
 
       @EndUserText.label: '부대비율'
-      _Asim0040n.Zdc2_p   as Zdc2_p,
+      _Asim0040n.Zdc2_p                                                                as Zdc2_p,
 
       @EndUserText.label: '부대비액'
       @Semantics.amount.currencyCode: 'Waers'
-      _Asim0040n.Zdc2_n   as Zdc2_n,
+      _Asim0040n.Zdc2_n                                                                as Zdc2_n,
 
       @EndUserText.label: '제조일'
-      _Asim0040n.Hsdat    as Hsdat,
+      _Asim0040n.Hsdat                                                                 as Hsdat,
 
       @EndUserText.label: '계정지정범주'
-      _Asim0040n.Knttp    as Knttp,
+      _Asim0040n.Knttp                                                                 as Knttp,
 
       @EndUserText.label: 'G/L계정'
-      _Asim0040n.Sakto    as Sakto,
+      _Asim0040n.Sakto                                                                 as Sakto,
 
       @EndUserText.label: '자산번호'
-      _Asim0040n.Anln1    as Anln1,
+      _Asim0040n.Anln1                                                                 as Anln1,
 
       @EndUserText.label: '코스트센터'
-      _Asim0040n.Kostl    as Kostl,
+      _Asim0040n.Kostl                                                                 as Kostl,
 
       @EndUserText.label: '구매요청번호'
-      _Asim0040n.Zebeln   as Zebeln,
+      _Asim0040n.Zebeln                                                                as Zebeln,
       @EndUserText.label: '구매요청품목'
-      _Asim0040n.Zebelp   as Zebelp,
+      _Asim0040n.Zebelp                                                                as Zebelp,
 
       @ObjectModel.text.element: ['Quacdt']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_QUACD', element: 'Cdno' }}]
       @EndUserText.label: '검역상태'
-      _Asim0200n.Quacd    as Quacd,
+      _Asim0200n.Quacd                                                                 as Quacd,
 
       @EndUserText.label: '검역상태명'
-      _Asim0200n.Quacdt   as Quacdt,
+      _Asim0200n.Quacdt                                                                as Quacdt,
 
       @ObjectModel.text.element: ['Quarst']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_QUARS', element: 'Cdno' }}]
       @EndUserText.label: '검역결과'
-      _Asim0200n.Quars    as Quars,
+      _Asim0200n.Quars                                                                 as Quars,
 
       @EndUserText.label: '검역결과명'
-      _Asim0200n.Quarst   as Quarst,
+      _Asim0200n.Quarst                                                                as Quarst,
 
       @EndUserText.label: '검역일'
-      _Asim0200n.Quadt    as Quadt,
+      _Asim0200n.Quadt                                                                 as Quadt,
 
       @Semantics.quantity.unitOfMeasure : 'Blmns'
       @EndUserText.label: '불합격수량'
-      _Asim0200n.Failmng  as Failmng,
+      _Asim0200n.Failmng                                                               as Failmng,
 
       @Semantics.quantity.unitOfMeasure : 'Blmns'
       @EndUserText.label: '샘플수량'
-      _Asim0200n.Sampmng  as Sampmng,
+      _Asim0200n.Sampmng                                                               as Sampmng,
 
       @EndUserText.label: '비고'
-      _Asim0200n.Eccremak as Eccremak
+      _Asim0200n.Eccremak                                                              as Eccremak,
 
-}
-where
-  _Asim0030n.Loekz = ''
+      'KRW'                                                                            as Ccwaek
+
+} where 
+// where _Asim0040n.Chk_cc <> 'X'
+//  and _Asim0200n.Chk_cc <> 'X'
+ case when _Asim0030n.Eccgb = 'X' and _Asim0190n.Eccno is null then 'X' else 'O' end = 'O'

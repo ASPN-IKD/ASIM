@@ -1,0 +1,79 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: {
+        typeName: '권한관리1',
+        typeNamePlural: '권한관리2',
+        title: {
+            type: #STANDARD, value: 'Bukrs'
+        },
+        description: {
+            value: 'Ekorg'
+        }
+    },
+    presentationVariant: [{
+        sortOrder: [{
+            by: 'Bukrs',
+            direction: #DESC
+        }],
+        visualizations: [{
+            type: #AS_LINEITEM
+        }]
+    }]
+}
+annotate entity  YI_ASIM0010C
+    with 
+{
+    @UI.facet: [ 
+      {
+      label: '권한관리',
+      id: 'roleMaster',
+      type: #COLLECTION,
+      position: 10
+        },
+        {
+          label: '권한관리',
+          id: 'roleMaster1',
+          type: #IDENTIFICATION_REFERENCE,
+          purpose: #STANDARD,
+          parentId: 'roleMaster',
+          position: 10
+    },{
+      id: 'UserInfo',
+      purpose: #STANDARD,
+      type: #LINEITEM_REFERENCE,
+      label: '사용자',
+      position: 20,
+      targetElement: '_0011C'
+    } ]
+  
+    @UI: { lineItem: [{ position: 10, importance: #HIGH }],
+           identification: [{ position: 10, importance: #HIGH }],
+           selectionField: [{ position: 10 }] }
+    Bukrs;
+    @UI: { lineItem: [{ position: 20, importance: #HIGH }],
+           identification: [{ position: 20, importance: #HIGH }],
+           selectionField: [{ position: 20 }] }
+    Ekorg;
+    @UI: { lineItem: [{ position: 30, importance: #HIGH }],
+           identification: [{ position: 30, importance: #HIGH }],
+           selectionField: [{ position: 30 }] }
+    Roleid;
+    @UI: { lineItem: [{ position: 40, importance: #HIGH }],
+           identification: [{ position: 40, importance: #HIGH }],
+           selectionField: [{ position: 40 }] }
+    Rolenm;
+    @UI: { lineItem: [{ position: 50, importance: #HIGH }],
+           identification: [{ position: 50, importance: #HIGH }],
+           selectionField: [{ position: 50 }] }
+    Hiddenid;
+    @UI: { lineItem: [{ position: 60, importance: #HIGH }],
+           identification: [{ position: 60, importance: #HIGH }],
+           selectionField: [{ position: 60 }] }
+    Remark;
+    @UI.hidden: true
+    Uuid;
+    @UI: { lineItem: [{ position: 70, importance: #HIGH }],
+           identification: [{ position: 70, importance: #HIGH }]}
+    _0011C;
+
+}

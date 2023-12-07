@@ -6,8 +6,6 @@
 define view entity ZASIMV_ZCDNO3 
 as select from zasimt0001n
 {
-  @UI.hidden: true
-  key zcode as Code,
   @ObjectModel.text.element: ['Text']
   key zcdno as Cdno,    
       ztext as Text
