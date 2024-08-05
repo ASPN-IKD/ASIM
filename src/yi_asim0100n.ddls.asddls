@@ -147,7 +147,10 @@ define root view entity YI_ASIM0100N
       @Semantics.amount.currencyCode: 'Waers'
       cast( cast( _asim0040.Blmpr as abap.dec( 20, 2)) * grmng / _asim0040.Blpnh as abap.dec( 20, 2 )  ) as Grnwr,
 
-      cast('' as abap.char(3))             as ItemIndex
+      cast('' as abap.char(3))             as ItemIndex,
+      
+      @EndUserText.label : '가격단위'
+      _asim0040.Blpnh as Blpnh
 
 }
 

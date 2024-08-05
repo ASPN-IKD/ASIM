@@ -11,7 +11,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_insert_data_zasimt0010n IMPLEMENTATION.
+CLASS ZCL_INSERT_DATA_ZASIMT0010N IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -39,7 +40,7 @@ CLASS zcl_insert_data_zasimt0010n IMPLEMENTATION.
           DELETE FROM zasimt0080n.
           DELETE FROM zasimt0090n.
           DELETE FROM zasimt0100n.
-          DELETE FROM zasimt0130n.
+         DELETE FROM zasimt0130n.
           DELETE FROM zasimt0140n.
           DELETE FROM zasimt0150n.
           DELETE FROM zasimt0190n.
@@ -149,5 +150,4 @@ CLASS zcl_insert_data_zasimt0010n IMPLEMENTATION.
     ENDDO.
 
   ENDMETHOD.
-
 ENDCLASS.

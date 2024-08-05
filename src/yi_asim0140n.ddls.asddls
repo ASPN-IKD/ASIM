@@ -2,123 +2,127 @@
 @EndUserText.label: '수입 부대비 품목 인터페이스 뷰'
 define root view entity YI_ASIM0140N
   as select from zasimt0140n as _Asim0140n
-  
+
   association [1..1] to I_Plant       as _plant       on  $projection.Werks = _plant.Plant
   association [1..1] to I_ProductText as _productText on  $projection.Matnr     = _productText.Product
                                                       and _productText.Language = '3'
 {
       @ObjectModel.filter.enabled: false
-  key uuid                     as Uuid,
+  key uuid                       as Uuid,
 
       @ObjectModel.filter.enabled: false
-      parentuuid               as ParentUUID,
+      parentuuid                 as ParentUUID,
 
       @EndUserText.label: '부대비번호'
-      feeno                    as Feeno,
+      feeno                      as Feeno,
 
       @EndUserText.label: '부대비연도'
-      feeyr                    as Feeyr,
+      feeyr                      as Feeyr,
 
       @EndUserText.label: '부대비품목'
-      feenp                    as Feenp,
+      feenp                      as Feenp,
 
       @EndUserText.label: '부대비항목'
-      zcdno                    as Zcdno,
+      zcdno                      as Zcdno,
 
       @EndUserText.label: '참조문서구분'
-      feegb                    as Feegb,
+      feegb                      as Feegb,
 
       @EndUserText.label: '참조문서번호'
-      gbno                     as Gbno,
+      gbno                       as Gbno,
 
       @EndUserText.label: '참조문서품목'
-      gbnp                     as Gbnp,
+      gbnp                       as Gbnp,
 
       @EndUserText.label: '연결부대비번호'
-      feeno1                   as Feeno1,
+      feeno1                     as Feeno1,
 
       @EndUserText.label: '구매문서번호'
-      ebeln                    as Ebeln,
+      ebeln                      as Ebeln,
 
       @EndUserText.label: '구매문서품목번호'
-      ebelp                    as Ebelp,
+      ebelp                      as Ebelp,
 
       @EndUserText.label: '자재 번호'
-      matnr                    as Matnr,
+      matnr                      as Matnr,
 
       @EndUserText.label: '자재명'
-      _productText.ProductName as Maktx,
+      _productText.ProductName   as Maktx,
 
       @EndUserText.label: '플랜트'
-      werks                    as Werks,
+      werks                      as Werks,
 
       @EndUserText.label: '플랜트명'
-      _plant.PlantName         as Werkst,
+      _plant.PlantName           as Werkst,
 
       @EndUserText.label: '부대비수량'
-      menge_fees               as MengeFees,
+      menge_fees                 as MengeFees,
 
       @EndUserText.label: '부대비단위'
-      meins_fees               as MeinsFees,
+      meins_fees                 as MeinsFees,
 
       @EndUserText.label: '참조금액'
-      netwr                    as Netwr,
+      netwr                      as Netwr,
 
       @EndUserText.label: '참조통화'
-      waers                    as Waers,
+      waers                      as Waers,
 
+      @Semantics.amount.currencyCode: 'WaersFees'
       @EndUserText.label: '부대비금액'
-      netwr_fees               as NetwrFees,
-
+      netwr_fees                 as NetwrFees,
+    
+      @Semantics.amount.currencyCode: 'WaersFees'
       @EndUserText.label: '부대비세액'
-      wmwst_fees               as WmwstFees,
+      wmwst_fees                 as WmwstFees,
 
       @EndUserText.label: '부대비통화'
-      waers_fees               as WaersFees,
+      waers_fees                 as WaersFees,
 
       @EndUserText.label: '관세율'
-      zdc1_p                   as Zdc1_p,
+      zdc1_p                     as Zdc1_p,
 
       @EndUserText.label: '입고문서번호'
-      mblnr                    as Mblnr,
+      mblnr                      as Mblnr,
 
       @EndUserText.label: '입고연도'
-      mjahr                    as Mjahr,
+      mjahr                      as Mjahr,
 
       @EndUserText.label: '입고품목'
-      zeile                    as Zelie,
+      zeile                      as Zelie,
 
       @EndUserText.label: '통관내부번호'
-      cclno                    as Cclno,
+      cclno                      as Cclno,
 
       @EndUserText.label: '통관연도'
-      cclyr                    as Cclyr,
+      cclyr                      as Cclyr,
 
       @EndUserText.label: '통관품목'
-      cclnp                    as Cclnp,
+      cclnp                      as Cclnp,
 
       @EndUserText.label: 'B/L내부번호'
-      blino                    as Blino,
+      blino                      as Blino,
 
       @EndUserText.label: 'B/L연도'
-      bliyr                    as Bliyr,
+      bliyr                      as Bliyr,
 
       @EndUserText.label: 'B/L품목'
-      blinp                    as Blinp,
+      blinp                      as Blinp,
 
       @EndUserText.label: '계약내부번호'
-      reqno                    as Reqno,
+      reqno                      as Reqno,
 
       @EndUserText.label: '계약연도'
-      reqyr                    as Reqyr,
+      reqyr                      as Reqyr,
 
       @EndUserText.label: '계약품목'
-      itmno                    as Itmno,
+      itmno                      as Itmno,
 
-      cast('' as abap.char(3)) as ItemIndex,
+      cast('' as abap.char(3))   as ItemIndex,
+
+      cast('' as abap.char(1))   as Chk,
       
-      cast('' as abap.char(1)) as Chk,
-      
-        @Semantics.amount.currencyCode : 'Waers'
+      cast(0 as abap.dec(5,0))   as Peinh,
+
+      @Semantics.amount.currencyCode : 'Waers'
       cast(0 as abap.curr(17,2)) as UnitPrice
 }

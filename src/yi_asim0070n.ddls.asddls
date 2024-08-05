@@ -46,9 +46,9 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '계약연도'
       reqyr                                              as Reqyr,
-      
+
       @EndUserText.label: '계약일'
-      _Asim0030n.Reqdt                                            as Reqdt,
+      _Asim0030n.Reqdt                                   as Reqdt,
 
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BLINO', element: 'Blino' }}]
       @EndUserText.label: 'B/L내부번호'
@@ -56,9 +56,9 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: 'B/L연도'
       bliyr                                              as Bliyr,
-      
+
       @EndUserText.label: '구매문서번호'
-      _Asim0030n.Ebeln                 as Ebeln,
+      _Asim0030n.Ebeln                                   as Ebeln,
 
       @EndUserText.label: '통관예정번호'
       eccno                                              as Eccno,
@@ -146,7 +146,7 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '현지통화'
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }} ]
-      ccwaek                                             as Ccwaek ,
+      ccwaek                                             as Ccwaek,
 
       @EndUserText.label: '통관환율'
       ccrsf                                              as Ccrsf,
@@ -174,7 +174,7 @@ define root view entity YI_ASIM0070N
       case when _Asim0190n.Eccgb = 'X' then _Asim0190n.Cclgort
       else _Asim0070n.cclgort
       end                                                as Cclgort,
-      
+
       @EndUserText.label: '보세창고명'
       case when _Asim0190n.Eccgb = 'X' then _Asim0190n.Cclgortt
       else _Cclgort.Ztext
@@ -222,10 +222,10 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '총중량'
       _Asim0030n.Brgew                                   as Brgew,
-      
+
       @EndUserText.label: '순중량'
       _Asim0030n.Negew                                   as Negew,
-      
+
       @EndUserText.label: '중량단위'
       _Asim0030n.Gewei                                   as Gewei,
 
@@ -257,7 +257,7 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '검역여부'
       _Asim0030n.Eccgb                                   as Eccgb,
-      
+
       @ObjectModel.text.element: ['Lifret']
       @EndUserText.label: '공급처'
       _Asim0030n.Lifre                                   as Lifre,
@@ -274,7 +274,7 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '인도처'
       _Asim0030n.Inco2                                   as Inco2,
-      
+
       @ObjectModel.text.element: ['Ztermt']
       @EndUserText.label: '지급조건'
       _Asim0030n.Zterm                                   as Zterm,
@@ -455,8 +455,8 @@ define root view entity YI_ASIM0070N
       @ObjectModel.filter.enabled: false
       @EndUserText.label: 'Remark'
       _Asim0030n.Remak                                   as Remak,
-      
-     @EndUserText.label: '통관예정일'
+
+      @EndUserText.label: '통관예정일'
       _Asim0190n.Eccdt                                   as Eccdt,
 
       @EndUserText.label: '입고예정일'
@@ -470,32 +470,42 @@ define root view entity YI_ASIM0070N
 
       @EndUserText.label: '장치위치정보'
       _Asim0190n.Eccwmn                                  as Eccwmn,
-      
+
+      @EndUserText.label: '참조구분'
+      created_type                                       as CreatedType,
+
       @EndUserText.label: '생성자'
       @Semantics.user.createdBy: true
-      created_by            as CreatedBy,
+      created_by                                         as CreatedBy,
       @EndUserText.label: '생성일'
       @Semantics.systemDateTime.createdAt: true
-      created_at            as CreatedAt,
+      created_at                                         as CreatedAt,
       @EndUserText.label: '최종 변경자'
       @Semantics.user.lastChangedBy: true
-      last_changed_by       as LastChangedBy,
+      last_changed_by                                    as LastChangedBy,
       @EndUserText.label: '최종 변경일'
       @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at       as LastChangedAt,
+      last_changed_at                                    as LastChangedAt,
       @EndUserText.label: '인스턴스 변경시간'
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at as LocalLastChangedAt,
+      local_last_changed_at                              as LocalLastChangedAt,
 
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
       loekz                                              as Loekz,
-      
+
       @EndUserText.label: '부대비참조구분'
-      cast('C' as abap.char(12)) as Feegb,
-      
+      cast('C' as abap.char(12))                         as Feegb,
+
       @EndUserText.label: '참조문서구분'
-      cast('통관참조' as abap.char(40)) as Feegbt,
+      cast('통관참조' as abap.char(40))                      as Feegbt,
+      
+      @EndUserText.label: '부대비 참조문서번호'
+      cclno as Gbno,
+
+      @EndUserText.label: '후속문서구분'
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_ASIM0010_FL'
+      cast('' as abap_boolean preserving type)           as ChkFollow,
 
       _Item
 }

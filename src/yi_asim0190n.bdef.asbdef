@@ -14,8 +14,14 @@ authorization master ( instance )
 
 
   determination create_number on save { create; }
+
+  action delete_contract;
+
   field ( numbering : managed, readonly )
   UUid;
+
+  field ( readonly )
+  ChkFollow;
   mapping for zasimt0190n
     {
       uuid               = uuid;
@@ -39,6 +45,7 @@ authorization master ( instance )
       cclgort            = cclgort;
       cclog              = cclog;
       quacdyn            = quacdyn;
+      CreatedType        = created_type;
       createdby          = created_by;
       createdat          = created_at;
       lastchangedby      = last_changed_by;
@@ -59,7 +66,7 @@ authorization dependent by _Head
   UUid;
   field ( readonly ) Parentuuid;
 
-  determination calc_value on save { create; update;}
+  determination calc_value on save { create; update; }
 
   association _Head;
   mapping for zasimt0200n

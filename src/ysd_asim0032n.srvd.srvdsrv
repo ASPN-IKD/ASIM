@@ -1,0 +1,4 @@
+@EndUserText.label: '수입 선급전환 정보 서비스 정의'
+define service YSD_ASIM0032N {
+  expose YI_ASIM0032N;
+}

@@ -20,34 +20,18 @@ CLASS lhc_YI_ASIM0060N DEFINITION INHERITING FROM cl_abap_behavior_handler.
         post_status TYPE string,
       END OF post_result.
 
-    "API 통신을 위해 생성한 함수
-    METHODS:
-      get_connection
-        IMPORTING url           TYPE string
-        RETURNING VALUE(result) TYPE REF TO if_web_http_client
-        RAISING   cx_static_check.
-*
-*        CREATE_INV
-*            IMPORTING params TYPE sysuuid_x16
-*            RETURNING VALUE(result)   TYPE post_result
-*            RAISING   cx_static_check.
+    DATA: http_client TYPE REF TO zcl_if_common_001.
 
     "상수
     CONSTANTS:
-      content_type TYPE string VALUE 'Content-type',
-      json_content TYPE string VALUE 'application/json; charset=UTF-8'.
+      c_scenario   TYPE string VALUE 'ZCS_SINV_001',
+      c_service    TYPE string VALUE 'ZSTD_SINV_001_REST'.
 
 ENDCLASS.
 
 CLASS lhc_YI_ASIM0060N IMPLEMENTATION.
 
   METHOD get_instance_authorizations.
-  ENDMETHOD.
-
-  "HTTP 통신을 위한 셋팅
-  METHOD get_connection.
-    DATA(dest) = cl_http_destination_provider=>create_by_url( url ).
-    result = cl_web_http_client_manager=>create_by_http_destination( dest ).
   ENDMETHOD.
 
   METHOD calc_value.
@@ -98,26 +82,6 @@ CLASS lhc_YI_ASIM0060N IMPLEMENTATION.
     "Supplier Invoice API 호출
     DATA(key) = keys[ 1 ].
 
-    "시나리오 이름으로 통신이 존재하는지 확인
-    DATA: lr_cscn TYPE if_com_scenario_factory=>ty_query-cscn_id_range.
-    lr_cscn = VALUE #( ( sign = 'I' option = 'EQ' low = 'ZCS_SINV_001' ) ).
-
-    DATA(lo_factory) = cl_com_arrangement_factory=>create_instance( ).
-    lo_factory->query_ca(
-          EXPORTING
-            is_query           = VALUE #( cscn_id_range = lr_cscn )
-          IMPORTING
-            et_com_arrangement = DATA(lt_ca)
-        ).
-
-    "해당 시나리오가 존재 하지 않으면 종료
-    IF lt_ca IS INITIAL.
-      EXIT.
-    ENDIF.
-
-    "조회 한 값 중 1번째 값
-    DATA(lo_ca) = lt_ca[ 1 ].
-
     "Item의 Header UUID 기준으로 Header Read
     READ ENTITIES OF yi_asim0050n
     ENTITY yi_asim0050n
@@ -135,6 +99,15 @@ CLASS lhc_YI_ASIM0060N IMPLEMENTATION.
 
     "날짜 Type을 YYYY-MM-DD로 바꿔야 해서 가공
     DATA(iv_header) = lt_result_header[ 1 ].
+
+    CREATE OBJECT me->http_client
+      EXPORTING
+        i_scenario     = c_scenario
+        i_service      = c_service
+      EXCEPTIONS
+        no_arrangement = 1.
+
+    CHECK sy-subrc <> 1.
 
     LOOP AT lt_item_result INTO DATA(ls_result).
 
@@ -199,13 +172,9 @@ CLASS lhc_YI_ASIM0060N IMPLEMENTATION.
 
     ENDLOOP.
 
-    DATA(DocumentYear)  = substring( val =  iv_header-BudatIv len = 4 ).
-    DATA(DocumentMonth) = substring( val =  iv_header-BudatIv off = 4 len = 2 ).
-    DATA(DocumentDay)   = substring( val =  iv_header-BudatIv off = 6 len = 2 ).
+    DATA(DocumentDate) = iv_header-BudatIv+0(4) && '-' && iv_header-BudatIv+4(2) && '-' && iv_header-BudatIv+6(2) && 'T00:00:00'.
 
-    DATA(BaseYear)  = substring( val =  iv_header-zfbdt len = 4 ).
-    DATA(BaseMonth) = substring( val =  iv_header-zfbdt off = 4 len = 2 ).
-    DATA(BaseDay)   = substring( val =  iv_header-zfbdt off = 6 len = 2 ).
+    DATA(BaseDate) = iv_header-zfbdt+0(4) && '-' && iv_header-zfbdt+4(2) && '-' && iv_header-zfbdt+6(2) && 'T00:00:00'.
 
     SELECT Zvalu2 FROM yi_asim0001n WHERE Zcode LIKE '%BUPLA' AND Zvalu1 = @iv_header-Bukrs INTO @DATA(place). ENDSELECT.
     SELECT Zvalu2 FROM yi_asim0001n WHERE Zcode LIKE '%GSBER' AND Zvalu1 = @iv_header-Bukrs INTO @DATA(area).  ENDSELECT.
@@ -230,17 +199,17 @@ CLASS lhc_YI_ASIM0060N IMPLEMENTATION.
     DATA(json) =
         '{' &&
         ' "CompanyCode":"' && iv_header-Bukrs && '",' &&
-        ' "DocumentDate":"' && DocumentYear && '-' && DocumentMonth && '-' && DocumentDay && 'T00:00:00' && '",' &&
-        ' "PostingDate":"' && DocumentYear && '-' && DocumentMonth && '-' && DocumentDay && 'T00:00:00' && '",' &&
-        ' "TaxDeterminationDate":"' && DocumentYear && '-' && DocumentMonth && '-' && DocumentDay && 'T00:00:00' && '",' &&
-        "' "TaxDeterminationDate":"' && DocumentYear && '-' && DocumentMonth && '-' && DocumentDay && '",' &&
+        ' "DocumentDate":"' && DocumentDate && '",' &&
+        ' "PostingDate":"' && DocumentDate && '",' &&
+        ' "TaxDeterminationDate":"' && DocumentDate && '",' &&
         ' "SupplierInvoiceIDByInvcgParty":"' && iv_header-Reqmu && '",' &&
         ' "InvoicingParty":"' && iv_header-ivlif && '",' &&
         ' "DocumentCurrency":"' && iv_header-ivwae && '",' &&
         ' "InvoiceGrossAmount":"' && iv_header-ivamt && '",' &&
         ' "DocumentHeaderText":"' && iv_header-bktxt && '",'.
+
     json = json && net_json &&
-        ' "DueCalculationBaseDate":"' && BaseYear && '-' && BaseMonth && '-' && BaseDay && 'T00:00:00' && '",' &&
+        ' "DueCalculationBaseDate":"' && BaseDate && '",' &&
         "' "NetPaymentDays":"' && iv_header-ZBD1T && '",' &&
         ' "PaymentBlockingReason": "A",' &&
         "' "AccountingDocumentType":" "RE",' &&
@@ -273,60 +242,18 @@ CLASS lhc_YI_ASIM0060N IMPLEMENTATION.
 
     json = json && '}'.
 
-    "GET
-    TRY.
-        DATA(lo_dest) = cl_http_destination_provider=>create_by_comm_arrangement(
-            comm_scenario  = 'ZCS_SINV_001'
-            service_id     = 'ZSTD_SINV_001_REST'
-            comm_system_id = lo_ca->get_comm_system_id( ) ).
-        DATA(lo_http_client) = cl_web_http_client_manager=>create_by_http_destination( lo_dest ).
-
-        DATA(lo_request) = lo_http_client->get_http_request( ).
-        lo_request->set_uri_path( EXPORTING i_uri_path = '?$top=1' ).
-        lo_request->set_header_field( i_name = 'x-csrf-token' i_value = 'fetch' ).
-        DATA(lo_response) = lo_http_client->execute( if_web_http_client=>get ).
-
-        "get 해서, token이랑 cookie값 가져오기
-        DATA(token)   = lo_response->get_header_field( i_name = 'x-csrf-token' ).
-        DATA(cookies) = lo_response->get_cookies( ).
-
-      CATCH cx_http_dest_provider_error.
-        " handle exception here
-
-      CATCH cx_web_http_client_error.
-        " handle exception here
-    ENDTRY.
+    DATA(token) = me->http_client->get_token_cookies( ).
 
     "POST
-    TRY.
-        lo_dest = cl_http_destination_provider=>create_by_comm_arrangement(
-            comm_scenario  = 'ZCS_SINV_001'
-            service_id     = 'ZSTD_SINV_001_REST'
-            comm_system_id = lo_ca->get_comm_system_id( ) ).
-        lo_http_client = cl_web_http_client_manager=>create_by_http_destination( lo_dest ).
-        lo_request  = lo_http_client->get_http_request( ).
-
-        "json body 설정
-        lo_request->set_text( json ).
-        "GET에서 가져왔던 cookie, token값 셋팅
-        LOOP AT cookies INTO DATA(cookie).
-          lo_request->set_cookie( i_name = cookie-name i_value = cookie-value ).
-        ENDLOOP.
-
-        lo_request->set_header_field( i_name = content_type i_value = json_content ).
-        lo_request->set_header_field( i_name = 'Accept' i_value = 'application/json' ).
-        lo_request->set_header_field( i_name = 'x-csrf-token' i_value = token ).
-        lo_response = lo_http_client->execute( if_web_http_client=>post ).
-
-        DATA(body)   = lo_response->get_text( ).
-        DATA(status) = lo_response->get_status( )-code.
-
-      CATCH cx_http_dest_provider_error.
-        " handle exception here
-
-      CATCH cx_web_http_client_error.
-        " handle exception here
-    ENDTRY.
+    IF token IS NOT INITIAL.
+        me->http_client->post(
+            EXPORTING
+                json = json
+            IMPORTING
+                body   = DATA(body)
+                status = DATA(status)
+        ).
+    ENDIF.
 
     "호출 후 결과 값 확인
     DATA result_msg    TYPE string.

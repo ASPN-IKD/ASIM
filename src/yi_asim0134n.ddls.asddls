@@ -12,9 +12,9 @@ define root view entity YI_ASIM0134N as
 {
       @ObjectModel.filter.enabled: false
   key _Asim0100n.Uuid                                    as Uuid,
-      @ObjectModel.filter.enabled: false  
-  key _Asim0100n.ParentUUID                              as ParentUUID,
-  
+//      @ObjectModel.filter.enabled: false  
+//  key _Asim0100n.ParentUUID                              as ParentUUID,
+//  
       @EndUserText.label: '입고문서번호'
       _Asim0090n.Mblnr                                              as Mblnr,
 
@@ -337,9 +337,12 @@ define root view entity YI_ASIM0134N as
 
       @EndUserText.label: '결제조건명'
       _Asim0070n.Ptermt                                  as Ptermt,
+      
+       @EndUserText.label: '일수'
+      _Asim0070n.Zbd1t                     as Zbd1t,
 
       @EndUserText.label: '결제조건일수'
-      '0'                                   as Zbd1t,
+      cast( 0 as abap.dec(3,0))                     as Zbd1tFees,
 
       @EndUserText.label: '결제예정일'
       _Asim0070n.Pedat                                   as Pedat,
@@ -460,9 +463,18 @@ define root view entity YI_ASIM0134N as
       _Asim0090n.ReturnMsg                                         as ReturnMsg,
       
       @EndUserText.label: '참조구분'
-      cast('D' as abap.char(12)) as Feegb
+        @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_FEEGB', element: 'Cdno'} }]
+      @ObjectModel.text.element: ['Feegbt']
+      cast('D' as abap.char(12)) as Feegb,
+      
+        @EndUserText.label: '참조문서구분'
+      cast('B/L참조' as abap.char(40))                                                                                            as Feegbt,
+      
+      @EndUserText.label: '참조코드'
+      _Asim0090n.Mblnr                as Gbno
       
 }
 
 where
   _Asim0090n.Loekz = ''
+  and _Asim0090n.Blche = ''

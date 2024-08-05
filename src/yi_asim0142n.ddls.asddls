@@ -2,7 +2,7 @@
 @EndUserText.label: 'IM - EX 아이템 참조 뷰'
 define root view entity YI_ASIM0142N
   as select from YI_ASIM0020N
-  association [1..1] to YI_ASIM0010N      as _Head            on  _Head.Uuid = $projection.ParentUUID
+  association [1..1] to YI_ASIM0010N as _Head on _Head.Uuid = $projection.ParentUUID
 
 {
 
@@ -35,7 +35,7 @@ define root view entity YI_ASIM0142N
       cast('' as abap.char(12))   as Feegb,
 
       @EndUserText.label: '참조문서번호'
-      cast('' as abap.char(10))   as Gbno,
+      Reqno                       as Gbno,
 
       @EndUserText.label: '참조문서품목'
       cast('' as abap.numc(4))    as Gbnp,
@@ -60,10 +60,10 @@ define root view entity YI_ASIM0142N
 
       @Semantics.quantity.unitOfMeasure : 'MeinsFees'
       @EndUserText.label: '부대비수량'
-      cast( 0 as menge_d)         as MengeFees,
+      Reqmg                       as MengeFees,
 
       @EndUserText.label: '부대비단위'
-      cast( '' as meins)          as MeinsFees,
+      Reqms                       as MeinsFees,
 
       @Semantics.amount.currencyCode : 'Waers'
       @EndUserText.label: '참조금액'
@@ -81,8 +81,9 @@ define root view entity YI_ASIM0142N
       @EndUserText.label: '부대비세액'
       cast( 0 as abap.curr(15,2)) as WmwstFees,
 
+      @Consumption.valueHelpDefinition: [{ entity : { element: 'Waers', name: 'ZASIMV_WAERS' } } ]
       @EndUserText.label: '부대비통화'
-      cast( '' as waers )         as WaersFees,
+      Waers                       as WaersFees,
 
       @EndUserText.label: '관세율'
       cast( 0 as abap.dec(16,2) ) as Zdc1_p,
@@ -97,22 +98,22 @@ define root view entity YI_ASIM0142N
       cast( '' as abap.numc(4) )  as Zelie,
 
       @EndUserText.label: '통관내부번호'
-      cast( '' as abap.char(10) )  as Cclno,
+      cast( '' as abap.char(10) ) as Cclno,
 
       @EndUserText.label: '통관연도'
-      cast( '' as abap.numc(4) )   as Cclyr,
+      cast( '' as abap.numc(4) )  as Cclyr,
 
       @EndUserText.label: '통관품목'
-      cast( '' as abap.numc(4) )   as Cclnp,
+      cast( '' as abap.numc(4) )  as Cclnp,
 
       @EndUserText.label: 'B/L내부번호'
-      cast( '' as abap.char(10) )    as Blino,
+      cast( '' as abap.char(10) ) as Blino,
 
       @EndUserText.label: 'B/L연도'
-      cast( '' as abap.numc(4) )    as Bliyr,
+      cast( '' as abap.numc(4) )  as Bliyr,
 
       @EndUserText.label: 'B/L품목'
-      cast( '' as abap.numc(4) )   as Blinp,
+      cast( '' as abap.numc(4) )  as Blinp,
 
       @EndUserText.label: '계약내부번호'
       Reqno                       as Reqno,
@@ -121,8 +122,15 @@ define root view entity YI_ASIM0142N
       Reqyr                       as Reqyr,
 
       @EndUserText.label: '계약품목'
-      Itmno                       as Itmno
- 
+      Itmno                       as Itmno,
+
+      @Semantics.amount.currencyCode: 'Waers'
+      Reqnr                       as UnitPrice,
       
+      @EndUserText.label : '가격단위'
       
+      Peinh as Peinh
+
+
+
 }

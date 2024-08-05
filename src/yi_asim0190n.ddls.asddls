@@ -1,5 +1,6 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입 통관예정 헤더 인터페이스 뷰'
+/*+[hideWarning] { "IDS" : [ "CARDINALITY_CHECK" ]  } */
 define root view entity YI_ASIM0190N
   as select from zasimt0190n as _Asim0190n
   composition [1..*] of YI_ASIM0201N             as _Item
@@ -177,8 +178,8 @@ define root view entity YI_ASIM0190N
       @UI.lineItem: [{ criticality: 'BlcheStatus' }]
       @EndUserText.label: '납품완료체크'
       _Asim0030n.Blche                                   as Blche,
-      
-     
+
+
       @EndUserText.label: '납품완료체크'
       case _Asim0030n.Blche
       when 'X' then 3
@@ -418,6 +419,13 @@ define root view entity YI_ASIM0190N
 
 
       _Asim0190n.quacdyn                                 as Quacdyn,
+
+      @EndUserText.label: '후속문서구분'
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_ASIM0010_FL'
+      cast('' as abap_boolean preserving type)           as ChkFollow,
+
+      @EndUserText.label: '참조구분'
+      created_type                                       as CreatedType,
 
       @EndUserText.label: '생성자'
       @Semantics.user.createdBy: true

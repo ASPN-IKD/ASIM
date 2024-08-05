@@ -82,7 +82,7 @@ define root view entity YI_ASIM0144N
       cast( 0 as abap.curr(15,2)) as WmwstFees,
 
       @EndUserText.label: '부대비통화'
-      cast( '' as waers )         as WaersFees,
+      Waers         as WaersFees,
 
       @EndUserText.label: '관세율'
       cast( 0 as abap.dec(16,2) ) as Zdc1_p,
@@ -124,8 +124,11 @@ define root view entity YI_ASIM0144N
       Itmno                       as Itmno,
 
       @Semantics.amount.currencyCode: 'Waers'
-      Cclwr                      as UnitPrice
+      Cclwr                      as UnitPrice,
+      
 
-
+     @EndUserText.label: '가격단위'
+     Blpnh as Peinh
+      
 
 }

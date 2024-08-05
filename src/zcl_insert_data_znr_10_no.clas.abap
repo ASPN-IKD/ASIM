@@ -12,7 +12,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_insert_data_znr_10_no IMPLEMENTATION.
+CLASS ZCL_INSERT_DATA_ZNR_10_NO IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 

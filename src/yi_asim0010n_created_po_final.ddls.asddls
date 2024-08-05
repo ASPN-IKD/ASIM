@@ -11,13 +11,17 @@ define view entity YI_ASIM0010N_CREATED_PO_FINAL
       @Semantics.quantity.unitOfMeasure: 'Reqms'
       _item.Reqmg as Reqmg,
       _item.Reqms as Reqms,
+      _item.Pomns as Pomns,
       
       //제외여부필드
       case
-      when cast(_poitem.OrderQuantity as abap.dec(20,3)) <= cast(_item.Reqmg as abap.dec(20,3)) then 'X'
+      when cast(_item.Pomng as abap.dec(20,3)) <= cast(_item.Reqmg as abap.dec(20,3)) then 'X'
       else ''
       end         as chk,
       
       //잔량필드
-      cast(_poitem.OrderQuantity as abap.dec(20,3)) - cast(_item.Reqmg as abap.dec(20,3)) as Modmg
+      @Semantics.quantity.unitOfMeasure: 'Pomns'
+      case when _item.Reqmg = 0 or _item.Reqmg is null then cast(_item.Pomng as abap.dec(20,3))
+      else cast(_item.Pomng as abap.dec(20,3)) - cast(_item.Reqmg as abap.dec(20,3)) 
+      end         as Modmg
 }

@@ -10,8 +10,8 @@ select
       @ObjectModel.filter.enabled: false
   key _Asim0020n.Uuid           as Uuid,
 
-      @ObjectModel.filter.enabled: false
-      _Asim0010n.Uuid           as Uuidi,
+//      @ObjectModel.filter.enabled: false
+//      _Asim0010n.Uuid           as Uuidi,
 
       @EndUserText.label: '계약연도'
       _Asim0010n.Reqyr          as Reqyr,
@@ -175,9 +175,12 @@ select
 
       @EndUserText.label: '결제조건명'
       _Asim0010n.Ptermt         as Ptermt,
+      
+      @EndUserText.label: '일수'
+      _Asim0010n.Zbd1t                     as Zbd1t,
 
       @EndUserText.label: '결제조건일수'
-      _Asim0010n.Zbd1t          as Zbd1t,
+      cast( 0 as abap.dec(3,0))                     as Zbd1tFees,
 
       @EndUserText.label: '결제예정일'
       _Asim0010n.Pedat          as Pedat,
@@ -385,11 +388,24 @@ select
       cast('A' as abap.char(1))    as Ivgb,
       
       @EndUserText.label: '만기일'
-      dats_add_days(_Asim0010n.Pdate,cast(cast(cast(_Asim0010n.Zbd1t as abap.char(5)) as abap.numc(5)) as abap.int4),'INITIAL') as Fbedt,
+      case when _Asim0010n.Pdate is not initial
+      then
+      dats_add_days(_Asim0010n.Pdate,cast(cast(cast(_Asim0010n.Zbd1t as abap.char(5)) as abap.numc(5)) as abap.int4),'INITIAL')
+      else _Asim0010n.Pdate
+      end as Fbedt,
       
       @EndUserText.label: '참조구분'
-      cast('A' as abap.char(12)) as Feegb
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_FEEGB', element: 'Cdno'} }]
+      @ObjectModel.text.element: ['Feegbt']
+      cast('A' as abap.char(12)) as Feegb,
+      
+      @EndUserText.label: '참조문서구분'
+      cast('계약참조' as abap.char(40))                                                                                            as Feegbt,
+      
+       @EndUserText.label: '참조코드'
+      _Asim0010n.Reqno                as Gbno
       
       
 }
 where _Asim0010n.Loekz = ''
+  and _Asim0010n.Rqche = ''

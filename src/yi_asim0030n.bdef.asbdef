@@ -13,8 +13,13 @@ authorization master ( instance )
   association _Item { create; }
 
   determination create_number on save { create; }
+  action delete_order;
+
   field ( numbering : managed, readonly )
   UUid;
+
+  field ( readonly )
+  ChkFollow;
   mapping for zasimt0030n
     {
       Uuid               = uuid;
@@ -51,6 +56,7 @@ authorization master ( instance )
       Blche              = Blche;
       Eccgb              = Eccgb;
       ReturnMsg          = return_msg;
+      CreatedType        = created_type;
       CreatedAt          = created_at;
       CreatedBy          = created_by;
       LastChangedAt      = last_changed_at;

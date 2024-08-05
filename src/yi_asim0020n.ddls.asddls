@@ -27,6 +27,10 @@ define root view entity YI_ASIM0020N
   association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                    on  $projection.Ebeln   = _Zdc2.PurchaseOrder
                                                                                    and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
                                                                                    and _Zdc2.ConditionType = 'ZDC2'
+
+  association [1..1] to I_PurOrdScheduleLineAPI01      as _sch                     on  $projection.Ebeln              = _sch.PurchaseOrder
+                                                                                   and $projection.Ebelp              = _sch.PurchaseOrderItem
+                                                                                   and _sch.PurchaseOrderScheduleLine = '0001'
 {
 
   key      zasimt0020n.uuid                             as Uuid,
@@ -86,9 +90,9 @@ define root view entity YI_ASIM0020N
            zasimt0020n.reqms1                           as Reqms1,
            @EndUserText.label: '판매관리문서번호'
            zasimt0020n.vbeln                            as Vbeln,
-           @EndUserText.label: '임시오더번호'
+           @EndUserText.label: '구매계약번호'
            zasimt0020n.zebeln                           as Zebeln,
-           @EndUserText.label: '임시오더품목'
+           @EndUserText.label: '구매계약품목'
            zasimt0020n.zebelp                           as Zebelp,
            @EndUserText.label: 'Remark'
            zasimt0020n.remak                            as Remak,
@@ -110,6 +114,9 @@ define root view entity YI_ASIM0020N
 
            @EndUserText.label: '부대비율'
            _Zdc2.ConditionRateValue                     as Zdc2_p,
+
+           @EndUserText.label: '납품일'
+           _sch.ScheduleLineDeliveryDate                as Eindt,
 
            /*수입계약 기생성여부 확인 chk = 'X'이면 생성완료 B/L생성 시 제외처리 */
            _created_bl.chk                              as Chk,

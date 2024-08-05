@@ -1,7 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입계약 아이템 인터페이스 뷰'
 define view entity YI_ASIM0021N
-  as select from    zasimt0020n
+  as select from zasimt0020n
 
   association        to parent YI_ASIM0010N            as _Head                    on  _Head.Uuid = $projection.ParentUUID
   association [1..1] to I_ProductText                  as _productText             on  $projection.Matnr     = _productText.Product
@@ -21,6 +21,10 @@ define view entity YI_ASIM0021N
   association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                    on  $projection.Ebeln   = _Zdc2.PurchaseOrder
                                                                                    and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
                                                                                    and _Zdc2.ConditionType = 'ZDC2'
+
+  association [1..1] to I_PurOrdScheduleLineAPI01      as _sch                     on  $projection.Ebeln              = _sch.PurchaseOrder
+                                                                                   and $projection.Ebelp              = _sch.PurchaseOrderItem
+                                                                                   and _sch.PurchaseOrderScheduleLine = '0001'
 {
 
   key      zasimt0020n.uuid                             as Uuid,
@@ -78,9 +82,9 @@ define view entity YI_ASIM0021N
            zasimt0020n.reqms1                           as Reqms1,
            @EndUserText.label: '판매관리문서번호'
            zasimt0020n.vbeln                            as Vbeln,
-           @EndUserText.label: '임시오더번호'
+           @EndUserText.label: '구매계약번호'
            zasimt0020n.zebeln                           as Zebeln,
-           @EndUserText.label: '임시오더품목'
+           @EndUserText.label: '구매계약품목'
            zasimt0020n.zebelp                           as Zebelp,
            @EndUserText.label: 'Remark'
            zasimt0020n.remak                            as Remak,
@@ -103,23 +107,25 @@ define view entity YI_ASIM0021N
            @EndUserText.label: '부대비율'
            _Zdc2.ConditionRateValue                     as Zdc2_p,
 
-//           zasimt0020n.crtnm                            as Crtnm,
-//           zasimt0020n.crtbu                            as Crtbu,
-//           zasimt0020n.crtdt                            as Crtdt,
-//           zasimt0020n.crttm                            as Crttm,
-//           zasimt0020n.chgnm                            as Chgnm,
-//           zasimt0020n.chgbu                            as Chgbu,
-      //     zasimt0020n.chgdt                            as Chgdt,
-//           zasimt0020n.chgtm                            as Chgtm,
-//           @Semantics.systemDateTime.localInstanceLastChangedAt: true
-//           zasimt0020n.local_last_changed_at            as LocalLastChangedAt,
-//           @Semantics.systemDateTime.lastChangedAt: true
-//           zasimt0020n.last_changed_at                  as LastChangedAt,
+           @EndUserText.label: '납품일'
+           _sch.ScheduleLineDeliveryDate                as Eindt,
 
-         
+           //           zasimt0020n.crtnm                            as Crtnm,
+           //           zasimt0020n.crtbu                            as Crtbu,
+           //           zasimt0020n.crtdt                            as Crtdt,
+           //           zasimt0020n.crttm                            as Crttm,
+           //           zasimt0020n.chgnm                            as Chgnm,
+           //           zasimt0020n.chgbu                            as Chgbu,
+           //     zasimt0020n.chgdt                            as Chgdt,
+           //           zasimt0020n.chgtm                            as Chgtm,
+           //           @Semantics.systemDateTime.localInstanceLastChangedAt: true
+           //           zasimt0020n.local_last_changed_at            as LocalLastChangedAt,
+           //           @Semantics.systemDateTime.lastChangedAt: true
+           //           zasimt0020n.last_changed_at                  as LastChangedAt,
+
+
            cast(zasimt0020n.reqnr as abap.dec(20,2))    as Modpr,
            /* association */
            _Head,
            _Currency
 }
-

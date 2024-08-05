@@ -1,0 +1,4 @@
+@EndUserText.label: '수입 진행 현황 서비스 바인딩'
+define service Ysd_asim0910n {
+  expose YCUBE_ASIM0910N;
+}

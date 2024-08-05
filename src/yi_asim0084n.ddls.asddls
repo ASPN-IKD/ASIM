@@ -60,7 +60,7 @@ define root view entity YI_ASIM0084N
       _Asim0200n.Lgortt         as Lgortt,
       @EndUserText.label: '통관수량'
       @Semantics.quantity.unitOfMeasure: 'Cclmns'
-      _Asim0200n.Eccmng         as Cclmng,
+       cast( cast( _Asim0200n.Eccmng as abap.fltp ) - cast( _Asim0200n.Failmng as abap.fltp) - cast( _Asim0200n.Sampmng as abap.fltp ) as abap.quan(13,3) )        as Cclmng,
       @EndUserText.label: '통관단위'
       _Asim0200n.Eccmns         as Cclmns,
       @EndUserText.label: '통관대체수량'

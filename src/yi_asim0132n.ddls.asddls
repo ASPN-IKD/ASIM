@@ -14,8 +14,8 @@ define root view entity YI_ASIM0132N
       @ObjectModel.filter.enabled: false
   key _Asim0040n.Uuid                                                                                                           as Uuid,
 
-      @ObjectModel.filter.enabled: false
-      _Asim0030n.Uuid                                                                                                           as Parentuuid,
+//      @ObjectModel.filter.enabled: false
+//      _Asim0030n.Uuid                                                                                                           as ParentUUID,
 
       @EndUserText.label: 'B/L연도'
       _Asim0040n.Bliyr                                                                                                          as Bliyr,
@@ -24,8 +24,8 @@ define root view entity YI_ASIM0132N
       @EndUserText.label: 'B/L내부번호'
       _Asim0040n.Blino                                                                                                          as Blino,
 
-      @EndUserText.label: 'B/L품목번호'
-      _Asim0040n.Blinp                                                                                                          as Blinp,
+//      @EndUserText.label: 'B/L품목번호'
+//      _Asim0040n.Blinp                                                                                                          as Blinp,
 
       @EndUserText.label: '계약연도'
       _Asim0040n.Reqyr                                                                                                          as Reqyr,
@@ -37,8 +37,8 @@ define root view entity YI_ASIM0132N
       @EndUserText.label: '계약내부번호'
       _Asim0040n.Reqno                                                                                                          as Reqno,
 
-      @EndUserText.label: '계약품목'
-      _Asim0040n.Itmno                                                                                                          as Itmno,
+//      @EndUserText.label: '계약품목'
+//      _Asim0040n.Itmno                                                                                                          as Itmno,
 
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_REQMU', element: 'Reqmu' }}]
       @EndUserText.label: '관리번호'
@@ -182,13 +182,13 @@ define root view entity YI_ASIM0132N
       @EndUserText.label: '인도처'
       _Asim0030n.Inco2                                                                                                          as Inco2,
 
-      @ObjectModel.text.element: ['Ztermt']
+      @ObjectModel.text.element: ['ZtermtFees']
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}]
       @EndUserText.label: '지급조건'
-      _Asim0030n.Zterm                                                                                                          as Zterm,
+      _Asim0030n.Zterm                                                                                                          as ZtermFees,
 
       @EndUserText.label: '지급조건명'
-      _Asim0030n.Ztermt                                                                                                         as Ztermt,
+      _Asim0030n.Ztermt                                                                                                         as ZtermtFees,
 
       @ObjectModel.text.element: ['Zcdno1t']
       @EndUserText.label: '도착지'
@@ -256,8 +256,11 @@ define root view entity YI_ASIM0132N
       @EndUserText.label: '결제조건명'
       _Asim0030n.Ptermt                                                                                                         as Ptermt,
 
+     @EndUserText.label: '일수'
+      _Asim0030n.Zbd1t                     as Zbd1t,
+
       @EndUserText.label: '결제조건일수'
-      _Asim0030n.Zbd1t                                                                                                          as Zbd1t,
+      cast( 0 as abap.dec(3,0))                     as Zbd1tFees,
 
       @EndUserText.label: '결제예정일'
       _Asim0030n.Pedat                                                                                                          as Pedat,
@@ -484,7 +487,15 @@ define root view entity YI_ASIM0132N
       cast('B/L참조' as abap.char(40))                                                                                            as Feegbt,
       
       @EndUserText.label: '참조코드'
-      _Asim0030n.Blino                as gbno
+      _Asim0030n.Blino                as Gbno
+      
+//      @EndUserText.label : '공급가액' 
+//      @Semantics.amount.currencyCode : 'Waers'
+//      _Asim0030n.Blamt                                                                                                          as RmwwrFees,
+//      
+//      @EndUserText.label: '통화 키'
+//      _Asim0030n.Waers                                                                                                          as WaersFees
 }
 where
   _Asim0030n.Loekz = ''
+  and _Asim0030n.Blche = ''

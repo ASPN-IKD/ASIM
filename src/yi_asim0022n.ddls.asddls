@@ -74,7 +74,9 @@ define view entity YI_ASIM0022N
 
       @EndUserText.label: '부대비율'
       Zdc2_p,
-
+      
+      @EndUserText.label: '납품일'
+      Eindt,
     //  @Semantics.amount.currencyCode : 'Waers'
     //  @EndUserText.label: '관세액'
     //  Zdc1_n,

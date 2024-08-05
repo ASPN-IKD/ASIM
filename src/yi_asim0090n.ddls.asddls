@@ -70,8 +70,8 @@ define root view entity YI_ASIM0090N
 
       @EndUserText.label: '계약일'
       _Reqheader.Reqdt                                   as Reqdt,
-      
-       @EndUserText.label: '구매그룹'
+
+      @EndUserText.label: '구매그룹'
       _Reqheader.Ekgrp                                   as Ekgrp,
 
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_BUKRS', element: 'Bukrs'} }]
@@ -455,6 +455,9 @@ define root view entity YI_ASIM0090N
       @EndUserText.label: 'Remark'
       _Asim0070n.Remak                                   as Remak,
 
+      @EndUserText.label: '참조구분'
+      created_type                                       as CreatedType,
+
       @EndUserText.label: '생성자'
       @Semantics.user.createdBy: true
       created_by                                         as CreatedBy,
@@ -476,12 +479,15 @@ define root view entity YI_ASIM0090N
       loekz                                              as Loekz,
 
       return_msg                                         as ReturnMsg,
-      
+
       @EndUserText.label: '부대비참조구분'
-      cast('D' as abap.char(12)) as Feegb,
-      
+      cast('D' as abap.char(12))                         as Feegb,
+
       @EndUserText.label: '참조문서구분'
-      cast('입고참조' as abap.char(40)) as Feegbt,
+      cast('입고참조' as abap.char(40))                      as Feegbt,
+      
+      @EndUserText.label: '부대비 참조문서번호'
+      mblnr as Gbno,
 
       _Item,
       _Reqheader

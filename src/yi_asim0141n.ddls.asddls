@@ -12,7 +12,7 @@ define view entity YI_ASIM0141N
   key uuid                     as Uuid,
 
       @ObjectModel.filter.enabled: false
-  key parentuuid               as ParentUUID,
+      parentuuid               as ParentUUID,
 
       @EndUserText.label: '부대비번호'
       feeno                    as Feeno,
@@ -69,12 +69,15 @@ define view entity YI_ASIM0141N
       waers                    as Waers,
 
       @EndUserText.label: '부대비금액'
+      @Semantics.amount.currencyCode: 'WaersFees'
       netwr_fees               as NetwrFees,
-
+      
+      @Semantics.amount.currencyCode: 'WaersFees'
       @EndUserText.label: '부대비세액'
       wmwst_fees               as WmwstFees,
 
       @EndUserText.label: '부대비통화'
+       @Consumption.valueHelpDefinition: [{ entity : { element: 'Waers', name: 'ZASIMV_WAERS' } } ]
       waers_fees               as WaersFees,
 
       @EndUserText.label: '관세율'
@@ -115,6 +118,9 @@ define view entity YI_ASIM0141N
 
       @EndUserText.label: '계약품목'
       itmno                    as Itmno,
+      
+              @Semantics.amount.currencyCode : 'Waers'
+      cast(0 as abap.curr(17,2)) as UnitPrice,
       
       _Head
 

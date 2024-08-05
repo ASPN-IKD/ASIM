@@ -502,6 +502,9 @@ define root view entity YI_ASIM0050N
       @EndUserText.label: 'Remark'
       _Asim0010n.Remak                                                                                                                                     as Remak,
 
+      @EndUserText.label: '참조구분'
+      created_type                                                                                                                                         as CreatedType,
+
       @EndUserText.label: '생성자'
       @Semantics.user.createdBy: true
       created_by                                                                                                                                           as CreatedBy,

@@ -1,14 +1,18 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: '수입계약 기생성 정보 인터페이스 뷰'
 define view entity YI_ASIM0010N_CREATED_PO
-  as select from zasimt0020n             as _item
-    join         I_PurchaseOrderItemAPI01 as _poitem on  _item.ebeln = _poitem.PurchaseOrder
+  as select from I_PurchaseOrderItemAPI01 as _poitem
+    left outer join   zasimt0020n         as _item   on  _item.ebeln = _poitem.PurchaseOrder
                                                      and _item.ebelp = _poitem.PurchaseOrderItem
 
 {
-  key _item.ebeln                       as Ebeln,
-  key _item.ebelp                       as Ebelp,
-
+  key _poitem.PurchaseOrder             as Ebeln,
+  key _poitem.PurchaseOrderItem         as Ebelp,
+  
+     @Semantics.quantity.unitOfMeasure: 'Pomns'
+     _poitem.OrderQuantity              as Pomng,    
+     _poitem.PurchaseOrderQuantityUnit    as Pomns,
+     
       @Semantics.quantity.unitOfMeasure: 'Reqms'
       sum( _item.reqmg )                as Reqmg,
       _item.reqms                       as Reqms,
@@ -23,12 +27,13 @@ define view entity YI_ASIM0010N_CREATED_PO
 
 }
 where
-      _item.loekz =  ''
-  and _item.ebeln <> ''
+      _poitem.PurchasingDocumentDeletionCode =  ''
 group by
-  _item.ebeln,
-  _item.ebelp,
+  _poitem.PurchaseOrder,
+  _poitem.PurchaseOrderItem,
 //  _poitem.OrderQuantity,
 //  _poitem.PurchaseOrderQuantityUnit,
+  _poitem.OrderQuantity,
+  _poitem.PurchaseOrderQuantityUnit,
   _item.reqms,
   _item.waers

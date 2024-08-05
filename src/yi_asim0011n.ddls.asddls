@@ -3,10 +3,13 @@
 define view entity YI_ASIM0011N
   as select from    I_PurchaseOrderItemAPI01      as _item
     join            I_PurchaseOrderAPI01          as _header     on _item.PurchaseOrder = _header.PurchaseOrder
-      join            YI_ASIM0001N                  as _payment    on  _header.PaymentTerms =    _payment.Zcdno
-                                                                   and _payment.Zvalu1      =    'X'
-                                                                   and _payment.Zcode       like '%ZTERM'
-    left outer join YI_ASIM0010N_CREATED_PO_FINAL as _created_po on  _item.PurchaseOrder     = _created_po.Ebeln
+    join            YI_ASIM0001N                  as _payment    on  _header.PaymentTerms =    _payment.Zcdno
+                                                                 and _payment.Zvalu1      =    'X'
+                                                                 and _payment.Zcode       like '%ZTERM'
+    join            YI_ASIM0001N                  as _pgrp       on  _header.PurchasingGroup =    _pgrp.Zcdno
+                                                                 and _pgrp.Zvalu1      =    'X'
+                                                                 and _pgrp.Zcode       like '%EKGRP'
+    join YI_ASIM0010N_CREATED_PO_FINAL as _created_po on  _item.PurchaseOrder     = _created_po.Ebeln
                                                                  and _item.PurchaseOrderItem = _created_po.Ebelp
   association [1..1] to I_SupplierPurchasingOrg        as _supplier                    on  _header.Supplier               = _supplier.Supplier
                                                                                        and _header.PurchasingOrganization = _supplier.PurchasingOrganization
@@ -18,10 +21,10 @@ define view entity YI_ASIM0011N
                                                                                        and _sch.PurchaseOrderScheduleLine = '0001'
   association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc1                        on  $projection.Ebeln   = _Zdc1.PurchaseOrder
                                                                                        and $projection.Ebelp   = _Zdc1.PurchaseOrderItem
-                                                                                       and _Zdc1.ConditionType = 'ZDC1' 
-    association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                        on  $projection.Ebeln   = _Zdc2.PurchaseOrder
-                                                                                         and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
-                                                                                         and _Zdc2.ConditionType = 'ZDC2'
+                                                                                       and _Zdc1.ConditionType = 'ZDC1'
+  association [0..1] to I_PurOrdItmPricingElementAPI01 as _Zdc2                        on  $projection.Ebeln   = _Zdc2.PurchaseOrder
+                                                                                       and $projection.Ebelp   = _Zdc2.PurchaseOrderItem
+                                                                                       and _Zdc2.ConditionType = 'ZDC2'
   association [1..1] to I_CompanyCode                  as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
   association [1..1] to I_PurchasingOrganization       as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
   association [1..1] to I_PurchasingGroup              as _PurchasingGroup             on  $projection.Ekgrp = _PurchasingGroup.PurchasingGroup
@@ -94,31 +97,37 @@ define view entity YI_ASIM0011N
       @EndUserText.label: '인도처'
       _header.IncotermsLocation1                               as Inco2,
 
-            @ObjectModel.text.element: ['Ztermt']
+      @ObjectModel.text.element: ['Ztermt']
       @Consumption.valueHelpDefinition: [
       {entity: {name: 'ZASIMV_ZTERM', element: 'Cdno' }}
       ]
       @EndUserText.label: '지급조건'
       _header.PaymentTerms                                     as Zterm,
 
-            @EndUserText.label: '지급조건명'
-            _payment.Ztext                                                                                         as Ztermt,
+      @EndUserText.label: '지급조건명'
+      _payment.Ztext                                           as Ztermt,
 
       @EndUserText.label: '계정지정범주'
       _item.AccountAssignmentCategory                          as Knttp,
-
+      
+      @ObjectModel.text.element: ['Maktx']
+      @Consumption.valueHelpDefinition: [{ entity : { element: 'Matnr', name: 'ZASIMV_MATNR' }}]
       @EndUserText.label: '자재번호'
       _item.Material                                           as Matnr,
-
+      
       @EndUserText.label: '자재명'
       _productText.ProductName                                 as Maktx,
-
+      
+      @ObjectModel.text.element: ['Werkst']
+      @Consumption.valueHelpDefinition: [{ entity : { element: 'Werks', name: 'ZASIMV_WERKS' } }]
       @EndUserText.label: '플랜트'
       _item.Plant                                              as Werks,
 
       @EndUserText.label: '플랜트명'
       _plant.PlantName                                         as Werkst,
-
+      
+      @ObjectModel.text.element: ['Lgortt']
+      @Consumption.valueHelpDefinition: [{ entity : { element: 'Lgort', name: 'ZASIMV_LGORT' } }]
       @EndUserText.label: '저장위치'
       _item.StorageLocation                                    as Lgort,
 
@@ -126,8 +135,8 @@ define view entity YI_ASIM0011N
       _storageLocation.StorageLocationName                     as Lgortt,
 
       @Semantics.quantity.unitOfMeasure: 'PurchaseOrderQuantityUnit'
-      @EndUserText.label: '오더수량'
-      _item.OrderQuantity                                      as Menge,
+      @EndUserText.label: '오더잔량'
+      cast(_created_po.Modmg as abap.quan(13,3))               as Menge,
 
       @EndUserText.label: '오더단위'
       _item.PurchaseOrderQuantityUnit                          as PurchaseOrderQuantityUnit,
@@ -173,12 +182,16 @@ define view entity YI_ASIM0011N
       _Zdc2.ConditionAmount                                    as Zdc2_n,
 
       /*수입PO 기생성여부 확인 chk = 'X'이면 생성완료 수입계약PO참조 생성 시 제외처리 */
-      _created_po.chk                                          as chk,
+      _created_po.chk                                          as chk
 
-      /*수입po 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
-      @Semantics.quantity.unitOfMeasure: 'Reqms'
-      @EndUserText.label: '오더잔량'
-      cast(_created_po.Modmg as abap.quan(13,3))               as Modmg,
-      _created_po.Reqms                                        as Reqms
+//      /*수입po 기생성여부 확인 chk = ''이면 잔량으로 확인함 */
+//      @Semantics.quantity.unitOfMeasure: 'Reqms'
+//      @EndUserText.label: '오더잔량'
+//      cast(_created_po.Modmg as abap.quan(13,3))               as Modmg,
+//      _created_po.Reqms                                        as Reqms
 }
-//where _created_po.Modmg <> 0
+where
+      _header.CorrespncExternalReference =  ''
+  and _created_po.Modmg                  >= 0
+  and _created_po.chk                    <> 'X'
+  

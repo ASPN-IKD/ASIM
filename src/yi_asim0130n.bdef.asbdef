@@ -1,7 +1,8 @@
 managed implementation in class zbp_i_asim0130n unique;
 
 define behavior for YI_ASIM0130N //alias <alias_name>
-persistent table zasimt0130n
+//persistent table zasimt0130n
+with unmanaged save
 lock master
 authorization master ( instance )
 //etag master <field_name>
@@ -20,10 +21,15 @@ authorization master ( instance )
   static action post_action parameter zst_ex_post_param_001 result [1] $self;
   validation api_error on save { create; update; }
 
+  action delete_invoice;
+
+  action cancel_invoice;
+
+
   mapping for zasimt0130n
     {
-      uuid               = uuid;
-      feeno              = feeno;
+      Uuid               = uuid;
+      Feeno              = feeno;
       feeyr              = feeyr;
       zcdno              = zcdno;
       loekz              = loekz;
@@ -41,6 +47,7 @@ authorization master ( instance )
       cclyr              = cclyr;
       mblnr              = mblnr;
       mjahr              = mjahr;
+      zbd1tfees          = zbd1t_fees;
       budatfees          = budat_fees;
       lifrefees          = lifre_fees;
       trliffees          = trlif_fees;
@@ -54,18 +61,19 @@ authorization master ( instance )
       fbedt              = fbedt;
       kursf              = kursf;
       bktxt              = bktxt;
-      belnr              = belnr;
+      Belnr              = belnr;
+      BelnrFi            = belnr_fi;
+      BelnrTr            = belnr_tr;
+      BelnrAp            = belnr_ap;
       gjahr              = gjahr;
-      belnrfi            = belnr_fi;
       gjahrfi            = gjahr_fi;
-      belnrap            = belnr_ap;
       gjahrap            = gjahr_ap;
-      belnrtr            = belnr_tr;
       gjahrtr            = gjahr_tr;
       RmwwrFees          = rmwwr_fees;
       mesg               = mesg;
       code               = code;
       zetno              = zetno;
+      CreatedType        = created_type;
       createdby          = created_by;
       createdat          = created_at;
       lastchangedby      = last_changed_by;

@@ -14,39 +14,42 @@ authorization master ( instance )
   field ( numbering : managed, readonly )
   Uuid;
 
+  action delete_contract;
+
   association _Item { create; }
 
-  mapping for zasimt0090n {
-    BelnrGr = belnr_gr;
-    Bktxt = bktxt;
-    Blino = blino;
-    Bliyr = bliyr;
-    BudatGr = budat_gr;
-    Bukrs = bukrs;
-    Cclno = cclno;
-    Cclyr = cclyr;
-    Eccno = eccno;
-    Eccyr = eccyr;
-    Ekorg = ekorg;
-    GjahrGr = gjahr_gr;
-    Grche = grche;
-    Lifnr = lifnr;
-    Loekz = loekz;
-    Mblnr = mblnr;
-    Mjahr = mjahr;
-    Reqmu = reqmu;
-    Reqno = reqno;
-    Reqyr = reqyr;
-    SjahrGr = sjahr_gr;
-    SmblnGr = smbln_gr;
-    Uuid = uuid;
-     CreatedAt          = created_at;
+  mapping for zasimt0090n
+    {
+      BelnrGr            = belnr_gr;
+      Bktxt              = bktxt;
+      Blino              = blino;
+      Bliyr              = bliyr;
+      BudatGr            = budat_gr;
+      Bukrs              = bukrs;
+      Cclno              = cclno;
+      Cclyr              = cclyr;
+      Eccno              = eccno;
+      Eccyr              = eccyr;
+      Ekorg              = ekorg;
+      GjahrGr            = gjahr_gr;
+      Grche              = grche;
+      Lifnr              = lifnr;
+      Loekz              = loekz;
+      Mblnr              = mblnr;
+      Mjahr              = mjahr;
+      Reqmu              = reqmu;
+      Reqno              = reqno;
+      Reqyr              = reqyr;
+      SjahrGr            = sjahr_gr;
+      SmblnGr            = smbln_gr;
+      Uuid               = uuid;
+      CreatedType        = created_type;
+      CreatedAt          = created_at;
       CreatedBy          = created_by;
       LastChangedAt      = last_changed_at;
       LastChangedBy      = last_changed_by;
       LocalLastChangedAt = local_last_changed_at;
-
-  }
+    }
 }
 
 define behavior for YI_ASIM0101N //alias <alias_name>
@@ -64,44 +67,44 @@ authorization dependent by _Head
 
   association _Head;
 
-    mapping for zasimt0100n {
-    Amtv2 = amtv2;
-    Belnr1 = belnr1;
-    Blino = blino;
-    Blinp = blinp;
-    Bliyr = bliyr;
-    Cbelnr = cbelnr;
-    Cclno  = cclno;
-    Cclnp = cclnp;
-    Cclyr = cclyr;
-    Cgjahr = cgjahr;
-    Charg = charg;
-    Ebeln = ebeln;
-    Ebelp = ebelp;
-    Eccno = eccno;
-    Eccnp = eccnp;
-    Eccyr = eccyr;
-    Gjahr1 = gjahr1;
-    Grmng = grmng;
-    Grmng1 = grmng1;
-    Grmns = grmns;
-    Grmns1 = grmns1;
-    Hsdat = hsdat;
-    Itmno = itmno;
-    Lgort = lgort;
-    Loekz = loekz;
-    Matnr = matnr;
-    Maxlz = maxlz;
-    Mblnr = mblnr;
-    Mjahr = mjahr;
-    Parentuuid = parentuuid;
-    Reqno = reqno;
-    Reqyr = reqyr;
-    Uuid = uuid;
-    V2wae = v2wae;
-    Vfdat = vfdat;
-    Werks = werks;
-    Zeile = zeile;
-
+  mapping for zasimt0100n
+    {
+      Amtv2      = amtv2;
+      Belnr1     = belnr1;
+      Blino      = blino;
+      Blinp      = blinp;
+      Bliyr      = bliyr;
+      Cbelnr     = cbelnr;
+      Cclno      = cclno;
+      Cclnp      = cclnp;
+      Cclyr      = cclyr;
+      Cgjahr     = cgjahr;
+      Charg      = charg;
+      Ebeln      = ebeln;
+      Ebelp      = ebelp;
+      Eccno      = eccno;
+      Eccnp      = eccnp;
+      Eccyr      = eccyr;
+      Gjahr1     = gjahr1;
+      Grmng      = grmng;
+      Grmng1     = grmng1;
+      Grmns      = grmns;
+      Grmns1     = grmns1;
+      Hsdat      = hsdat;
+      Itmno      = itmno;
+      Lgort      = lgort;
+      Loekz      = loekz;
+      Matnr      = matnr;
+      Maxlz      = maxlz;
+      Mblnr      = mblnr;
+      Mjahr      = mjahr;
+      Parentuuid = parentuuid;
+      Reqno      = reqno;
+      Reqyr      = reqyr;
+      Uuid       = uuid;
+      V2wae      = v2wae;
+      Vfdat      = vfdat;
+      Werks      = werks;
+      Zeile      = zeile;
     }
 }

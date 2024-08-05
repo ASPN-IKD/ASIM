@@ -37,6 +37,11 @@ define root view entity YI_ASIM0130N
                                                                             and _Asim0130n.feegb = 'B'
   association [1..1] to YI_ASIM0010N             as _Asim0010n              on  _Asim0010n.Reqno = _Asim0130n.reqno
                                                                             and _Asim0010n.Reqyr = _Asim0130n.reqyr
+  association [0..1] to I_JournalEntryItem       as _Fidoc                  on  _Fidoc.AccountingDocument   =  _Asim0130n.belnr_fi
+                                                                            and _Fidoc.FiscalYear           =  _Asim0130n.gjahr
+                                                                            and _Fidoc.ClearingJournalEntry <> ''
+                                                                            and _Fidoc.SourceLedger         =  '0L'
+                                                                            and _Fidoc.FinancialAccountType =  'K'
 
 {
       @ObjectModel.filter.enabled: false
@@ -63,9 +68,16 @@ define root view entity YI_ASIM0130N
 
       @EndUserText.label: '참조문서구분명'
       _Feegb.Ztext                                       as Feegbt,
+      
+      
 
       @EndUserText.label: '참조문서번호'
-      gbno                                               as Gbno,
+      case when _Asim0130n.feegb = 'A' then _Asim0010n.Reqno
+           when _Asim0130n.feegb = 'B' then _Asim0030n.Blino
+           when _Asim0130n.feegb = 'C' then _Asim0070n.Cclno
+           when _Asim0130n.feegb = 'D' then _Asim0090n.Mblnr
+           else ''
+           end                                               as Gbno,
 
       @EndUserText.label: '연결부대비번호'
       feeno1                                             as Feeno1,
@@ -203,7 +215,10 @@ define root view entity YI_ASIM0130N
       fbedt                                              as Fbedt,
 
       @EndUserText.label: '일수'
-      zbd1t                                              as Zbd1t,
+      _Asim0010n.Zbd1t                                   as Zbd1t,
+      
+      @EndUserText.label: '일수'
+      zbd1t_fees                                         as Zbd1tFees,
 
       @EndUserText.label: '환율'
       kursf                                              as Kursf,
@@ -245,12 +260,28 @@ define root view entity YI_ASIM0130N
       zetno                                              as Zetno,
 
       @EndUserText.label: '전기여부'
-      case when _Asim0130n.belnr is null or _Asim0130n.belnr = '' then 'X'
-      else 'O' end                                        as Postgb,
-      
-      case when _Asim0130n.belnr is null or _Asim0130n.belnr = '' then '2'
-      else '3'
-      end as  status,
+      cast(case when $projection.Zvalu4 = 'S' then case when _Asim0130n.belnr_ap is null or _Asim0130n.belnr_ap = '' then ''
+                                                        else 'X' end
+                else case when _Asim0130n.belnr is null or _Asim0130n.belnr = '' then ''
+                          else 'X' end  
+                end as abap_boolean)                      as Postgb,
+
+      case when $projection.Zvalu4 = 'S' then case when _Asim0130n.belnr_ap is null or _Asim0130n.belnr_ap = '' then '2'
+                                                   else '3' end
+           else case when _Asim0130n.belnr is null or _Asim0130n.belnr = '' then '2'
+                     else '3' end
+           end                                                as status,
+
+      @EndUserText.label: '반제일'
+      _Fidoc.ClearingDate                                as Augdt, //반제일
+
+      @EndUserText.label: '반제번호'
+      _Fidoc.ClearingAccountingDocument                  as Augbl, //반제번호
+
+      @EndUserText.label: '반제여부'
+      cast(case when _Fidoc.ClearingAccountingDocument is not initial then 'X'
+      else '' end as abap_boolean)                       as Auggb,
+
 
       @EndUserText.label: '요청일'
       _Asim0010n.Reqdt                                   as Reqdt,
@@ -776,6 +807,9 @@ define root view entity YI_ASIM0130N
       _Zcdno.Zvalu6                                      as Zvalu6,
       _Zcdno.Zvalu7                                      as Zvalu7,
 
+      @EndUserText.label: '참조구분'
+      created_type                                       as CreatedType,
+
       @EndUserText.label: '생성자'
       @Semantics.user.createdBy: true
       created_by                                         as CreatedBy,
@@ -795,7 +829,10 @@ define root view entity YI_ASIM0130N
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '삭제 지시자'
       loekz                                              as Loekz,
-
+      
+      @EndUserText.label: '상태값'
+      cast('' as abap.char(1))                           as Stat,
+      
       //Association
       _Item
 }

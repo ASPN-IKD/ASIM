@@ -5,6 +5,13 @@ CLASS lhc_YI_ASIM0190N DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys REQUEST requested_authorizations FOR yi_asim0190n RESULT result.
     METHODS create_number FOR DETERMINE ON SAVE
       IMPORTING keys FOR yi_asim0190n~create_number.
+    METHODS delete_contract FOR MODIFY
+      IMPORTING keys FOR ACTION yi_asim0190n~delete_contract.
+
+      DATA : asim0190s TYPE TABLE FOR UPDATE yi_asim0190n,
+           asim0190  TYPE STRUCTURE FOR UPDATE yi_asim0190n,
+           asim0200s TYPE TABLE FOR UPDATE yi_asim0200n,
+           asim0200  TYPE STRUCTURE FOR UPDATE yi_asim0200n.
 
 ENDCLASS.
 
@@ -71,6 +78,48 @@ CLASS lhc_YI_ASIM0190N IMPLEMENTATION.
         EXIT.
     ENDTRY.
 
+  ENDMETHOD.
+
+  METHOD delete_contract.
+   "Header Read
+    READ ENTITIES OF yi_asim0190n IN LOCAL MODE
+    ENTITY yi_asim0190n
+    ALL FIELDS
+        WITH CORRESPONDING #( keys )
+    RESULT    DATA(lt_result)
+    FAILED    DATA(lt_failed)
+    REPORTED  DATA(lt_reported).
+
+    DATA(ls_result) = lt_result[ 1 ].
+
+    asim0190 = CORRESPONDING #( ls_result ).
+    asim0190-Loekz = 'X'.
+
+    APPEND asim0190 TO asim0190s.
+
+    "Header Update
+    MODIFY ENTITIES OF yi_asim0190n IN LOCAL MODE
+    ENTITY yi_asim0190n UPDATE SET FIELDS WITH asim0190s
+    MAPPED   DATA(ls_mapped_modify)
+    FAILED   DATA(lt_failed_modify)
+    REPORTED DATA(lt_reported_modify).
+
+    "Item Read
+    SELECT * FROM yi_asim0200n WHERE ParentUUID = @ls_result-Uuid INTO TABLE @DATA(lt_item_result).
+
+    LOOP AT lt_item_result INTO DATA(ls_item_result).
+        asim0200 = CORRESPONDING #( ls_item_result ).
+        asim0200-Loekz = 'X'.
+
+        APPEND asim0200 TO asim0200s.
+    ENDLOOP.
+
+    "Item Update
+    MODIFY ENTITIES OF yi_asim0200n
+    ENTITY yi_asim0200n UPDATE SET FIELDS WITH asim0200s
+    MAPPED   DATA(ls_mapped_modify_item)
+    FAILED   DATA(lt_failed_modify_item)
+    REPORTED DATA(lt_reported_modify_item).
   ENDMETHOD.
 
 ENDCLASS.

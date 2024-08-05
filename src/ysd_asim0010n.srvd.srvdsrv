@@ -5,6 +5,5 @@ define service YSD_ASIM0010N {
   expose YI_ASIM0021N;
   expose ZASIMV_IM01VH;
   expose ZASIMV_CONT1;
-  expose I_CurrencyStdVH;
   expose I_Currency;
 }

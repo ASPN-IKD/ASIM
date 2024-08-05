@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SCO3" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SCO3>
+    <OBS_ID>ZSTD_JE_CLEARING_001_SPRX</OBS_ID>
+    <OBS_TYPE>SPRX</OBS_TYPE>
+    <WS_PROXY_NAME>ZCO_JOURNAL_ENTRY_BULK_CLEARIN</WS_PROXY_NAME>
+    <URL_PATH>/sap/bc/srt/scs_ext/sap/journalentrybulkclearingreques</URL_PATH>
+    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+    <NAME>ZSTD_JE_CLEARING_001_SPRX</NAME>
+    <TYPE>SCO3</TYPE>
+    <DESCRIPTION>지급반제</DESCRIPTION>
+    <ABAP_LANGU_VERSION>5</ABAP_LANGU_VERSION>
+   </SCO3>
+  </asx:values>
+ </asx:abap>
+</abapGit>

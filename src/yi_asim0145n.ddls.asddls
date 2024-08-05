@@ -2,7 +2,7 @@
 @EndUserText.label: 'IG - EX 아이템 참조 뷰'
 define root view entity YI_ASIM0145N
   as select from YI_ASIM0100N
-  association [1..1] to YI_ASIM0090N      as _Head            on  _Head.Uuid = $projection.ParentUUID
+  association [1..1] to YI_ASIM0090N as _Head on _Head.Uuid = $projection.ParentUUID
 
 {
 
@@ -35,7 +35,7 @@ define root view entity YI_ASIM0145N
       cast('' as abap.char(12))   as Feegb,
 
       @EndUserText.label: '참조문서번호'
-      cast('' as abap.char(10))   as Gbno,
+      Mblnr                       as Gbno,
 
       @EndUserText.label: '참조문서품목'
       cast('' as abap.numc(4))    as Gbnp,
@@ -60,10 +60,10 @@ define root view entity YI_ASIM0145N
 
       @Semantics.quantity.unitOfMeasure : 'MeinsFees'
       @EndUserText.label: '부대비수량'
-      cast( 0 as menge_d)         as MengeFees,
+      Grmng                       as MengeFees,
 
       @EndUserText.label: '부대비단위'
-      cast( '' as meins)          as MeinsFees,
+      Grmns                       as MeinsFees,
 
       @Semantics.amount.currencyCode : 'Waers'
       @EndUserText.label: '참조금액'
@@ -121,8 +121,15 @@ define root view entity YI_ASIM0145N
       Reqyr                       as Reqyr,
 
       @EndUserText.label: '계약품목'
-      Itmno                       as Itmno
- 
+      Itmno                       as Itmno,
+
+      @Semantics.amount.currencyCode: 'Waers'
+      Blmpr                       as UnitPrice,
       
-      
+      @EndUserText.label: '가격단위'
+      Blpnh as Peinh
+
+
+
+
 }

@@ -12,7 +12,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_delete_data_001 IMPLEMENTATION.
+CLASS ZCL_DELETE_DATA_001 IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

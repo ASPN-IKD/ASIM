@@ -3,6 +3,8 @@
 define root view entity YI_ASIM0010N
   as select from zasimt0010n
   composition [1..*] of YI_ASIM0021N                  as _Item
+  association [1..1] to YI_ASIM0021N                  as _Ebeln                       on  $projection.Uuid = _Ebeln.ParentUUID
+                                                                                      and _Ebeln.Itmno     = '0010'
   association [1..1] to I_CompanyCode                 as _CompanyCode                 on  $projection.Bukrs = _CompanyCode.CompanyCode
   association [1..1] to I_PurchasingOrganization      as _PurchasingOrganization      on  $projection.Ekorg = _PurchasingOrganization.PurchasingOrganization
   association [0..1] to I_PurchasingGroup             as _PurchasingGroup             on  $projection.Ekgrp = _PurchasingGroup.PurchasingGroup
@@ -98,10 +100,8 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '구매그룹명'
       _PurchasingGroup.PurchasingGroupName                     as Ekgrpt,
 
+      @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}]
       @ObjectModel.text.element: ['Lifnrt']
-      @Consumption.valueHelpDefinition: [
-      {entity: {name: 'ZASIMV_LIFNR', element: 'Lifnr' }}
-      ]
       @EndUserText.label: '공급업체'
       lifnr                                                    as Lifnr,
 
@@ -211,7 +211,7 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '통화 키'
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_CurrencyStdVH', element: 'Currency' }}]
       opwrs                                                    as Opwrs,
-    
+
       @Consumption.valueHelpDefinition: [{entity: {name: 'ZASIMV_PTERM', element: 'Cdno' }}]
       @ObjectModel.text.element: ['Ptermt']
       @EndUserText.label: '결제조건'
@@ -343,7 +343,10 @@ define root view entity YI_ASIM0010N
       @ObjectModel.filter.enabled: false
       @EndUserText.label: '비고'
       remak                                                    as Remak,
-
+      
+      @EndUserText.label: '참조구분'
+      created_type as CreatedType,
+      
       @EndUserText.label: '생성자'
       @Semantics.user.createdBy: true
       created_by                                               as CreatedBy,
@@ -359,12 +362,33 @@ define root view entity YI_ASIM0010N
       @EndUserText.label: '인스턴스 변경시간'
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
       local_last_changed_at                                    as LocalLastChangedAt,
-      
+
       @EndUserText.label: '부대비참조구분'
-      cast('A' as abap.char(12)) as Feegb,
-      
+      cast('A' as abap.char(12))                               as Feegb,
+
       @EndUserText.label: '참조문서구분'
-      cast('수입계약참조' as abap.char(40)) as Feegbt,
+      cast('수입계약참조' as abap.char(40))                          as Feegbt,
+      
+      @EndUserText.label: '부대비 참조문서번호'
+      reqno as Gbno,
+ 
+      _Ebeln.Ebeln,
+      @EndUserText.label: '구매문서참조'
+      case when _Ebeln.Ebeln <> ''
+      then 'X'
+      else ''
+      end                                                      as ChkEbeln,
+
+      @EndUserText.label: '구매요청참조'
+      case when _Ebeln.Vbeln <> ''
+      then 'X'
+      else ''
+      end                                                      as ChkVbeln,
+      
+      @EndUserText.label: '후속문서구분'
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_ASIM0010_FL'
+      cast('' as abap_boolean preserving type) as ChkFollow,
+      
 
       //Association
       _Item

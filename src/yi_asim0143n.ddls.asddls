@@ -73,14 +73,15 @@ define root view entity YI_ASIM0143N
       @Consumption.valueHelpDefinition: [{ entity : { element: 'Waers', name: 'ZASIMV_WAERS' } } ]
       Waers                       as Waers,
 
-      @Semantics.amount.currencyCode : 'Waers'
+      @Semantics.amount.currencyCode : 'WaersFees'
       @EndUserText.label: '부대비금액'
       cast( 0 as abap.curr(17,2)) as NetwrFees,
 
-      @Semantics.amount.currencyCode : 'Waers'
+      @Semantics.amount.currencyCode : 'WaersFees'
       @EndUserText.label: '부대비세액'
       cast( 0 as abap.curr(15,2)) as WmwstFees,
-
+      
+      @Consumption.valueHelpDefinition: [{ entity : { element: 'Waers', name: 'ZASIMV_WAERS' } } ]
       @EndUserText.label: '부대비통화'
       Waers         as WaersFees,
 
@@ -124,7 +125,10 @@ define root view entity YI_ASIM0143N
       Itmno                       as Itmno,
       
        @Semantics.amount.currencyCode: 'Waers'
-      Blmpr                            as UnitPrice
+      Blmpr                            as UnitPrice,
+      
+      @EndUserText.label: '가격단위'
+      Blpnh as Peinh
  
       
       

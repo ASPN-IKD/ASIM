@@ -1,0 +1,210 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: '수입진행현황',
+    typeNamePlural: '',
+    title: {
+      type: #STANDARD,
+      label: '',
+      value: 'Reqmu'
+    }
+  }
+  }
+annotate view YI_ASIM0920N with
+{
+  @UI: { lineItem: [{ position: 1, importance: #HIGH }],
+         identification: [{  type: #STANDARD, position: 10, importance: #HIGH }] }
+  Reqmu;
+  @UI: { lineItem: [{ position: 2, importance: #HIGH }],
+         identification: [{ position: 20, importance: #HIGH }] }
+  Reqno;
+  @UI: { lineItem: [{ position: 3, importance: #HIGH }],
+         identification: [{ position: 30, importance: #HIGH }] }
+  Reqyr;
+  @UI: { lineItem: [{ position: 4, importance: #HIGH }],
+         identification: [{ position: 40, importance: #HIGH }] }
+  Itmno;
+  @UI: { lineItem: [{ position: 5, importance: #HIGH }],
+         identification: [{ position: 50, importance: #HIGH }] }
+  Werks;
+  @UI: { lineItem: [{ position: 6, importance: #HIGH }],
+         identification: [{ position: 60, importance: #HIGH }] }
+  Werkst;
+  @UI: { lineItem: [{ position: 7, importance: #HIGH }],
+         identification: [{ position: 70, importance: #HIGH }] }
+  Matnr;
+  @UI: { lineItem: [{ position: 8, importance: #HIGH }],
+         identification: [{ position: 80, importance: #HIGH }] }
+  Maktx;
+  @UI: { lineItem: [{ position: 9, importance: #HIGH }],
+         identification: [{ position: 90, importance: #HIGH }] }
+  Reqms;
+  @UI: { lineItem: [{ position: 10, importance: #HIGH }],
+         identification: [{ position: 100, importance: #HIGH }] }
+  Waers;
+  @UI: { lineItem: [{ position: 11, criticality: 'Chkreq', importance: #HIGH }],
+         identification: [{ position: 110, importance: #HIGH }] }
+  Chkreq;
+  @UI: { lineItem: [{ position: 12, importance: #HIGH }],
+             identification: [{ position: 120, importance: #HIGH }] }
+  Reqmg;
+  @UI: { lineItem: [{ position: 13, importance: #HIGH }],
+     identification: [{ position: 130, importance: #HIGH }] }
+  Reqwr;
+  @UI: { lineItem: [{ position: 14, criticality: 'Chkbl', importance: #HIGH }],
+         identification: [{ position: 140, importance: #HIGH }] }
+  Chkbl;
+  @UI: { lineItem: [{ position: 15, importance: #HIGH }],
+         identification: [{ position: 150, importance: #HIGH }] }
+  Blmng;
+  @UI: { lineItem: [{ position: 16, importance: #HIGH }],
+  identification: [{ position: 160, importance: #HIGH }] }
+  Blmwr;
+  @UI: { lineItem: [{ position: 17, criticality: 'Chkiv', importance: #HIGH }],
+         identification: [{ position: 170, importance: #HIGH }] }
+  Chkiv;
+  @UI: { lineItem: [{ position: 18, importance: #HIGH }],
+         identification: [{ position: 180, importance: #HIGH }] }
+  Ivmng;
+  @UI: { lineItem: [{ position: 19, importance: #HIGH }],
+  identification: [{ position: 190, importance: #HIGH }] }
+  Ivwra;
+  @UI: { lineItem: [{ position: 20, criticality: 'Chkecc', importance: #HIGH }],
+         identification: [{ position: 200, importance: #HIGH }] }
+  Chkecc;
+  @UI: { lineItem: [{ position: 21, importance: #HIGH }],
+         identification: [{ position: 210, importance: #HIGH }] }
+  Eccmng;
+  @UI: { lineItem: [{ position: 22, importance: #HIGH }],
+  identification: [{ position: 220, importance: #HIGH }] }
+  Failmng;
+  @UI: { lineItem: [{ position: 23, importance: #HIGH }],
+  identification: [{ position: 230, importance: #HIGH }] }
+  Sampmng;
+  @UI: { lineItem: [{ position: 24, criticality: 'Chkccl', importance: #HIGH }],
+         identification: [{ position: 240, importance: #HIGH }] }
+  Chkccl;
+  @UI: { lineItem: [{ position: 25, importance: #HIGH }],
+         identification: [{ position: 250, importance: #HIGH }] }
+  Cclmng;
+  @UI: { lineItem: [{ position: 26, criticality: 'Chkgr', importance: #HIGH }],
+         identification: [{ position: 260, importance: #HIGH }] }
+  Chkgr;
+  @UI: { lineItem: [{ position: 27, importance: #HIGH }],
+         identification: [{ position: 270, importance: #HIGH }] }
+  Grmng;
+
+  @UI: { lineItem: [{ position: 28, importance: #HIGH }],
+         identification: [{ position: 280, importance: #HIGH }] }
+  Reqdt;
+  @UI: { lineItem: [{ position: 29, importance: #HIGH }],
+         identification: [{ position: 290, importance: #HIGH }] }
+  Bukrs;
+  @UI: { lineItem: [{ position: 30, importance: #HIGH }],
+         identification: [{ position: 300, importance: #HIGH }] }
+  Bukrst;
+  @UI: { lineItem: [{ position: 31, importance: #HIGH }],
+         identification: [{ position: 310, importance: #HIGH }] }
+  Ekorg;
+  @UI: { lineItem: [{ position: 32, importance: #HIGH }],
+         identification: [{ position: 320, importance: #HIGH }] }
+  Ekorgt;
+  @UI: { lineItem: [{ position: 33, importance: #HIGH }],
+         identification: [{ position: 330, importance: #HIGH }] }
+  Ekgrp;
+  @UI: { lineItem: [{ position: 34, importance: #HIGH }],
+         identification: [{ position: 340, importance: #HIGH }] }
+  Ekgrpt;
+  @UI: { lineItem: [{ position: 35, importance: #HIGH }],
+         identification: [{ position: 350, importance: #HIGH }] }
+  Lifnr;
+  @UI: { lineItem: [{ position: 36, importance: #HIGH }],
+         identification: [{ position: 360, importance: #HIGH }] }
+  Lifnrt;
+  //    Lifre;
+  //    Lifret;
+  //    Inco1;
+  //    Inco1t;
+  //    Inco2;
+  //    Zterm;
+  //    Ztermt;
+  //    Zcdno1;
+  //    Zcdno1t;
+  //    Zcdno2;
+  //    Zcdno2t;
+  //    Zcdno3;
+  //    Zcdno3t;
+  //    Zcdno4;
+  //    Zcdno4t;
+  //    Netwr;
+  //    Opdat;
+  //    Opbnk;
+  //    Opbnkt;
+  //    Opnum;
+  //    Opamt;
+  //    Opwrs;
+  //    Pterm;
+  //    Ptermt;
+  //    Zbd1t;
+  //    Pedat;
+  //    Pdate;
+  //    Oedat;
+  //    Oplif;
+  //    Oplift;
+  //    Sdate;
+  //    Edate;
+  //    Colif;
+  //    Colift;
+  //    Filif;
+  //    Filift;
+  @UI: { lineItem: [{ position: 37, importance: #HIGH }],
+             identification: [{ position: 370, importance: #HIGH }] }
+  Cont1;
+  @UI: { lineItem: [{ position: 38, importance: #HIGH }],
+         identification: [{ position: 370, importance: #HIGH }] }
+  Cont2;
+  //    Acdat;
+  //    Bokno;
+  //    Conrt;
+  //    Conrtt;
+  //    Rqrsf;
+  //    Bbrsf;
+  //    Bbamt;
+  //    Bbwrs;
+  //    Bbdat;
+  //    Bbgb;
+  //    Bbgbt;
+  //    Rqche;
+  //    Isdat;
+  //    Rqweek;
+  //    Bbno;
+  //    Bblif;
+  //    Bblift;
+  //    Bbrate;
+  //    Remak;
+  //    CreatedBy;
+  //    CreatedAt;
+  //    LastChangedBy;
+  //    LastChangedAt;
+  //    LocalLastChangedAt;
+  @UI: { lineItem: [{ position: 39, importance: #HIGH }],
+             identification: [{ position: 390, importance: #HIGH }] }
+  Ebeln;
+  @UI: { lineItem: [{ position: 40, importance: #HIGH }],
+         identification: [{ position: 400, importance: #HIGH }] }
+  Ebelp;
+
+  //    Lgort;
+  //    Lgortt;
+  //    Reqnr;
+  //    Peinh;
+  //    Vbeln;
+  //    Zebeln;
+  //    Zebelp;
+  //    Knttp;
+  //    Sakto;
+  //    Anln1;
+  //    Kostl;
+  //    Zdc1_p;
+  //    Zdc2_p;
+}

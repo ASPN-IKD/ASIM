@@ -15,6 +15,8 @@ CLASS lhc_YI_ASIM0040N DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS api_error FOR VALIDATE ON SAVE
       IMPORTING keys FOR yi_asim0040n~api_error.
+    METHODS create_po FOR MODIFY
+      IMPORTING keys FOR ACTION yi_asim0040n~create_po RESULT result.
 *
 *    METHODS create_po FOR MODIFY
 *        IMPORTING keys FOR ACTION yi_asim0040n~create_po RESULT result.
@@ -26,19 +28,23 @@ CLASS lhc_YI_ASIM0040N DEFINITION INHERITING FROM cl_abap_behavior_handler.
       BEGIN OF post_result,
         post_body   TYPE string,
         post_status TYPE string,
-      END OF post_result.
+      END OF post_result,
 
-    "API 통신을 위해 생성한 함수
-    METHODS:
-      get_connection
-        IMPORTING url           TYPE string
-        RETURNING VALUE(result) TYPE REF TO if_web_http_client
-        RAISING   cx_static_check.
+      BEGIN OF json_data,
+        header TYPE zst_test_001,
+        BEGIN OF to_PurchaseOrderItem,
+          results TYPE zst_test_item_001,
+        END OF to_PurchaseOrderItem,
+      END OF json_data.
+
+    DATA: http_client TYPE REF TO zcl_if_common_001.
 
     "상수
     CONSTANTS:
-      content_type TYPE string VALUE 'Content-type',
-      json_content TYPE string VALUE 'application/json; charset=UTF-8'.
+      c_scenario TYPE string VALUE 'ZCS_PO_001',
+      c_service  TYPE string VALUE 'ZSTD_PO_001_REST',
+      c_service2 TYPE string VALUE 'ZSTD_PO_ITEM_001_REST',
+      c_service3 TYPE string VALUE 'ZSTD_PO_SCHE_001_REST'.
 
 ENDCLASS.
 
@@ -47,15 +53,12 @@ CLASS lhc_YI_ASIM0040N IMPLEMENTATION.
   METHOD get_instance_authorizations.
   ENDMETHOD.
 
-  "HTTP 통신을 위한 셋팅
-  METHOD get_connection.
-    DATA(dest) = cl_http_destination_provider=>create_by_url( url ).
-    result = cl_web_http_client_manager=>create_by_http_destination( dest ).
-  ENDMETHOD.
-
   METHOD calc_value.
     TRY.
         IF success EQ 'X'.
+
+          DATA : lt_json TYPE json_data.
+
           "CBO Read - Item 현재 선택해서 넘어오는 Item
           READ ENTITIES OF yi_asim0040n IN LOCAL MODE
           ENTITY yi_asim0040n
@@ -201,264 +204,263 @@ CLASS lhc_YI_ASIM0040N IMPLEMENTATION.
           IF lt_failed_modify IS INITIAL AND lt_item_failed_modify IS INITIAL.
             success = ''.
 
-            "시나리오 이름으로 통신이 존재하는지 확인
-            DATA: lr_cscn TYPE if_com_scenario_factory=>ty_query-cscn_id_range.
-            lr_cscn = VALUE #( ( sign = 'I' option = 'EQ' low = 'ZCS_PO_001' ) ).
+            DATA(is_exist) = 'X'.
+            "수입계약 품목 테이블에 해당 구매오더 번호가 존재하는지 확인.
+            IF ls_result-Ebeln IS NOT INITIAL.
+              SELECT COUNT( * )
+                FROM yi_asim0020n
+               WHERE Ebeln = @ls_result-Ebeln
+               INTO @DATA(lv_count).
 
-            DATA(lo_factory) = cl_com_arrangement_factory=>create_instance( ).
-            lo_factory->query_ca(
-                  EXPORTING
-                    is_query           = VALUE #( cscn_id_range = lr_cscn )
-                  IMPORTING
-                    et_com_arrangement = DATA(lt_ca)
+              "수입계약 품목에 해당 구매 오더가 존재하면, 스탠다드 수정 안함
+              IF lv_count > 0.
+                EXIT.
+              ENDIF.
+            ENDIF.
+
+            "통신 규약 존재 확인
+            CREATE OBJECT me->http_client
+              EXPORTING
+                i_scenario     = c_scenario
+                i_service      = c_service
+              EXCEPTIONS
+                no_arrangement = 1.
+
+            CHECK sy-subrc <> 1.
+
+            "구매 오더 번호 없으면, 신규 생성
+            IF ls_result-Ebeln IS INITIAL.
+
+              "Item Body
+              DATA : prc_json TYPE string.
+              DATA : sche_json TYPE string.
+              DATA : item_json TYPE string.
+
+              LOOP AT lt_item_result INTO DATA(ls_item).
+
+                IF ls_item-Zdc1_p IS NOT INITIAL.
+
+                  prc_json = prc_json && '"ConditionType":"' && 'ZDC1' && '",' &&
+                                         '"ConditionRateValue":"' && ls_item-Zdc1_p && '",' &&
+                                         '"ConditionCurrency":"' && '' && '",' &&
+                                         '"ConditionQuantityUnit":"' && '' && '"' &&
+                                         '}'.
+                ENDIF.
+
+                IF ls_item-Zdc2_p IS NOT INITIAL.
+
+                  IF ( prc_json <> '').
+                    prc_json = prc_json && ',{'.
+                  ENDIF.
+
+                  prc_json = prc_json && '"ConditionType":"' && 'ZDC2' && '",' &&
+                                         '"ConditionRateValue":"' && ls_item-Zdc2_p && '",' &&
+                                         '"ConditionCurrency":"' && '' && '",' &&
+                                         '"ConditionQuantityUnit":"' && '' && '"' &&
+                                         '}'.
+                ENDIF.
+
+                IF ls_item-eindt IS NOT INITIAL.
+                  IF ( sche_json <> '' ).
+                    sche_json = sche_json && ',{'.
+                  ENDIF.
+
+                  DATA(DeliveryDate)  = ls_item-eindt+0(4) && '-' && ls_item-eindt+4(2) && '-' && ls_item-eindt+6(2) && 'T00:00:00'.
+
+                  sche_json = sche_json && '"ScheduleLine":"' && '1' && '",' &&
+                                           '"ScheduleLineDeliveryDate":"' && DeliveryDate && '"' &&
+                                           '}'.
+                ENDIF.
+
+                IF ( item_json <> '' ).
+                  item_json = item_json && ',{'.
+                ENDIF.
+
+                item_json = item_json && '"PurchaseOrderItem":"' && ls_item-ebelp && '",' &&
+                                         '"Plant":"' && ls_item-Werks && '",' &&
+                                         '"StorageLocation":"' && ls_item-lgort && '",' &&
+                                         '"OrderQuantity":"' && ls_item-blmng && '",' &&
+                                         '"PurchaseOrderQuantityUnit":"' && ls_item-blmns && '",' &&
+                                         '"OrderPriceUnit":"' && ls_item-blmns && '",' &&
+                                         '"NetPriceAmount":"' && ls_item-blmpr && '",' &&
+                                         '"NetPriceQuantity":"' && ls_item-Blpnh && '",' &&
+                                         '"TaxCode":"' && 'V0' && '",' &&
+                                         '"GoodsReceiptIsExpected": true,' &&
+                                         '"GoodsReceiptIsNonValuated": false,' &&
+                                         '"InvoiceIsExpected": true,' &&
+                                         '"InvoiceIsGoodsReceiptBased": false,' &&
+                                         '"PurchaseContract":"' && ls_item-zebeln && '",' &&
+                                         '"PurchaseContractItem":"' && ls_item-zebelp && '",' &&
+                                         '"IsReturnsItem": false,' &&
+                                         '"Material":"' && ls_item-matnr && '",' &&
+                                         '"PurchasingItemIsFreeOfCharge": false'.
+
+                IF prc_json IS NOT INITIAL.
+                  IF item_json IS NOT INITIAL.
+                    item_json = item_json && ','.
+                  ENDIF.
+
+                  item_json = item_json && ' "to_PurchaseOrderPricingElement":{' &&
+                                           '  "results":[{' &&
+                                           '  ' && prc_json &&
+                                           '  ]' &&
+                                           ' }'.
+                ENDIF.
+
+                IF sche_json IS NOT INITIAL.
+                  IF item_json IS NOT INITIAL.
+                    item_json = item_json && ','.
+                  ENDIF.
+
+                  item_json = item_json && ' "to_ScheduleLine":{' &&
+                                           '  "results":[{' &&
+                                           '  ' && sche_json &&
+                                           '  ]' &&
+                                           ' }' &&
+                                           '}'.
+                ENDIF.
+
+                IF prc_json IS INITIAL AND sche_json IS INITIAL.
+                  item_json = item_json && '}'.
+                ENDIF.
+
+                CLEAR : prc_json, sche_json.
+              ENDLOOP.
+
+              DATA(orderDate)  = sy-datum+0(4) && '-' && sy-datum+4(2) && '-' && sy-datum+6(2) && 'T00:00:00'.
+
+              DATA(header) = lt_result[ 1 ].
+
+              " post할 데이터 가공
+              DATA(json) =
+                  '{' &&
+                  ' "CompanyCode":"' && header-Bukrs && '",' &&
+                  ' "PurchaseOrderType":"' && 'NB' && '",' &&
+                  ' "Supplier":"' && header-lifnr && '",' &&
+                  ' "Language":"' && 'KO' && '",' &&
+                  ' "PaymentTerms":"' && header-Zterm && '",' &&
+                  ' "PurchasingOrganization":"' && header-Ekorg && '",' &&
+                  ' "PurchasingGroup":"' && header-ekgrp && '",' &&
+                  ' "PurchaseOrderDate":"' && orderDate && '",' &&
+                  ' "DocumentCurrency":"' && header-waers && '",' &&
+                  ' "IncotermsClassification":"' &&  header-inco1 && '",' &&
+                  ' "CorrespncExternalReference":"' && header-reqmu && '",' &&
+                  ' "CorrespncInternalReference":"' && header-reqno && '",' &&
+                  ' "to_PurchaseOrderItem":{' &&
+                  '  "results":[{' &&
+                  '  ' && item_json &&
+                  '  ]' &&
+                  ' }' &&
+                  '}'.
+
+              "GET TOKEN
+              DATA(token) = me->http_client->get_token_cookies( ).
+
+              "POST
+              IF token IS NOT INITIAL.
+                me->http_client->post(
+                    EXPORTING
+                        json = json
+                    IMPORTING
+                        body   = DATA(body)
+                        status = DATA(status)
                 ).
+              ENDIF.
 
-            "해당 시나리오가 존재 하지 않으면 종료
-            IF lt_ca IS INITIAL.
-              EXIT.
-            ENDIF.
+              "호출 후 결과 값 확인
+              DATA result_msg    TYPE string.
+              DATA order_id      TYPE string.
+              DATA result_status TYPE string.
 
-            "조회 한 값 중 1번째 값
-            DATA(lo_ca) = lt_ca[ 1 ].
+              result_status = status.
+              result_msg    = body.
 
-            "Order UUID 기준으로 데이터 조회
-*                READ ENTITIES OF yi_asim0040n IN LOCAL MODE
-*                ENTITY yi_asim0040n
-*                ALL FIELDS WITH VALUE #( ( keys ) )
-*                RESULT DATA(lt_parent).
+              DATA : lr_data TYPE REF TO data.
+
+
+*              /ui2/cl_json=>deserialize(
+*                EXPORTING
+*                  json         = result_msg
+*                  pretty_name  = /ui2/cl_json=>pretty_mode-user
+*                  assoc_arrays = abap_true
 *
-*                DATA(parentUUID) = lt_parent[ 1 ]-ParentUUID.
+*                CHANGING
+*                  data         = lr_data ).
 *
-*                READ ENTITIES OF yi_asim0030n
-*                ENTITY yi_asim0030n
-*                ALL FIELDS WITH VALUE #( ( Uuid = parentUUID ) )
-*                RESULT DATA(lt_header).
+*              FIELD-SYMBOLS:
+*                <body>      TYPE any,
+*                <error>     TYPE any,
+*                <data>      TYPE any,
+*                <inn_error> TYPE any,
+*                <err_de>    TYPE any,
+*                <msg_table> TYPE any,
+*                <mes_struc> TYPE any,
+*                <message>   TYPE any.
 *
-*                READ ENTITIES OF yi_asim0040n IN LOCAL MODE
-*                ENTITY yi_asim0040n
-*                ALL FIELDS WITH VALUE #( ( Uuid ) )
-*                RESULT DATA(lt_item).
 *
-*                DATA(header) = lt_header[ 1 ].
+*              ASSIGN      lr_data->* TO <body>.
+*              ASSIGN COMPONENT 'ERROR' OF STRUCTURE <body> TO <error>.
+*              ASSIGN <error>->* TO <inn_error>.
+*              ASSIGN COMPONENT 'INNERERROR' OF STRUCTURE <inn_error> TO <err_de>.
+*              ASSIGN <err_de>->* TO <msg_table>.
+*              ASSIGN COMPONENT 'ERRORDETAILS' OF STRUCTURE <msg_table> TO <mes_struc>.
+*              ASSIGN <mes_struc>->* TO <message>.
+*
+*
+*              FIELD-SYMBOLS: <fs_line>    TYPE any,
+*                             <fs_message> TYPE any,
+*                             <fs_string>  TYPE any,
+*                             <return_msg> TYPE string.
+*
+*
+*
+*              IF <message> IS ASSIGNED.
+*                LOOP AT <message> ASSIGNING <fs_line>.
+*                  ASSIGN <fs_line>->* TO <fs_message>.
+*                  ASSIGN COMPONENT 'MESSAGE' OF STRUCTURE <fs_message> TO <fs_string>.
+*                  IF <fs_string> IS ASSIGNED.
+*                    ASSIGN <fs_string>->* TO <return_msg>.
+*                    lhc_yi_asim0040n=>return_msg = <return_msg>.
+*
+*                  ENDIF.
+*                ENDLOOP.
+*              ENDIF.
 
-            "Item Body
-            DATA : prc_json TYPE string.
-            DATA : sche_json TYPE string.
-            DATA : item_json TYPE string.
 
-            LOOP AT lt_item_result INTO DATA(ls_item).
 
-              IF ls_item-Zdc1_p IS NOT INITIAL.
-
-                prc_json = prc_json && '"ConditionType":"' && 'ZDC1' && '",' &&
-                                       '"ConditionRateValue":"' && ls_item-Zdc1_p  && '",' &&
-                                       '"ConditionCurrency":"' && '' && '",' &&
-                                       '"ConditionQuantityUnit":"' && '' && '"' &&
-                                       '}'.
+              " en,value를 포함한 문자열 일때만 parsing
+              IF ( result_msg CS ',"value":"' ).
+                result_msg = substring_before( val = substring_after( val = result_msg
+                                                                      sub = ',"value":"' )
+                                               sub = '"' ).
               ENDIF.
 
-              IF ls_item-Zdc2_p IS NOT INITIAL.
+              ""PurchaseOrder": 를 포함한 문자열 일때만 parsing
+              IF ( result_msg CS '"PurchaseOrder":' ).
+                " PurchaseOrder"뒤에 오는 문자열 조회
+                order_id   = substring_before( val = substring_after( val = result_msg
+                                                                      sub = '"PurchaseOrder":' )
+                                               sub = ',"' ).
 
-                IF ( prc_json <> '').
-                  prc_json = prc_json && ',{'.
+                " 찾은 order id에서 " -> 공백으로 replace, occ = 전체 변경
+                order_id   = replace( val  = order_id
+                                      sub  = '"'
+                                      with = ''
+                                      occ  = 0 ).
+                result_msg = ''.
+              ENDIF.
+
+              CLEAR : asim0030, asim0030s.
+
+              "Header 값 설정 : Item 게산 한 값으로 Header의 총 금액 업데이트
+              LOOP AT lt_result INTO DATA(ls_result_u).
+                asim0030 = CORRESPONDING #( ls_result_u ).
+                asim0030-Ebeln = order_id.
+                asim0030-ReturnMsg = result_msg.
+                IF result_msg IS NOT INITIAL.
+                  asim0030-loekz = 'X'.
                 ENDIF.
-
-                prc_json = prc_json && '"ConditionType":"' && 'ZDC2' && '",' &&
-                                       '"ConditionRateValue":"' && ls_item-Zdc2_p  && '",' &&
-                                       '"ConditionCurrency":"' && '' && '",' &&
-                                       '"ConditionQuantityUnit":"' && '' && '"' &&
-                                       '}'.
-              ENDIF.
-
-              IF ls_item-eindt IS NOT INITIAL.
-                IF ( sche_json <> '' ).
-                  sche_json = sche_json && ',{'.
-                ENDIF.
-
-                DATA(DeliveryYear)  = substring( val = ls_item-eindt len = 4 ).
-                DATA(DeliveryMonth) = substring( val = ls_item-eindt off = 4 len = 2 ).
-                DATA(DeliveryDay)   = substring( val = ls_item-eindt off = 6 len = 2 ).
-
-                sche_json = sche_json && '"ScheduleLine":"' && '1' && '",' &&
-                                         '"ScheduleLineDeliveryDate":"' && DeliveryYear && '-' && DeliveryMonth && '-' && DeliveryDay && 'T00:00:00' && '"' &&
-                                         '}'.
-              ENDIF.
-
-              IF ( item_json <> '' ).
-                item_json = item_json && ',{'.
-              ENDIF.
-
-              item_json = item_json && '"PurchaseOrderItem":"' && ls_item-ebelp && '",' &&
-                                       '"Plant":"' && ls_item-Werks && '",' &&
-                                       '"StorageLocation":"' && ls_item-lgort && '",' &&
-                                       '"OrderQuantity":"' && ls_item-blmng && '",' &&
-                                       '"PurchaseOrderQuantityUnit":"' && ls_item-blmns && '",' &&
-                                       '"OrderPriceUnit":"' && ls_item-blmns && '",' &&
-                                       '"NetPriceAmount":"' && ls_item-blmpr && '",' &&
-                                       '"TaxCode":"' && 'V0' && '",' &&
-                                       '"GoodsReceiptIsExpected": true,' &&
-                                       '"GoodsReceiptIsNonValuated": false,' &&
-                                       '"InvoiceIsExpected": true,' &&
-                                       '"InvoiceIsGoodsReceiptBased": false,' &&
-                                       '"PurchaseRequisition":"' && ls_item-zebeln && '",' &&
-                                       '"PurchaseRequisitionItem":"' && ls_item-zebelp && '",' &&
-                                       '"IsReturnsItem": false,' &&
-                                       '"Material":"' && ls_item-matnr && '",' &&
-                                       '"PurchasingItemIsFreeOfCharge": false'.
-              IF prc_json IS NOT INITIAL.
-                IF prc_json IS NOT INITIAL.
-                  item_json = item_json && ','.
-                ENDIF.
-                item_json = item_json && ' "to_PurchaseOrderPricingElement":{' &&
-                                         '  "results":[{' &&
-                                         '  ' && prc_json &&
-                                         '  ]' &&
-                                         ' }'.
-              ENDIF.
-
-              IF sche_json IS NOT INITIAL.
-                IF prc_json IS NOT INITIAL.
-                  item_json = item_json && ','.
-                ENDIF.
-                item_json = item_json && ' "to_ScheduleLine":{' &&
-                                         '  "results":[{' &&
-                                         '  ' && sche_json &&
-                                         '  ]' &&
-                                         ' }' &&
-                                         '}'.
-              ENDIF.
-
-              IF prc_json IS INITIAL AND sche_json IS INITIAL.
-                item_json = item_json && '}'.
-              ENDIF.
-
-              CLEAR : prc_json, sche_json.
-            ENDLOOP.
-
-            DATA(OrderYear)  = substring( val = sy-datum len = 4 ).
-            DATA(OrderMonth) = substring( val = sy-datum off = 4 len = 2 ).
-            DATA(OrderDday)  = substring( val = sy-datum off = 6 len = 2 ).
-
-            DATA(header) = lt_result[ 1 ].
-            " post할 데이터 가공
-            DATA(json) =
-                '{' &&
-                ' "CompanyCode":"' && header-Bukrs && '",' &&
-                ' "PurchaseOrderType":"' && 'NB' && '",' &&
-                ' "Supplier":"' && header-lifnr && '",' &&
-                ' "Language":"' && 'KO' && '",' &&
-                ' "PaymentTerms":"' && header-Zterm && '",' &&
-                ' "PurchasingOrganization":"' && header-Ekorg && '",' &&
-                ' "PurchasingGroup":"' && header-ekgrp && '",' &&
-                "' "PurchaseOrderDate":"' && orderyear && '-' && ordermonth && '-' && orderdday && '",' &&
-                ' "PurchaseOrderDate":"' && orderyear && '-' && ordermonth && '-' && orderdday && 'T00:00:00' && '",' &&
-                ' "DocumentCurrency":"' && header-waers && '",' &&
-                ' "IncotermsClassification":"' &&  header-inco1 && '",' &&
-                ' "CorrespncExternalReference":"' && header-reqmu && '",' &&
-                ' "CorrespncInternalReference":"' && header-reqno && '",' &&
-                ' "to_PurchaseOrderItem":{' &&
-                '  "results":[{' &&
-                '  ' && item_json &&
-                '  ]' &&
-                ' }' &&
-                '}'.
-
-            "GET
-            TRY.
-                DATA(lo_dest) = cl_http_destination_provider=>create_by_comm_arrangement(
-                    comm_scenario  = 'ZCS_PO_001'
-                    service_id     = 'ZSTD_PO_001_REST'
-                    comm_system_id = lo_ca->get_comm_system_id( ) ).
-                DATA(lo_http_client) = cl_web_http_client_manager=>create_by_http_destination( lo_dest ).
-
-                DATA(lo_request) = lo_http_client->get_http_request( ).
-                lo_request->set_uri_path( EXPORTING i_uri_path = '?$top=1' ).
-                lo_request->set_header_field( i_name = 'x-csrf-token' i_value = 'fetch' ).
-                DATA(lo_response) = lo_http_client->execute( if_web_http_client=>get ).
-
-                "get 해서, token이랑 cookie값 가져오기
-                DATA(token)   = lo_response->get_header_field( i_name = 'x-csrf-token' ).
-                DATA(cookies) = lo_response->get_cookies( ).
-
-              CATCH cx_http_dest_provider_error.
-                " handle exception here
-
-              CATCH cx_web_http_client_error.
-                " handle exception here
-            ENDTRY.
-
-            "POST
-            TRY.
-                lo_dest = cl_http_destination_provider=>create_by_comm_arrangement(
-                    comm_scenario  = 'ZCS_PO_001'
-                    service_id     = 'ZSTD_PO_001_REST'
-                    comm_system_id = lo_ca->get_comm_system_id( ) ).
-                lo_http_client = cl_web_http_client_manager=>create_by_http_destination( lo_dest ).
-                lo_request  = lo_http_client->get_http_request( ).
-
-                "json body 설정
-                lo_request->set_text( json ).
-                "GET에서 가져왔던 cookie, token값 셋팅
-                LOOP AT cookies INTO DATA(cookie).
-                  lo_request->set_cookie( i_name = cookie-name i_value = cookie-value ).
-                ENDLOOP.
-
-                lo_request->set_header_field( i_name = content_type   i_value = json_content ).
-                lo_request->set_header_field( i_name = 'Accept' i_value = 'application/json' ).
-                lo_request->set_header_field( i_name = 'x-csrf-token' i_value = token ).
-                lo_response = lo_http_client->execute( if_web_http_client=>post ).
-
-                DATA(body)   = lo_response->get_text( ).
-                DATA(status) = lo_response->get_status( )-code.
-
-              CATCH cx_http_dest_provider_error.
-                " handle exception here
-
-              CATCH cx_web_http_client_error.
-                " handle exception here
-            ENDTRY.
-
-            "호출 후 결과 값 확인
-            DATA result_msg    TYPE string.
-            DATA order_id      TYPE string.
-            DATA result_status TYPE string.
-
-            result_status = status.
-            result_msg    = body.
-
-            " en,value를 포함한 문자열 일때만 parsing
-            IF ( result_msg CS ',"value":"' ).
-              result_msg = substring_before( val = substring_after( val = result_msg
-                                                                    sub = ',"value":"' )
-                                             sub = '"' ).
-            ENDIF.
-
-            ""PurchaseOrder": 를 포함한 문자열 일때만 parsing
-            IF ( result_msg CS '"PurchaseOrder":' ).
-              " PurchaseOrder"뒤에 오는 문자열 조회
-              order_id   = substring_before( val = substring_after( val = result_msg
-                                                                    sub = '"PurchaseOrder":' )
-                                             sub = ',"' ).
-
-              " 찾은 order id에서 " -> 공백으로 replace, occ = 전체 변경
-              order_id   = replace( val  = order_id
-                                    sub  = '"'
-                                    with = ''
-                                    occ  = 0 ).
-              result_msg = ''.
-            ENDIF.
-
-            CLEAR : asim0030, asim0030s.
-
-            "Header 값 설정 : Item 게산 한 값으로 Header의 총 금액 업데이트
-            LOOP AT lt_result INTO DATA(ls_result_u).
-              asim0030 = CORRESPONDING #( ls_result_u ).
-              asim0030-Ebeln = order_id.
-              asim0030-ReturnMsg = result_msg.
-              IF result_msg IS NOT INITIAL.
-                asim0030-loekz = 'X'.
-              ENDIF.
-              APPEND asim0030 TO asim0030s.
+                APPEND asim0030 TO asim0030s.
                 CLEAR : asim0030.
               ENDLOOP.
 
@@ -467,120 +469,218 @@ CLASS lhc_YI_ASIM0040N IMPLEMENTATION.
                 asim0040 = CORRESPONDING #( ls_item_result ).
 
                 asim0040-ebeln = order_id.
-*                  DATA(item_no)  = substring_before( val = substring_after( val = substring_after( val = result_msg
-*                                                                                                   sub = '"PurchaseOrderItem":"' &&  ( ls_item_result-Itmno , 2)  )
-*                                                                            sub = '"Material"')
-*                                                     sub = ',"' ).
-*
-*                  item_no   = replace( val  = item_no
-*                                        sub  = '"'
-*                                        with = ''
-*                                        occ  = 0 ).
-
-                "  asim0040-Ebelp = ls_item_result-blinp.
 
                 IF result_msg IS NOT INITIAL.
-                    asim0040-loekz = 'X'.
-                    lhc_yi_asim0040n=>return_msg = result_msg.
+                  asim0040-loekz = 'X'.
+                  lhc_yi_asim0040n=>return_msg = result_msg.
                 ENDIF.
 
                 APPEND asim0040 TO asim0040s.
                 CLEAR : asim0040.
               ENDLOOP.
-              " CBO 데이터 업데이트
-              MODIFY ENTITIES OF yi_asim0030n
-              ENTITY yi_asim0030n UPDATE SET FIELDS WITH asim0030s
-              MAPPED   DATA(ls_mapped_modify_update)
-              FAILED   DATA(lt_failed_modify_update)
-              REPORTED DATA(lt_reported_modify_update).
-
-              MODIFY ENTITIES OF yi_asim0040n IN LOCAL MODE
-              ENTITY yi_asim0040n UPDATE SET FIELDS WITH asim0040s
-              MAPPED   DATA(ls_item_mapped_modify2)
-              FAILED   DATA(lt_item_failed_modify2)
-              REPORTED DATA(lt_item_reported_modify2).
-
             ENDIF.
+
           ENDIF.
 
-*        "CBO Update
-          "=====================[2023-09-15;김서현;헤더 reqYr, reqno 채번 시, item도 해당 값 적용] END =====================
-        CATCH cx_root INTO DATA(result).
-          EXIT.
-      ENDTRY.
-    ENDMETHOD.
+          "구매 오더 번호가 존재하는 경우 -> 스탠다드 업데이트
+          IF ls_result-Ebeln IS NOT INITIAL.
 
-    METHOD d_calc_value.
+            LOOP AT lt_item_result INTO DATA(ls_item2).
 
-      TRY.
-          DATA(uuid) = keys[ 1 ]-Uuid.
+              "수정된 항목 확인
+              SELECT Blmng, Eindt
+                FROM yi_asim0040n
+               WHERE Uuid = @ls_item2-Uuid
+               INTO TABLE @DATA(lt_item).
 
-          "삭제 할 ITEM중 한개의 UUID로 PARENT UUID 구함
-          SELECT DISTINCT ParentUUID FROM yi_asim0040n WHERE Uuid = @uuid INTO TABLE @DATA(lt_result_0040).
-            DATA(lv_uuid) = lt_result_0040[ 1 ]-ParentUUID.
+              "수량이 수정된 경우
+              IF lt_item[ 1 ]-Blmng NE ls_item2-Blmng.
+                json =
+                    '{' &&
+                        '"Plant":"' && ls_item2-Werks && '",' &&
+                        '"StorageLocation":"' && ls_item2-lgort && '",' &&
+                        '"OrderQuantity":"' && ls_item2-blmng && '",' &&
+                        '"PurchaseOrderQuantityUnit":"' && ls_item2-blmns && '",' &&
+                        '"Material":"' && ls_item2-matnr && '"' &&
+                    '}'.
 
-            DATA : lv_del_total TYPE i VALUE 0.
+                "GET
+                CREATE OBJECT me->http_client
+                  EXPORTING
+                    i_scenario     = c_scenario
+                    i_service      = c_service2
+                  EXCEPTIONS
+                    no_arrangement = 1.
 
-            LOOP AT keys INTO DATA(key).
+                CHECK sy-subrc <> 1.
 
-              "삭제할 item의 BLMWR 구함.
-              SELECT blmwr FROM yi_asim0040n WHERE Uuid = @key-Uuid INTO @DATA(lv_blmwr). ENDSELECT.
+                "GET TOKEN
+                token = me->http_client->get_token_cookies( ).
 
-              "삭제할 ITEM의 총합
-              lv_del_total = lv_del_total + lv_blmwr.
+                DATA(order) = '''' && ls_item2-Ebeln && ''''.
+                DATA(item)  = '''' && ls_item2-ebelp && ''''.
+                DATA(uri) = '(PurchaseOrder=' && order && ',PurchaseOrderItem=' && item && ')'.
 
-            ENDLOOP.
+                "PATCH
+                IF token IS NOT INITIAL.
+                  me->http_client->patch(
+                    EXPORTING
+                        uri    = uri
+                       json    = json
+                    IMPORTING
+                        body   = body
+                        status = status
+                    ).
+                ENDIF.
 
-            "parentuuid로 된 전체 reqwr 구함
-            SELECT SUM( blmwr ) FROM yi_asim0040n WHERE ParentUUID = @lv_uuid INTO @DATA(lv_total).
+                "호출 후 결과 값 확인
+                IF status NE 204.
+                  lhc_yi_asim0040n=>return_msg = body.
+                ENDIF.
 
-              "CBO Read - Header
-              READ ENTITIES OF yi_asim0030n
-              ENTITY yi_asim0030n
-              ALL FIELDS
-                  WITH VALUE #( ( Uuid = lv_uuid ) )
-              RESULT DATA(lt_result)
-              FAILED    DATA(lt_failed)
-              REPORTED  DATA(lt_reported).
-
-              DATA : asim0030s TYPE TABLE FOR UPDATE     yi_asim0030n,
-                     asim0030  TYPE STRUCTURE FOR UPDATE yi_asim0030n.
-
-              "Header 값 설정 : Item SUM으로 구해서 해당 값으로 업데이트
-              LOOP AT lt_result INTO DATA(ls_result).
-                asim0030 = CORRESPONDING #( ls_result ).
-
-                "전체값 - 삭제 선택된 item들의 합
-                asim0030-blamt = lv_total - lv_del_total.
-
-                APPEND asim0030 TO asim0030s.
-                CLEAR : asim0030.
-              ENDLOOP.
-
-              "CBO Update
-              IF asim0030s IS NOT INITIAL.
-                MODIFY ENTITIES OF yi_asim0030n
-                ENTITY yi_asim0030n UPDATE SET FIELDS WITH asim0030s
-                MAPPED   DATA(ls_mapped_modify)
-                FAILED   DATA(lt_failed_modify)
-                REPORTED DATA(lt_reported_modify).
               ENDIF.
 
-            CATCH cx_root INTO DATA(result).
-              EXIT.
-          ENDTRY.
+              "납품일이 수정된 경우
+              IF lt_item[ 1 ]-Eindt NE ls_item2-Eindt.
 
-        ENDMETHOD.
+                DATA(scheDate)  = ls_item2-eindt+0(4) && '-' && ls_item2-eindt+4(2) && '-' && ls_item2-eindt+6(2) && 'T00:00:00'.
 
-        METHOD api_error.
+                json =
+                    '{' &&
+                        '"ScheduleLineDeliveryDate":"' && scheDate && '"' &&
+                    '}'.
 
-            READ ENTITIES OF yi_asim0040n IN LOCAL MODE
-                ENTITY yi_asim0040n
-                ALL FIELDS
-                    WITH CORRESPONDING #( keys )
-                RESULT DATA(lt_item_result)
-                FAILED    DATA(lt_item_failed)
-                REPORTED  DATA(lt_item_reported).
+                "통신 규약 존재 확인
+                CREATE OBJECT me->http_client
+                  EXPORTING
+                    i_scenario     = c_scenario
+                    i_service      = c_service3
+                  EXCEPTIONS
+                    no_arrangement = 1.
+
+                CHECK sy-subrc <> 1.
+
+                "GET TOKEN
+                token = me->http_client->get_token_cookies( ).
+
+                order = '''' && ls_item2-Ebeln && ''''.
+                item  = '''' && ls_item2-ebelp && ''''.
+                uri = '(PurchasingDocument=' && order && ',PurchasingDocumentItem=' && item && ',ScheduleLine=' && '''1''' && ')'.
+
+                "PATCH
+                IF token IS NOT INITIAL.
+                  me->http_client->patch(
+                    EXPORTING
+                        uri    = uri
+                       json    = json
+                    IMPORTING
+                        body   = body
+                        status = status
+                    ).
+                ENDIF.
+
+                "호출 후 결과 값 확인
+                IF status NE '204'.
+                  lhc_yi_asim0040n=>return_msg = body.
+                ENDIF.
+
+              ENDIF.
+            ENDLOOP.
+          ENDIF.
+
+          " CBO 데이터 업데이트
+          MODIFY ENTITIES OF yi_asim0030n
+          ENTITY yi_asim0030n UPDATE SET FIELDS WITH asim0030s
+          MAPPED   DATA(ls_mapped_modify_update)
+          FAILED   DATA(lt_failed_modify_update)
+          REPORTED DATA(lt_reported_modify_update).
+
+          MODIFY ENTITIES OF yi_asim0040n IN LOCAL MODE
+          ENTITY yi_asim0040n UPDATE SET FIELDS WITH asim0040s
+          MAPPED   DATA(ls_item_mapped_modify2)
+          FAILED   DATA(lt_item_failed_modify2)
+          REPORTED DATA(lt_item_reported_modify2).
+
+        ENDIF.
+
+*        "CBO Update
+        "=====================[2023-09-15;김서현;헤더 reqYr, reqno 채번 시, item도 해당 값 적용] END =====================
+      CATCH cx_root INTO DATA(result).
+        EXIT.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD d_calc_value.
+
+    TRY.
+        DATA(uuid) = keys[ 1 ]-Uuid.
+
+        "삭제 할 ITEM중 한개의 UUID로 PARENT UUID 구함
+        SELECT DISTINCT ParentUUID FROM yi_asim0040n WHERE Uuid = @uuid INTO TABLE @DATA(lt_result_0040).
+        DATA(lv_uuid) = lt_result_0040[ 1 ]-ParentUUID.
+
+        DATA : lv_del_total TYPE i VALUE 0.
+
+        LOOP AT keys INTO DATA(key).
+
+          "삭제할 item의 BLMWR 구함.
+          SELECT blmwr FROM yi_asim0040n WHERE Uuid = @key-Uuid INTO @DATA(lv_blmwr). ENDSELECT.
+
+          "삭제할 ITEM의 총합
+          lv_del_total = lv_del_total + lv_blmwr.
+
+        ENDLOOP.
+
+        "parentuuid로 된 전체 reqwr 구함
+        SELECT SUM( blmwr ) FROM yi_asim0040n WHERE ParentUUID = @lv_uuid INTO @DATA(lv_total).
+
+        "CBO Read - Header
+        READ ENTITIES OF yi_asim0030n
+        ENTITY yi_asim0030n
+        ALL FIELDS
+            WITH VALUE #( ( Uuid = lv_uuid ) )
+        RESULT DATA(lt_result)
+        FAILED    DATA(lt_failed)
+        REPORTED  DATA(lt_reported).
+
+        DATA : asim0030s TYPE TABLE FOR UPDATE     yi_asim0030n,
+               asim0030  TYPE STRUCTURE FOR UPDATE yi_asim0030n.
+
+        "Header 값 설정 : Item SUM으로 구해서 해당 값으로 업데이트
+        LOOP AT lt_result INTO DATA(ls_result).
+          asim0030 = CORRESPONDING #( ls_result ).
+
+          "전체값 - 삭제 선택된 item들의 합
+          asim0030-blamt = lv_total - lv_del_total.
+
+          APPEND asim0030 TO asim0030s.
+          CLEAR : asim0030.
+        ENDLOOP.
+
+        "CBO Update
+        IF asim0030s IS NOT INITIAL.
+          MODIFY ENTITIES OF yi_asim0030n
+          ENTITY yi_asim0030n UPDATE SET FIELDS WITH asim0030s
+          MAPPED   DATA(ls_mapped_modify)
+          FAILED   DATA(lt_failed_modify)
+          REPORTED DATA(lt_reported_modify).
+        ENDIF.
+
+      CATCH cx_root INTO DATA(result).
+        EXIT.
+    ENDTRY.
+
+  ENDMETHOD.
+
+  METHOD api_error.
+
+    READ ENTITIES OF yi_asim0040n IN LOCAL MODE
+        ENTITY yi_asim0040n
+        ALL FIELDS
+            WITH CORRESPONDING #( keys )
+        RESULT DATA(lt_item_result)
+        FAILED    DATA(lt_item_failed)
+        REPORTED  DATA(lt_item_reported).
 *
 *            SORT lt_item_result BY ItemIndex ASCENDING.
 *
@@ -588,15 +688,18 @@ CLASS lhc_YI_ASIM0040N IMPLEMENTATION.
 *              DATA(parentUUID) = lt_item_result[ 1 ]-ParentUUID.
 *            ENDIF.
 
-            IF lhc_YI_ASIM0040N=>return_msg IS NOT INITIAL.
-              LOOP AT lt_item_result INTO DATA(ls_result).
+    IF lhc_YI_ASIM0040N=>return_msg IS NOT INITIAL.
+      LOOP AT lt_item_result INTO DATA(ls_result).
 
-                APPEND VALUE #( %tky = ls_result-%tky ) TO failed-yi_asim0040n.
-                APPEND VALUE #( %tky = ls_result-%tky %state_area = 'api_error' %msg = new_message( id = 'YASIM_MSG' number = 001 severity = if_abap_behv_message=>severity-error v1 = return_msg ) ) TO reported-yi_asim0040n.
+        APPEND VALUE #( %tky = ls_result-%tky ) TO failed-yi_asim0040n.
+        APPEND VALUE #( %tky = ls_result-%tky %state_area = 'api_error' %msg = new_message( id = 'YASIM_MSG' number = 001 severity = if_abap_behv_message=>severity-error v1 = return_msg ) ) TO reported-yi_asim0040n.
 
-              ENDLOOP.
-            ENDIF.
+      ENDLOOP.
+    ENDIF.
 
-        ENDMETHOD.
+  ENDMETHOD.
+
+  METHOD create_po.
+  ENDMETHOD.
 
 ENDCLASS.

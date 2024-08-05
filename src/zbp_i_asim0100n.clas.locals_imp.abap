@@ -20,29 +20,18 @@ CLASS lhc_YI_ASIM0100N DEFINITION INHERITING FROM cl_abap_behavior_handler.
         post_status TYPE string,
       END OF post_result.
 
-    "API 통신을 위해 생성한 함수
-    METHODS:
-      get_connection
-        IMPORTING url           TYPE string
-        RETURNING VALUE(result) TYPE REF TO if_web_http_client
-        RAISING   cx_static_check.
+    DATA: http_client TYPE REF TO zcl_if_common_001.
 
     "상수
     CONSTANTS:
-      content_type TYPE string VALUE 'Content-type',
-      json_content TYPE string VALUE 'application/json; charset=UTF-8'.
+      c_scenario   TYPE string VALUE 'ZCS_IG_001',
+      c_service    TYPE string VALUE 'ZSTD_IG_001_REST'.
 
 ENDCLASS.
 
 CLASS lhc_YI_ASIM0100N IMPLEMENTATION.
 
   METHOD get_instance_authorizations.
-  ENDMETHOD.
-
-  "HTTP 통신을 위한 셋팅
-  METHOD get_connection.
-    DATA(dest) = cl_http_destination_provider=>create_by_url( url ).
-    result = cl_web_http_client_manager=>create_by_http_destination( dest ).
   ENDMETHOD.
 
   METHOD calc_value.
@@ -94,25 +83,15 @@ CLASS lhc_YI_ASIM0100N IMPLEMENTATION.
     "Supplier Invoice API 호출
     DATA(key) = keys[ 1 ].
 
-    "시나리오 이름으로 통신이 존재하는지 확인
-    DATA: lr_cscn TYPE if_com_scenario_factory=>ty_query-cscn_id_range.
-    lr_cscn = VALUE #( ( sign = 'I' option = 'EQ' low = 'ZCS_IG_001' ) ).
+    "통신 규약 존재 확인
+    CREATE OBJECT me->http_client
+      EXPORTING
+        i_scenario     = c_scenario
+        i_service      = c_service
+      EXCEPTIONS
+        no_arrangement = 1.
 
-    DATA(lo_factory) = cl_com_arrangement_factory=>create_instance( ).
-    lo_factory->query_ca(
-          EXPORTING
-            is_query           = VALUE #( cscn_id_range = lr_cscn )
-          IMPORTING
-            et_com_arrangement = DATA(lt_ca)
-        ).
-
-    "해당 시나리오가 존재 하지 않으면 종료
-    IF lt_ca IS INITIAL.
-      EXIT.
-    ENDIF.
-
-    "조회 한 값 중 1번째 값
-    DATA(lo_ca) = lt_ca[ 1 ].
+    CHECK sy-subrc <> 1.
 
     "Item의 Header UUID 기준으로 Header Read
     READ ENTITIES OF yi_asim0090n
@@ -131,43 +110,36 @@ CLASS lhc_YI_ASIM0100N IMPLEMENTATION.
 
     LOOP AT lt_item_result INTO DATA(ls_result).
 
-      DATA(ShelfLifeExpYear)  = substring( val =  ls_result-Vfdat len = 4 ).
-      DATA(ShelfLifeExpMonth) = substring( val =  ls_result-Vfdat off = 4 len = 2 ).
-      DATA(ShelfLifeExpDay)   = substring( val =  ls_result-Vfdat off = 6 len = 2 ).
+        DATA(ShelfLifeExpDate) = ls_result-Vfdat+0(4) && '-' && ls_result-Vfdat+4(2) && '-' && ls_result-Vfdat+6(2) && 'T00:00:00'.
+        DATA(ManufactureDate) = ls_result-Hsdat+0(4) && '-' && ls_result-Hsdat+4(2) && '-' && ls_result-Hsdat+6(2) && 'T00:00:00'.
 
-      DATA(ManufactureYear)  = substring( val =  ls_result-Hsdat len = 4 ).
-      DATA(ManufactureMonth) = substring( val =  ls_result-Hsdat off = 4 len = 2 ).
-      DATA(ManufactureDay)   = substring( val =  ls_result-HSdat off = 6 len = 2 ).
+        IF ( matdocitem_json <> '' ).
+            matdocitem_json = matdocitem_json && ',{'.
+        ENDIF.
 
-      IF ( matdocitem_json <> '' ).
-        matdocitem_json = matdocitem_json && ',{'.
-      ENDIF.
-
-      matdocitem_json = matdocitem_json && '"Material":"' && ls_result-Matnr && '",' &&
-                                           '"Plant":"' && ls_result-Werks && '",' &&
-                                           '"StorageLocation":"' && ls_result-Lgort && '",' &&
-                                           '"Batch":"' && ls_result-Charg && '",' &&
-                                           '"GoodsMovementType":"' && '101' && '",' &&
-                                           '"Supplier":"' && gr_header-Lifnr && '",' &&
-                                           '"PurchaseOrder":"' && ls_result-Ebeln && '",' &&
-                                           '"PurchaseOrderItem":"' && ls_result-Ebelp && '",' &&
-                                           '"GoodsMovementRefDocType":"' && 'B' && '",' &&
-                                           '"EntryUnit":"' && ls_result-Grmns && '",' &&
-                                           '"QuantityInEntryUnit":"' && ls_result-Grmng && '",' &&
-                                           '"ShelfLifeExpirationDate":"' && ShelfLifeExpYear && '-' && ShelfLifeExpMonth && '-' && ShelfLifeExpDay && 'T00:00:00' && '",' &&
-                                           '"ManufactureDate":"' && ManufactureYear && '-' && ManufactureMonth && '-' && ManufactureDay && 'T00:00:00' && '"' &&
-                                           '}'.
+        matdocitem_json = matdocitem_json && '"Material":"' && ls_result-Matnr && '",' &&
+                                             '"Plant":"' && ls_result-Werks && '",' &&
+                                             '"StorageLocation":"' && ls_result-Lgort && '",' &&
+                                             '"Batch":"' && ls_result-Charg && '",' &&
+                                             '"GoodsMovementType":"' && '101' && '",' &&
+                                             '"Supplier":"' && gr_header-Lifnr && '",' &&
+                                             '"PurchaseOrder":"' && ls_result-Ebeln && '",' &&
+                                             '"PurchaseOrderItem":"' && ls_result-Ebelp && '",' &&
+                                             '"GoodsMovementRefDocType":"' && 'B' && '",' &&
+                                             '"EntryUnit":"' && ls_result-Grmns && '",' &&
+                                             '"QuantityInEntryUnit":"' && ls_result-Grmng && '",' &&
+                                             '"ShelfLifeExpirationDate":"' && ShelfLifeExpDate && '",' &&
+                                             '"ManufactureDate":"' && ManufactureDate && '"' &&
+                                             '}'.
     ENDLOOP.
 
-    DATA(DocumentYear)  = substring( val =  gr_header-BudatGr len = 4 ).
-    DATA(DocumentMonth) = substring( val =  gr_header-BudatGr off = 4 len = 2 ).
-    DATA(DocumentDay)   = substring( val =  gr_header-BudatGr off = 6 len = 2 ).
+    DATA(DocumentDate) = gr_header-BudatGr+0(4) && '-' && gr_header-BudatGr+4(2) && '-' && gr_header-BudatGr+6(2) && 'T00:00:00'.
 
     " post할 데이터 가공
     DATA(json) =
         '{' &&
-        ' "DocumentDate":"' && DocumentYear && '-' && DocumentMonth && '-' && DocumentDay && 'T00:00:00' && '",' &&
-        ' "PostingDate":"' && DocumentYear && '-' && DocumentMonth && '-' && DocumentDay && 'T00:00:00' && '",' &&
+        ' "DocumentDate":"' && DocumentDate && '",' &&
+        ' "PostingDate":"' && DocumentDate && '",' &&
         ' "MaterialDocumentHeaderText":"' && gr_header-bktxt && '",' &&
         ' "ReferenceDocument":"' && gr_header-reqmu && '",' &&
         ' "GoodsMovementCode":"' && '01' && '",' &&
@@ -178,60 +150,19 @@ CLASS lhc_YI_ASIM0100N IMPLEMENTATION.
         ' }' &&
         '}'.
 
-    "GET
-    TRY.
-        DATA(lo_dest) = cl_http_destination_provider=>create_by_comm_arrangement(
-            comm_scenario  = 'ZCS_IG_001'
-            service_id     = 'ZSTD_IG_001_REST'
-            comm_system_id = lo_ca->get_comm_system_id( ) ).
-        DATA(lo_http_client) = cl_web_http_client_manager=>create_by_http_destination( lo_dest ).
-
-        DATA(lo_request) = lo_http_client->get_http_request( ).
-        lo_request->set_uri_path( EXPORTING i_uri_path = '?$top=1' ).
-        lo_request->set_header_field( i_name = 'x-csrf-token' i_value = 'fetch' ).
-        DATA(lo_response) = lo_http_client->execute( if_web_http_client=>get ).
-
-        "get 해서, token이랑 cookie값 가져오기
-        DATA(token)   = lo_response->get_header_field( i_name = 'x-csrf-token' ).
-        DATA(cookies) = lo_response->get_cookies( ).
-
-      CATCH cx_http_dest_provider_error.
-        " handle exception here
-
-      CATCH cx_web_http_client_error.
-        " handle exception here
-    ENDTRY.
+    "GET TOKEN
+    DATA(token) = me->http_client->get_token_cookies( ).
 
     "POST
-    TRY.
-        lo_dest = cl_http_destination_provider=>create_by_comm_arrangement(
-            comm_scenario  = 'ZCS_IG_001'
-            service_id     = 'ZSTD_IG_001_REST'
-            comm_system_id = lo_ca->get_comm_system_id( ) ).
-        lo_http_client = cl_web_http_client_manager=>create_by_http_destination( lo_dest ).
-        lo_request  = lo_http_client->get_http_request( ).
-
-        "json body 설정
-        lo_request->set_text( json ).
-        "GET에서 가져왔던 cookie, token값 셋팅
-        LOOP AT cookies INTO DATA(cookie).
-          lo_request->set_cookie( i_name = cookie-name i_value = cookie-value ).
-        ENDLOOP.
-
-        lo_request->set_header_field( i_name = content_type i_value = json_content ).
-        lo_request->set_header_field( i_name = 'Accept' i_value = 'application/json' ).
-        lo_request->set_header_field( i_name = 'x-csrf-token' i_value = token ).
-        lo_response = lo_http_client->execute( if_web_http_client=>post ).
-
-        DATA(body)   = lo_response->get_text( ).
-        DATA(status) = lo_response->get_status( )-code.
-
-      CATCH cx_http_dest_provider_error.
-        " handle exception here
-
-      CATCH cx_web_http_client_error.
-        " handle exception here
-    ENDTRY.
+    IF token IS NOT INITIAL.
+        me->http_client->post(
+            EXPORTING
+                json = json
+            IMPORTING
+                body   = DATA(body)
+                status = DATA(status)
+        ).
+    ENDIF.
 
     "호출 후 결과 값 확인
     DATA result_msg    TYPE string.
@@ -242,21 +173,12 @@ CLASS lhc_YI_ASIM0100N IMPLEMENTATION.
     result_status = status.
     result_msg    = body.
 
-    " en,value를 포함한 문자열 일때만 parsing
-*    IF ( result_msg CS '"severity":"error"' ).
-*      result_msg = substring_before( val = substring_after( val = body
-*                                                            sub = '"message":"' )
-*                                     sub = '"' ).
-*    ENDIF.
-
     IF ( result_msg CS ',"value":"' ).
       result_msg = substring_before( val = substring_after( val = body
                                                             sub = ',"value":"' )
                                      sub = '"' ).
     ENDIF.
 
-    ""PurchaseOrder": 를 포함한 문자열 일때만 parsing
-    "IF ( result_msg CS 'A_MaterialDocumentHeader(MaterialDocument' ).
     IF ( result_msg CS '"MaterialDocument":' ).
       "PurchaseOrder"뒤에 오는 문자열 조회
       order_id   = substring_before( val = substring_after( val = body

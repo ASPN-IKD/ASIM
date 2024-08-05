@@ -1,5 +1,5 @@
 managed implementation in class zbp_i_asim0040n unique;
-strict ( 2 );
+//strict ( 2 );
 
 define behavior for YI_ASIM0040N //alias <alias_name>
 persistent table zasimt0040n

@@ -6,7 +6,6 @@
     <OBJECT>ZNR_70_NO</OBJECT>
     <DOMLEN>ZNR_10_DM</DOMLEN>
     <PERCENTAGE>10.0</PERCENTAGE>
-    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
    </ATTRIBUTES>
    <TEXT>
     <LANGU>3</LANGU>
@@ -14,7 +13,6 @@
     <TXT>수입통관예정 - 통관예정번호</TXT>
     <TXTSHORT>수입통관예정 - 통관예정번호</TXTSHORT>
    </TEXT>
-   <ISOLANG>KO</ISOLANG>
   </asx:values>
  </asx:abap>
 </abapGit>

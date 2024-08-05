@@ -118,9 +118,9 @@ define root view entity YI_ASIM0040N
            @EndUserText.label: '코스트센터'
            _PurOrdAccountAssignment.CostCenter          as Kostl,
 
-           @EndUserText.label: '구매요청번호'
+           @EndUserText.label: '구매계약번호'
            zasimt0040n.zebeln                           as Zebeln,
-           @EndUserText.label: '구매요청품목'
+           @EndUserText.label: '구매계약품목'
            zasimt0040n.zebelp                           as Zebelp,
 
 

@@ -10,8 +10,8 @@ define root view entity YI_ASIM0133N
       @ObjectModel.filter.enabled: false
   key _Asim0080n.Uuid                as Uuid,
 
-      @ObjectModel.filter.enabled: false
-      _Asim0070n.Uuid                as ParentUUID,
+//      @ObjectModel.filter.enabled: false
+//      _Asim0070n.Uuid                as ParentUUID,
 
       @EndUserText.label: '통관번호'
       _Asim0070n.Cclno               as Cclno,
@@ -317,8 +317,11 @@ define root view entity YI_ASIM0133N
       @EndUserText.label: '결제조건명'
       _Asim0070n.Ptermt              as Ptermt,
 
+     @EndUserText.label: '일수'
+      _Asim0070n.Zbd1t                     as Zbd1t,
+
       @EndUserText.label: '결제조건일수'
-      '0'               as Zbd1t,
+      cast( 0 as abap.dec(3,0))                     as Zbd1tFees,
 
       @EndUserText.label: '결제예정일'
       _Asim0070n.Pedat               as Pedat,
@@ -490,8 +493,9 @@ define root view entity YI_ASIM0133N
       cast('통관 참조' as abap.char(40)) as Feegbt,
       
       @EndUserText.label: '참조코드'
-      _Asim0070n.Cclno                as gbno
+      _Asim0070n.Cclno                as Gbno
 
 }
 where
   _Asim0070n.Loekz = ''
+  and _Asim0070n.Blche = ''
