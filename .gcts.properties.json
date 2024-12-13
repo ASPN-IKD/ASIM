@@ -1,0 +1,14 @@
+{
+  "name": "_aspn_im",
+  "version": "1.0.0",
+  "description": "_ASPN_IM",
+  "repositoryLayout": {
+    "formatVersion": 6,
+    "format": "json",
+    "metaInformation": ".gctsmetadata/",
+    "tableContent": "true",
+    "readableSource": "false",
+    "keepClient": "false",
+    "fingerprintSeckey": "/BYOG/FPRINT_RT/3676CB8868FD1EDFAEA4DAEC782C5BAF_0"
+  }
+}
